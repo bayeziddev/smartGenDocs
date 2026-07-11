@@ -1,34 +1,291 @@
-site_name: My SmartGen Docs
+#Copyright (c) 2026 Sayad Md Bayezid Hosan (Smartgen Platform)
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to
+# deal in the Software without restriction, including without limitation the
+# rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+# sell copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+# IN THE SOFTWARE.
+
+# Project information
+site_name: SmartGen Docs 
 site_url: https://bayeziddev.github.io/smartGenDocs/
 site_author: Sayad Md Bayezid Hosan
-site_description: "A comprehensive guide and API reference for SmartGen Tools."
-
-# Theme Configuration (Premium UI/UX)
-theme:
-  name: premium
-  custom_dir: themes/default
-  palette:
-    primary: "#0052cc"
-    accent: "#ff9900"
-
-# Branding
-logo: static/images/smartgen-logo.png
-favicon: static/images/favicon.ico
-
-# Repository info
-repo_name: smartGenDocs
+site_description: >-
+SmartGen Platform Documentation, API Reference, developer guides, SDKs, tutorials, integrations, Markdown documentation, searchable static docs, SEO-friendly technical documentation.
+# Repository
+repo_name: bayeziddev/smartGenDocs
 repo_url: https://github.com/bayeziddev/smartGenDocs
+# Copyright
+copyright: Copyright &copy; 2026 Sayad Md Bayezid Hosan 
+ Configuration
+theme:
+  name: material
+  custom_dir: material/overrides
+  features:
+    - content.action.edit
+    - content.action.view
+    - content.code.annotate
+    - content.code.copy
+    # - content.code.select
+    # - content.footnote.tooltips
+    # - content.tabs.link
+    - content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    - navigation.footer
+    - navigation.indexes
+    # - navigation.instant
+    # - navigation.instant.prefetch
+    # - navigation.instant.progress
+    # - navigation.prune
+    - navigation.sections
+    - navigation.tabs
+    # - navigation.tabs.sticky
+    - navigation.top
+    - navigation.tracking
+    - search.highlight
+    - search.share
+    - search.suggest
+    - toc.follow
 
-# Footer Configuration
-copyright: "Copyright &copy; 2026 Sayad Md Bayezid Hosan. All rights reserved."
+# - toc.integrate
+  palette:
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/link
+        name: Switch to light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: indigo
+      toggle:
+        icon: material/toggle-switch-off
+        name: Switch to system preference
+  font:
+    text: Roboto
+    code: Roboto Mono
+  favicon: assets/favicon.png
+  icon:
+    logo: logo
 
-# Custom Assets
-extra_css:
-  - static/css/premium.css
-  - static/css/style.css
+# Plugins
+plugins:
+  - blog
+  - search:
+      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
+  - minify:
+      minify_html: true
+# Additional configuration
+extra:
+  status:
+    new: Recently added
+    deprecated: Deprecated
 
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/sayadbayezid
+      name: GitHub Profile
+
+    - icon: fontawesome/brands/github
+      link: https://github.com/bayeziddev/smartGenDocs
+      name: SmartGenDocs Repository
+
+    - icon: fontawesome/brands/linkedin
+      link: https://www.linkedin.com/in/sayadbayezid
+      name: LinkedIn
+
+    - icon: fontawesome/brands/facebook
+      link: https://www.facebook.com/bayezidhosan
+      name: Facebook
+
+    - icon: fontawesome/brands/google
+      link: https://g.dev/SayadBayezid
+      name: Google Developer Profile
+
+    - icon: fontawesome/brands/orcid
+      link: https://orcid.org/0009-0003-6568-6648
+      name: ORCID
+
+    - icon: fontawesome/solid/globe
+      link: https://www.smartgentools.com
+      name: SmartGen Tools
+
+    - icon: fontawesome/solid/chart-line
+      link: https://www.crunchbase.com/person/sayad-md-bayezid-hosan
+      name: Crunchbase
+# Markdown extensions
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - toc:
+      permalink: true
+
+  - pymdownx.arithmatex:
+      generic: true
+
+  - pymdownx.betterem:
+      smart_enable: all
+
+  - pymdownx.caret
+  - pymdownx.details
+
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+
+  - pymdownx.magiclink:
+      normalize_issue_symbols: true
+      repo_url_shorthand: true
+      user: bayeziddev
+      repo: smartGenDocs
+
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+
+  - pymdownx.snippets:
+      auto_append:
+        - includes/smartgen.md
+
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+  - pymdownx.tabbed:
+      alternate_style: true
+      combine_header_slug: true
+      slugify: !!python/object/apply:pymdownx.slugs.slugify
+        kwds:
+          case: lower
+
+  - pymdownx.tasklist:
+      custom_checkbox: true
+
+  - pymdownx.tilde
+
+not_in_nav: |
+  /tutorials/**/*.md
+
+# Navigation
 nav:
+
   - Home: index.md
-  - Getting Started: getting-started.md
-  - API Reference: api/my_project.my_module.md
-  - Advanced Topics: advanced/index.md
+
+  - Getting Started:
+      - Welcome: getting-started/index.md
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+      - First Project: getting-started/first-project.md
+      - Folder Structure: getting-started/folder-structure.md
+      - Deployment: getting-started/deployment.md
+      - FAQ: getting-started/faq.md
+
+  - Documentation:
+      - Overview: docs/index.md
+      - SmartGen Platform: docs/platform.md
+      - Architecture: docs/architecture.md
+      - Features: docs/features.md
+      - Concepts: docs/concepts.md
+      - Release Notes: docs/releases.md
+      - Changelog: docs/changelog.md
+
+  - API Reference:
+      - Overview: api/index.md
+      - Authentication: api/authentication.md
+      - REST API: api/rest-api.md
+      - Endpoints: api/endpoints.md
+      - Error Codes: api/errors.md
+      - Rate Limits: api/rate-limits.md
+      - Webhooks: api/webhooks.md
+
+  - SDKs:
+      - Overview: sdk/index.md
+      - JavaScript: sdk/javascript.md
+      - Python: sdk/python.md
+      - PHP: sdk/php.md
+      - Java: sdk/java.md
+      - Go: sdk/go.md
+
+  - SmartGen Tools:
+      - Overview: tools/index.md
+      - QR Code Generator: tools/qr-generator.md
+      - SEO Tools: tools/seo.md
+      - AI Tools: tools/ai.md
+      - Developer Tools: tools/developer.md
+      - Marketing Tools: tools/marketing.md
+      - Utilities: tools/utilities.md
+
+  - Tutorials:
+      - Tutorials Home: tutorials/index.md
+      - Beginner Guides: tutorials/beginner.md
+      - API Tutorials: tutorials/api.md
+      - Integration Guides: tutorials/integrations.md
+      - Best Practices: tutorials/best-practices.md
+      - Case Studies: tutorials/case-studies.md
+
+  - Guides:
+      - Configuration: guides/configuration.md
+      - Customization: guides/customization.md
+      - Security: guides/security.md
+      - Performance: guides/performance.md
+      - SEO Optimization: guides/seo.md
+      - Accessibility: guides/accessibility.md
+      - Troubleshooting: guides/troubleshooting.md
+
+  - Resources:
+      - Downloads: resources/downloads.md
+      - Templates: resources/templates.md
+      - Examples: resources/examples.md
+      - Roadmap: resources/roadmap.md
+      - Glossary: resources/glossary.md
+
+  - Community:
+      - Community Home: community/index.md
+      - GitHub Repository: https://github.com/bayeziddev/smartGenDocs
+      - Report an Issue: community/issues.md
+      - Feature Requests: community/features.md
+      - Discussions: community/discussions.md
+      - Contributing: community/contributing.md
+
+  - Blog:
+      - Blog Home: blog/index.md
+      - Latest Articles: blog/latest.md
+      - Tutorials: blog/tutorials.md
+      - Release Notes: blog/releases.md
+
+  - About:
+      - About SmartGen: about/index.md
+      - Developer: about/developer.md
+      - Contact: about/contact.md
+      - License: about/license.md
