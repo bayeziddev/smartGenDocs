@@ -3,38 +3,46 @@ name: Deploy SmartGen Docs to GitHub Pages
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - main  # Triggers on push to main
+  workflow_dispatch: # Allows manual triggering
+
+# ---------------------------------------------------------
+# THE FIX: Explicitly grant write permissions to the token
+# so the bot can push the built site to the gh-pages branch
+# ---------------------------------------------------------
+permissions:
+  contents: write
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11' # Ensure this matches your required version
+          cache: 'pip'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install markdown2 Jinja2 PyYAML click watchdog
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
 
-    - name: Install SmartGen Docs (editable mode for local project)
-      run: pip install -e .
+      - name: Install SmartGen Docs
+        # Using standard install for CI/CD predictability instead of editable (-e)
+        run: |
+          pip install . 
 
-    - name: Initialize and Build SmartGen Docs
-      run: |
-        smartgen-docs init
-        smartgen-docs build
+      - name: Initialize and Build SmartGen Docs
+        run: |
+          smartgen-docs build
 
-    - name: Deploy to GitHub Pages
-      uses: peaceiris/actions-gh-pages@v3
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./site
-        keep_files: true
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site # The output directory from your build step
+          force_orphan: true  # Keeps the gh-pages branch history clean (optional but recommended)
