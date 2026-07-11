@@ -24,6 +24,12 @@ dependencies = [
     "watchdog",
 ]
 
+[project.optional-dependencies]
+full = [
+    "fastapi",
+    "uvicorn[standard]",
+]
+
 [project.urls]
 "Homepage" = "https://www.smartgentools.com"
 "Bug Tracker" = "https://github.com/bayeziddev/smartGenDocs/issues"
@@ -34,6 +40,9 @@ smartgen-docs = "smartgen_docs.cli:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["smartgen_docs*"]
+
+[tool.setuptools.package-data]
+smartgen_docs = ["themes/**/*"]
 
 [tool.setuptools.package-data]
 smartgen_docs = ["themes/**/*"]

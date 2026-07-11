@@ -1,14 +1,14 @@
-# SmartGen Docs Management Guidelines
+# SmartGen Docs Management Guidelines (Premium Edition)
 
-This document provides comprehensive guidelines for managing and extending your **SmartGen Docs** project, a unique documentation platform created by Sayad Md Bayezid Hosan for Smartgen Platform (www.smartgentools.com).
+This document provides comprehensive guidelines for managing and extending your **SmartGen Docs** project, a unique documentation platform created by Sayad Md Bayezid Hosan for Smartgen Platform (www.smartgentools.com). This premium edition includes enhanced UI/UX, automated API reference generation, and a web-based content upload manager.
 
 ## 1. Installation and Setup
 
-To get started with SmartGen Docs, you can use the provided `setup.sh` script or install it directly via pip.
+To get started with SmartGen Docs, you can use the provided `setup.sh` script or install it directly via pip. For the upload manager, additional dependencies are required.
 
 ### Using `setup.sh` (Recommended for initial setup)
 
-The `setup.sh` script automates the installation of SmartGen Docs and its Python dependencies. It checks for Python 3 and `pip3`, installing `pip3` if necessary, and then installs all required Python packages.
+The `setup.sh` script automates the installation of SmartGen Docs and its Python dependencies. It checks for Python 3 and `pip3`, installing `pip3` if necessary, and then installs all required Python packages, including those for the upload manager.
 
 1.  **Navigate to the project root:**
 
@@ -38,7 +38,10 @@ If you prefer to install manually or are integrating SmartGen Docs into an exist
 # Ensure you are in the smartgen-docs directory
 cd smartgen-docs
 
-pip install .
+pip install "smartgen-docs[full]"
+# Or install core and then additional dependencies
+pip install smartgen-docs
+pip install fastapi uvicorn
 ```
 
 This command installs SmartGen Docs as a package, making the `smartgen-docs` command available globally in your environment.
@@ -58,13 +61,15 @@ smartgen-docs/
 │   ├── core.py               # Core logic for building the site
 │   ├── converter.py          # Markdown to HTML conversion logic
 │   ├── server.py             # Development server with live reload
+│   ├── autodoc.py            # Automated API documentation generator
+│   ├── upload_server.py      # FastAPI application for content upload manager
 │   └── themes/               # Default and custom themes
 │       └── default/
-│           ├── base.html     # Base Jinja2 template
-│           ├── page.html     # Page-specific Jinja2 template
-│           └── static/       # Static assets (CSS, JS, images)
+│           ├── base_premium.html # Premium base Jinja2 template
+│           ├── page_premium.html # Premium page-specific Jinja2 template
+│           ├── static/       # Static assets (CSS, JS, images)
 │               └── css/
-│                   └── style.css
+│                   └── premium.css
 ├── docs/                     # Your documentation Markdown files (created by `smartgen-docs init`)
 ├── site/                     # Generated static website output (after `smartgen-docs build`)
 ├── tests/                    # Unit tests for the project
@@ -103,6 +108,22 @@ Generates the complete static documentation site into the specified output direc
 smartgen-docs build
 ```
 
+### `smartgen-docs autodoc <module_name> [--output <output_directory>]`
+
+Generates API reference documentation in Markdown format from Python module docstrings. The output files will be placed in the specified output directory (default is `docs/api`).
+
+```bash
+smartgen-docs autodoc my_project.my_module --output docs/api
+```
+
+### `smartgen-docs upload-manager [--port <port_number>]`
+
+Starts a web-based interface for uploading and managing documentation files. This allows non-technical users to easily add Markdown files to the `docs/` directory.
+
+```bash
+smartgen-docs upload-manager --port 8001
+```
+
 ## 4. Configuration (`smartgen.yml`)
 
 The `smartgen.yml` file is the heart of your documentation project. It's a YAML-formatted file that defines your site's metadata and navigation structure.
@@ -115,8 +136,8 @@ site_author: Sayad Md Bayezid Hosan
 nav:
   - Home: index.md
   - Getting Started: getting-started.md
+  - API Reference: api/my_project.my_module.md
   - Advanced Topics: advanced/index.md
-  - API Reference: api/reference.md
 ```
 
 *   **`site_name`**: The title of your documentation site.
@@ -124,15 +145,21 @@ nav:
 *   **`site_author`**: The author of the documentation.
 *   **`nav`**: Defines the navigation structure. Each item is a key-value pair where the key is the display name and the value is the path to the Markdown file (relative to the `docs/` directory).
 
-## 5. Theming and Customization
+## 5. Theming and Customization (Premium UI/UX)
 
-SmartGen Docs uses Jinja2 for templating and standard CSS for styling, making it highly customizable.
+SmartGen Docs now features a premium, GitHub/Manus-inspired UI/UX with dark/light mode support. It uses Jinja2 for templating and a dedicated `premium.css` for styling.
 
-*   **Templates**: The core templates are located in `smartgen_docs/themes/default/`. You can override these by creating a custom theme directory and specifying it in `smartgen.yml` (future feature, currently uses default).
-    *   `base.html`: The main layout, including header, footer, sidebar, and content block.
-    *   `page.html`: Extends `base.html` and renders the Markdown content.
+*   **Templates**: The core templates are located in `smartgen_docs/themes/default/`.
+    *   `base_premium.html`: The main layout, including header, footer, sidebar, search, and theme toggle.
+    *   `page_premium.html`: Extends `base_premium.html` and renders the Markdown content.
 
-*   **Styling**: The default styles are in `smartgen_docs/themes/default/static/css/style.css`. You can modify this file directly or link to additional stylesheets for custom designs.
+*   **Styling**: The premium styles are in `smartgen_docs/themes/default/static/css/premium.css`. This file includes variables for easy color customization and responsive design.
+
+*   **Dark/Light Mode**: A toggle button in the header allows users to switch between dark and light themes, with their preference saved locally.
+
+*   **Search**: Client-side search functionality is integrated into the header, allowing instant filtering of navigation links.
+
+*   **Code Blocks**: Enhanced code block styling with syntax highlighting and a convenient "Copy" button.
 
 ## 6. CI/CD with GitHub Actions
 
@@ -144,15 +171,14 @@ A GitHub Actions workflow (`.github/workflows/ci-cd.yml`) is set up to automate 
 *   **Steps**:
     1.  **Checkout repository**: Fetches your code.
     2.  **Set up Python**: Configures the Python environment.
-    3.  **Install dependencies**: Installs `markdown2`, `Jinja2`, `PyYAML`, `click`, and `watchdog`.
+    3.  **Install dependencies**: Installs `markdown2`, `Jinja2`, `PyYAML`, `click`, `watchdog`, `fastapi`, and `uvicorn`.
     4.  **Install SmartGen Docs**: Installs the `smartgen-docs` package in editable mode.
     5.  **Initialize and Build**: Runs `smartgen-docs init` (if `smartgen.yml` doesn't exist) and `smartgen-docs build` to generate the static site into the `site/` directory.
     6.  **Deploy to GitHub Pages**: Uses `peaceiris/actions-gh-pages@v3` to publish the contents of the `site/` directory to the `gh-pages` branch of your repository. This branch is then served by GitHub Pages.
 
 ### How to Use
 
-1.  **Enable GitHub Pages**: Go to your GitHub repository settings, navigate to the 
-GitHub Pages section, and select the `gh-pages` branch as the source for your deployment. Ensure the root directory is selected.
+1.  **Enable GitHub Pages**: Go to your GitHub repository settings, navigate to the GitHub Pages section, and select the `gh-pages` branch as the source for your deployment. Ensure the root directory is selected.
 2.  **Push to `main`**: Any push to your `main` branch will automatically trigger the workflow, build your documentation, and deploy it to your GitHub Pages URL (e.g., `https://bayeziddev.github.io/smartGenDocs/`).
 
 ## 7. Live Website Feature and Management
@@ -170,7 +196,7 @@ Once deployed to GitHub Pages, your documentation becomes a live website. Here's
 
 As SmartGen Docs is open-source, you can extend its functionality:
 
-1.  **Modify Core Logic**: Edit files in `smartgen_docs/` (e.g., `core.py`, `converter.py`, `server.py`) to add new features or modify existing behavior.
+1.  **Modify Core Logic**: Edit files in `smartgen_docs/` (e.g., `core.py`, `converter.py`, `server.py`, `autodoc.py`, `upload_server.py`) to add new features or modify existing behavior.
 2.  **Create Custom Themes**: Develop new themes in `smartgen_docs/themes/` to completely change the look and feel. You would then need to update `core.py` to allow selecting different themes via `smartgen.yml`.
 3.  **Enhance CLI**: Add new commands or options to `smartgen_docs/cli.py` using the `click` framework.
 

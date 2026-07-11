@@ -24,7 +24,7 @@ then
 fi
 
 echo "Installing SmartGen Docs and its dependencies..."
-pip3 install --user markdown2 Jinja2 PyYAML click watchdog
+pip3 install --user markdown2 Jinja2 PyYAML click watchdog fastapi uvicorn
 
 if [ $? -ne 0 ]; then
     echo "Failed to install SmartGen Docs dependencies. Please check the error messages above."
