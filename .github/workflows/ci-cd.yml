@@ -26,18 +26,18 @@ jobs:
 
     - name: Install SmartGen Docs (editable mode for local project)
       run: pip install -e .
-      working-directory: ./smartGenDocs
+      working-directory: smartGenDocs
 
     - name: Initialize and Build SmartGen Docs
       run: |
         smartgen-docs init
         smartgen-docs build
-      working-directory: ./smartGenDocs
+      working-directory: smartGenDocs
 
     - name: Deploy to GitHub Pages
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./smartGenDocs/site
+        publish_dir: smartGenDocs/site
         # Keep the existing .nojekyll file to prevent GitHub Pages from processing with Jekyll
         keep_files: true
