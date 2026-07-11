@@ -1,0 +1,9 @@
+site_name: My SmartGen Docs
+site_url: https://www.smartgentools.com/docs
+site_author: Sayad Md Bayezid Hosan
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - API Reference: api/my_project.my_module.md
+  - Advanced Topics: advanced/index.md
