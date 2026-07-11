@@ -1,0 +1,39 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "smartgen-docs"
+version = "0.1.0"
+authors = [
+  { name="Sayad Md Bayezid Hosan", email="contact@smartgentools.com" },
+]
+description = "A unique, open-source documentation platform for everyone."
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+dependencies = [
+    "markdown2",
+    "Jinja2",
+    "PyYAML",
+    "click",
+    "watchdog",
+]
+
+[project.urls]
+"Homepage" = "https://www.smartgentools.com"
+"Bug Tracker" = "https://github.com/bayeziddev/smartGenDocs/issues"
+
+[project.scripts]
+smartgen-docs = "smartgen_docs.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["smartgen_docs*"]
+
+[tool.setuptools.package-data]
+smartgen_docs = ["themes/**/*"]
