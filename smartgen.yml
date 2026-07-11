@@ -1,6 +1,31 @@
 site_name: My SmartGen Docs
-site_url: https://www.smartgentools.com/docs
+site_url: https://bayeziddev.github.io/smartGenDocs/
 site_author: Sayad Md Bayezid Hosan
+site_description: "A comprehensive guide and API reference for SmartGen Tools."
+
+# Theme Configuration (Premium UI/UX)
+theme:
+  name: premium
+  custom_dir: themes/default
+  palette:
+    primary: "#0052cc"
+    accent: "#ff9900"
+
+# Branding
+logo: static/images/smartgen-logo.png
+favicon: static/images/favicon.ico
+
+# Repository info
+repo_name: smartGenDocs
+repo_url: https://github.com/bayeziddev/smartGenDocs
+
+# Footer Configuration
+copyright: "Copyright &copy; 2026 Sayad Md Bayezid Hosan. All rights reserved."
+
+# Custom Assets
+extra_css:
+  - static/css/premium.css
+  - static/css/style.css
 
 nav:
   - Home: index.md
