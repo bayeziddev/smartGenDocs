@@ -1,6 +1,6 @@
 # SmartGen Docs Management Guidelines (Premium Edition)
 
-This document provides comprehensive guidelines for managing and extending your **SmartGen Docs** project, a unique documentation platform created by Sayad Md Bayezid Hosan for Smartgen Platform (www.smartgentools.com). This premium edition includes enhanced UI/UX, automated API reference generation, and a web-based content upload manager.
+This document provides comprehensive guidelines for managing and extending your **SmartGen Docs** project, a unique documentation platform created by Sayad Md Bayezid Hosan for Smartgen Platform [SmartGenDocs](https://bayeziddev.github.io/smartGenDocs/). This premium edition includes enhanced UI/UX, automated API reference generation, and a web-based content upload manager.
 
 ## 1. Installation and Setup
 
