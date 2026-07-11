@@ -2,6 +2,7 @@ import click
 import os
 from .core import Builder
 from .server import DevServer
+from .autodoc import AutodocGenerator
 
 @click.group()
 def main():
@@ -34,6 +35,28 @@ def serve(config, port):
     click.echo(f"Starting dev server on http://localhost:{port}...")
     server = DevServer(config, port)
     server.run()
+
+@main.command()
+@click.option('--port', default=8001, help='Port to serve the upload manager on.')
+def upload_manager(port):
+    """Start the web-based upload and management interface."""
+    click.echo(f"Starting upload manager on http://localhost:{port}")
+    click.echo("Open your browser to manage and upload documentation files.")
+    try:
+        from .upload_server import app
+        import uvicorn
+        uvicorn.run(app, host="0.0.0.0", port=port)
+    except ImportError:
+        click.echo("Error: FastAPI is not installed. Install it with: pip install fastapi uvicorn")
+
+@main.command()
+@click.argument('module_name')
+@click.option('--output', default='docs/api', help='Directory to save API docs.')
+def autodoc(module_name, output):
+    """Generate API reference from Python module."""
+    click.echo(f"Generating API reference for {module_name}...")
+    generator = AutodocGenerator(output)
+    generator.generate_for_module(module_name)
 
 @main.command()
 def init():

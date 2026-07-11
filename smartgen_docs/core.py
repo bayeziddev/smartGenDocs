@@ -15,6 +15,8 @@ class Builder:
         self.env = Environment(loader=FileSystemLoader(self.theme_dir))
 
     def load_config(self):
+        if not os.path.exists(self.config_path):
+            return {"site_name": "SmartGen Docs", "nav": []}
         with open(self.config_path, 'r') as f:
             return yaml.safe_load(f)
 
@@ -33,8 +35,12 @@ class Builder:
         # Build pages
         nav = self.config.get('nav', [])
         for item in nav:
-            for title, path in item.items():
-                self.build_page(title, path)
+            if isinstance(item, dict):
+                for title, path in item.items():
+                    self.build_page(title, path)
+            elif isinstance(item, str):
+                # Handle simple string nav items if any
+                self.build_page(item, item)
 
     def build_page(self, title, md_path):
         src_path = os.path.join(self.docs_dir, md_path)
@@ -46,13 +52,25 @@ class Builder:
             md_content = f.read()
 
         html_body = self.converter.convert(md_content)
-        template = self.env.get_template('page.html')
         
+        # Use premium template if it exists
+        template_name = 'page_premium.html' if os.path.exists(os.path.join(self.theme_dir, 'page_premium.html')) else 'page.html'
+        template = self.env.get_template(template_name)
+        
+        # Generate breadcrumbs
+        breadcrumbs = [
+            {"title": "Home", "link": "index.html"},
+            {"title": title, "link": md_path.replace('.md', '.html')}
+        ]
+
         output_content = template.render(
             title=title,
             content=html_body,
             config=self.config,
-            nav=self.config.get('nav', [])
+            nav=self.config.get('nav', []),
+            current_page=md_path,
+            breadcrumbs=breadcrumbs,
+            url_for=self.url_for
         )
 
         # Handle nested paths
@@ -62,3 +80,9 @@ class Builder:
 
         with open(dst_path, 'w') as f:
             f.write(output_content)
+
+    def url_for(self, type, filename):
+        """Helper for template to resolve static URLs."""
+        if type == 'static':
+            return f"static/{filename}"
+        return filename
