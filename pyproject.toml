@@ -31,7 +31,7 @@ full = [
 ]
 
 [project.urls]
-"Homepage" = "https://www.smartgentools.com"
+"Homepage" = "https://bayeziddev.github.io/smartGenDocs/"
 "Bug Tracker" = "https://github.com/bayeziddev/smartGenDocs/issues"
 
 [project.scripts]
@@ -40,9 +40,6 @@ smartgen-docs = "smartgen_docs.cli:main"
 [tool.setuptools.packages.find]
 where = ["."]
 include = ["smartgen_docs*"]
-
-[tool.setuptools.package-data]
-smartgen_docs = ["themes/**/*"]
 
 [tool.setuptools.package-data]
 smartgen_docs = ["themes/**/*"]
