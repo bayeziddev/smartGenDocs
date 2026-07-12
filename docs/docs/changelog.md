@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-07-12 - feat: MkDocs-style collapsible navigation with improved active doc styling
+
+**🎯 Impact Summary:** This update modified `3` files, resulting in `966` new additions and `224` deletions.
+
+- **👤 Author:** bayeziddev
+- **🔗 Commit:** [bc972a7](https://github.com/bayeziddev/smartGenDocs/commit/bc972a7a940fef715a012958927a3984d110170c)
+- **🔍 SEO Keywords:** `feat`, `mkdocs`, `style`, `collapsible`, `navigation`
+- **💡 System Note:** - Redesigned sidebar with collapsible section headings and chevron arrows - Improved active link styling with blue left border, bold text, and dot indicator - Fixed path_resolver depth calculation for consistent CSS loading on nested pages - Added page prev/next navigation - Enhanced search with dropdown results - Added mobile hamburger menu with overlay - Improved responsive design and dark mode support - All custom-built, no third-party themes used
+
+---
+
 ## 🚀 2026-07-12 - Delete .gitignore
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `0` new additions and `11` deletions.
