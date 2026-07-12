@@ -1,54 +1,54 @@
-{
-  "schema": "1.0.0",
-  "generated_by": "SmartGen Docs",
-  "generated_at": null,
-  "last_updated": null,
+FILE="data/changelog.json"
 
-  "welcome": {
-    "title": "Welcome to SmartGen Docs Changelog",
-    "message": "This changelog automatically records every update made to the SmartGen Docs repository. Each entry includes commit information, release notes, changed files, timestamps, and development history, providing complete transparency for contributors and users.",
-    "description": "Every push to the main branch automatically generates a new changelog entry through GitHub Actions. This file serves as the single source of truth for project updates and powers the live changelog page on the SmartGen Docs website.",
-    "documentation": "https://github.com/bayeziddev/smartGenDocs",
-    "website": "https://bayeziddev.github.io/smartGenDocs/"
-  },
+if [ ! -f "$FILE" ]; then
+  echo "data/changelog.json not found!"
+  exit 1
+fi
 
-  "project": {
-    "name": "SmartGen Docs",
-    "short_name": "SGD",
-    "description": "A modern, open-source documentation framework for building fast, searchable, SEO-friendly documentation websites, developer portals, API references, and knowledge bases.",
-    "author": "Sayad Md Bayezid Hosan",
-    "organization": "SmartGen Platform",
-    "repository": "https://github.com/bayeziddev/smartGenDocs",
-    "homepage": "https://www.smartgentools.com",
-    "documentation": "https://bayeziddev.github.io/smartGenDocs/",
-    "license": "MIT",
-    "default_branch": "main",
-    "status": "Development",
-    "version": "0.1.0"
-  },
+jq \
+  --arg title "${{ steps.commit_info.outputs.TITLE }}" \
+  --arg description "${{ steps.commit_info.outputs.DESC }}" \
+  --arg author "${GITHUB_ACTOR}" \
+  --arg repository "${GITHUB_REPOSITORY}" \
+  --arg repository_url "https://github.com/${GITHUB_REPOSITORY}" \
+  --arg branch "${GITHUB_REF_NAME}" \
+  --arg sha "${GITHUB_SHA}" \
+  --arg short "${GITHUB_SHA::7}" \
+  --arg commit_url "https://github.com/${GITHUB_REPOSITORY}/commit/${GITHUB_SHA}" \
+  --arg website "https://bayeziddev.github.io/smartGenDocs/" \
+  --arg date "$(date -u +"%Y-%m-%dT%H:%M:%SZ")" \
+  --argjson changed_files '[]' \
+  --arg files_changed "0" \
+  --arg insertions "0" \
+  --arg deletions "0" \
+'
+.entries |= [{
+    version: "development",
+    title: $title,
+    description:
+      (if $description == ""
+       then "Platform improvements and optimizations."
+       else $description
+       end),
+    author: $author,
+    repository: $repository,
+    repository_url: $repository_url,
+    branch: $branch,
+    commit: $sha,
+    short_commit: $short,
+    commit_url: $commit_url,
+    website: $website,
+    date: $date,
+    files_changed: ($files_changed|tonumber),
+    insertions: ($insertions|tonumber),
+    deletions: ($deletions|tonumber),
+    changed_files: $changed_files
+}] + .
 
-  "statistics": {
-    "total_entries": 0,
-    "total_commits": 0,
-    "total_releases": 0,
-    "first_release": null,
-    "latest_release": null,
-    "last_commit": null,
-    "last_updated": null
-  },
+| .statistics.total_entries = (.entries | length)
+| .statistics.total_commits = (.entries | length)
+| .statistics.last_updated = $date
+| .generated_at = $date
+' "$FILE" > temp.json
 
-  "features": [
-    "Automatic GitHub Commit Tracking",
-    "Live Changelog Generation",
-    "Commit History",
-    "Release Notes",
-    "Changed Files Tracking",
-    "Commit Statistics",
-    "GitHub Actions Automation",
-    "Developer Activity Timeline",
-    "Version History",
-    "SEO-Friendly JSON API"
-  ],
-
-  "entries": []
-}
+mv temp.json "$FILE"
