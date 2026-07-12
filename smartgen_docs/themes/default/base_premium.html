@@ -3,8 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="{{ config.site_description | default('Documentation') }}">
+    <meta property="og:title" content="{{ title }} - {{ config.site_name }}">
+    <meta property="og:description" content="{{ config.site_description | default('Documentation') }}">
+    <meta property="og:url" content="{{ config.site_url }}">
+    <meta property="og:type" content="website">
     <title>{{ title }} - {{ config.site_name }}</title>
-    <link rel="stylesheet" href="static/css/premium.css">
+    <link rel="stylesheet" href="{{ url_for('static', 'css/premium.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -13,7 +18,7 @@
     <header class="header">
         <div class="container">
             <div class="brand">
-                <a href="index.html">
+                <a href="{{ path_resolver.get_breadcrumb_link('index.html', current_depth) }}">
                     <i class="fas fa-book"></i>
                     {{ config.site_name }}
                 </a>
@@ -42,11 +47,19 @@
                     {% for item in nav %}
                         {% for label, link in item.items() %}
                             {% if link is string %}
-                                <li>
-                                    <a href="{{ link.replace('.md', '.html') }}" class="{% if link == current_page %}active{% endif %}">
-                                        {{ label }}
-                                    </a>
-                                </li>
+                                {% if not link.startswith('http') %}
+                                    <li>
+                                        <a href="{{ path_resolver.get_breadcrumb_link(link.replace('.md', '.html'), current_depth) }}" class="{% if link == current_page %}active{% endif %}">
+                                            {{ label }}
+                                        </a>
+                                    </li>
+                                {% else %}
+                                    <li>
+                                        <a href="{{ link }}" target="_blank" class="{% if link == current_page %}active{% endif %}">
+                                            {{ label }}
+                                        </a>
+                                    </li>
+                                {% endif %}
                             {% else %}
                                 <!-- Nested Category Heading -->
                                 <li class="nav-heading" style="padding: 0.5rem 1rem; font-weight: bold; color: #667eea; margin-top: 1rem; font-size: 0.85rem; text-transform: uppercase;">
@@ -55,11 +68,19 @@
                                 <!-- Sub-menu items -->
                                 {% for subitem in link %}
                                     {% for sublabel, sublink in subitem.items() %}
-                                        <li>
-                                            <a href="{{ sublink.replace('.md', '.html') }}" class="{% if sublink == current_page %}active{% endif %}" style="padding-left: 2rem;">
-                                                {{ sublabel }}
-                                            </a>
-                                        </li>
+                                        {% if not sublink.startswith('http') %}
+                                            <li>
+                                                <a href="{{ path_resolver.get_breadcrumb_link(sublink.replace('.md', '.html'), current_depth) }}" class="{% if sublink == current_page %}active{% endif %}" style="padding-left: 2rem;">
+                                                    {{ sublabel }}
+                                                </a>
+                                            </li>
+                                        {% else %}
+                                            <li>
+                                                <a href="{{ sublink }}" target="_blank" class="{% if sublink == current_page %}active{% endif %}" style="padding-left: 2rem;">
+                                                    {{ sublabel }}
+                                                </a>
+                                            </li>
+                                        {% endif %}
                                     {% endfor %}
                                 {% endfor %}
                             {% endif %}
@@ -104,7 +125,7 @@
                 <a href="https://www.smartgentools.com" target="_blank">
                     <i class="fas fa-globe"></i> Smartgen Platform
                 </a>
-                <a href="LICENSE" target="_blank">
+                <a href="{{ path_resolver.get_breadcrumb_link('LICENSE', current_depth) }}" target="_blank">
                     <i class="fas fa-file-contract"></i> License (MIT)
                 </a>
             </div>
