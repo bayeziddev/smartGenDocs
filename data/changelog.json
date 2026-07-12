@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Delete .gitignore",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "0304b1f0e85c0e565099069aa09a5952a3b12283",
+    "short_commit": "0304b1f",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/0304b1f0e85c0e565099069aa09a5952a3b12283",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-12T12:11:24+06:00",
+    "files_changed": 1,
+    "insertions": 0,
+    "deletions": 11,
+    "changed_files": [
+      ".gitignore"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Create .gitignore",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
