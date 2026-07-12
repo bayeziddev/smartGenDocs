@@ -135,17 +135,27 @@ jobs:
 
           mv temp.json "$FILE"
 
-      - name: Commit Changes
+      - name: Render Markdown and Commit Changes
         run: |
-
+          # Install the local package so the CLI command is available
+          pip install -e .
+          
+          # Run the new renderer command
+          smartgen-docs render-changelog
+          
+          # Setup Git
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add data/changelog.json
+          
+          # Add both the raw JSON and the generated Markdown file
+          git add data/changelog.json docs/docs/changelog.md
 
+          # Check if there are any changes to commit
           if git diff --cached --quiet; then
             echo "No changes detected."
             exit 0
           fi
 
-          git commit -m "docs(changelog): automatic update [skip ci]"
+          # Commit and Push
+          git commit -m "docs(changelog): automatic JSON update and MD render [skip ci]"
           git push
