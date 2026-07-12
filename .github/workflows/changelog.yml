@@ -137,25 +137,27 @@ jobs:
 
       - name: Render Markdown and Commit Changes
         run: |
-          # Install the local package so the CLI command is available
+          # 1. Ensure system is clean
+          pip install --upgrade pip
+          
+          # 2. Install all dependencies from your file
+          pip install -r requirements.txt
+          
+          # 3. Install the package in editable mode
           pip install -e .
           
-          # Run the new renderer command
+          # 4. Run the SEO-optimized changelog renderer
           smartgen-docs render-changelog
           
-          # Setup Git
+          # 5. Git configurations and commit
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          
-          # Add both the raw JSON and the generated Markdown file
           git add data/changelog.json docs/docs/changelog.md
 
-          # Check if there are any changes to commit
           if git diff --cached --quiet; then
             echo "No changes detected."
             exit 0
           fi
 
-          # Commit and Push
-          git commit -m "docs(changelog): automatic JSON update and MD render [skip ci]"
+          git commit -m "docs(changelog): automatic JSON update and SEO-optimized MD render [skip ci]"
           git push
