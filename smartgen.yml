@@ -22,76 +22,26 @@ site_name: SmartGen Docs
 site_url: https://bayeziddev.github.io/smartGenDocs/
 site_author: Sayad Md Bayezid Hosan
 site_description: SmartGen Platform Documentation, API Reference, developer guides, SDKs, tutorials, integrations, Markdown documentation, searchable static docs, SEO-friendly technical documentation.
+
 # Repository
 repo_name: bayeziddev/smartGenDocs
 repo_url: https://github.com/bayeziddev/smartGenDocs
+
 # Copyright
 copyright: Copyright &copy; 2026 Sayad Md Bayezid Hosan 
+
 # Configuration
 theme:
-  name: material
-  custom_dir: material/overrides
-  features:
-    - content.action.edit
-    - content.action.view
-    - content.code.annotate
-    - content.code.copy
-    # - content.code.select
-    # - content.footnote.tooltips
-    # - content.tabs.link
-    - content.tooltips
-    # - header.autohide
-    # - navigation.expand
-    - navigation.footer
-    - navigation.indexes
-    # - navigation.instant
-    # - navigation.instant.prefetch
-    # - navigation.instant.progress
-    # - navigation.prune
-    - navigation.sections
-    - navigation.tabs
-    # - navigation.tabs.sticky
-    - navigation.top
-    - navigation.tracking
-    - search.highlight
-    - search.share
-    - search.suggest
-    - toc.follow
-
-# - toc.integrate
+  name: premium
   palette:
-    - media: "(prefers-color-scheme)"
-      toggle:
-        icon: material/link
-        name: Switch to light mode
-    - media: "(prefers-color-scheme: light)"
-      scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/toggle-switch
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
-      scheme: slate
-      primary: black
-      accent: indigo
-      toggle:
-        icon: material/toggle-switch-off
-        name: Switch to system preference
+    primary: "#0052cc"
+    accent: "#ff9900"
   font:
     text: Roboto
     code: Roboto Mono
   favicon: assets/favicon.png
-  icon:
-    logo: logo
+  logo: logo
 
-# Plugins
-plugins:
-  - blog
-  - search:
-      separator: '[\s\u200b\-_,:!=\[\]()"`/]+|\.(?!\d)|&[lg]t;|(?!\b)(?=[A-Z][a-z])'
-  - minify:
-      minify_html: true
 # Additional configuration
 extra:
   status:
@@ -102,103 +52,33 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/sayadbayezid
       name: GitHub Profile
-
     - icon: fontawesome/brands/github
       link: https://github.com/bayeziddev/smartGenDocs
       name: SmartGenDocs Repository
-
     - icon: fontawesome/brands/linkedin
       link: https://www.linkedin.com/in/sayadbayezid
       name: LinkedIn
-
     - icon: fontawesome/brands/facebook
       link: https://www.facebook.com/bayezidhosan
       name: Facebook
-
     - icon: fontawesome/brands/google
       link: https://g.dev/SayadBayezid
       name: Google Developer Profile
-
     - icon: fontawesome/brands/orcid
       link: https://orcid.org/0009-0003-6568-6648
       name: ORCID
-
     - icon: fontawesome/solid/globe
       link: https://www.smartgentools.com
       name: SmartGen Tools
-
     - icon: fontawesome/solid/chart-line
       link: https://www.crunchbase.com/person/sayad-md-bayezid-hosan
       name: Crunchbase
-# Markdown extensions
-markdown_extensions:
-  - abbr
-  - admonition
-  - attr_list
-  - def_list
-  - footnotes
-  - md_in_html
-  - toc:
-      permalink: true
-
-  - pymdownx.arithmatex:
-      generic: true
-
-  - pymdownx.betterem:
-      smart_enable: all
-
-  - pymdownx.caret
-  - pymdownx.details
-
-  - pymdownx.emoji:
-      emoji_generator: !!python/name:material.extensions.emoji.to_svg
-      emoji_index: !!python/name:material.extensions.emoji.twemoji
-
-  - pymdownx.highlight:
-      anchor_linenums: true
-      line_spans: __span
-      pygments_lang_class: true
-
-  - pymdownx.inlinehilite
-  - pymdownx.keys
-
-  - pymdownx.magiclink:
-      normalize_issue_symbols: true
-      repo_url_shorthand: true
-      user: bayeziddev
-      repo: smartGenDocs
-
-  - pymdownx.mark
-  - pymdownx.smartsymbols
-
-  - pymdownx.snippets:
-      auto_append:
-        - includes/smartgen.md
-
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-
-  - pymdownx.tabbed:
-      alternate_style: true
-      combine_header_slug: true
-      slugify: !!python/object/apply:pymdownx.slugs.slugify
-        kwds:
-          case: lower
-
-  - pymdownx.tasklist:
-      custom_checkbox: true
-
-  - pymdownx.tilde
 
 not_in_nav: |
   /tutorials/**/*.md
 
 # Navigation
 nav:
-
   - Home: index.md
 
   - Getting Started:
