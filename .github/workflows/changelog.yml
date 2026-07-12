@@ -38,43 +38,32 @@ jobs:
 
           SHA=$(git rev-parse HEAD)
           SHORT_SHA=$(git rev-parse --short HEAD)
-
           TITLE=$(git log -1 --pretty=%s)
-
           BODY=$(git log -1 --pretty=%b)
-
           AUTHOR=$(git log -1 --pretty=%an)
-
           DATE=$(git log -1 --date=iso-strict --pretty=%cd)
-
           BRANCH="${GITHUB_REF_NAME}"
-
           REPOSITORY="${GITHUB_REPOSITORY}"
-
           COMMIT_URL="https://github.com/${REPOSITORY}/commit/${SHA}"
-
           REPOSITORY_URL="https://github.com/${REPOSITORY}"
-
           WEBSITE_URL="https://bayeziddev.github.io/smartGenDocs/"
-
+          
           CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD | jq -R -s -c 'split("\n")[:-1]')
-
           STATS=$(git show --stat --oneline --format="" HEAD)
-
-          FILES_CHANGED=$(echo "$STATS" | tail -1 | grep -oE '^[ ]*[0-9]+' | tr -d ' ')
-
-          INSERTIONS=$(echo "$STATS" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo 0)
-
-          DELETIONS=$(echo "$STATS" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo 0)
+          
+          # Fallback to 0 if extraction fails to prevent jq tonumber error
+          FILES_CHANGED=$(echo "$STATS" | tail -1 | grep -oE '^[ ]*[0-9]+' | tr -d ' ' || echo "0")
+          if [ -z "$FILES_CHANGED" ]; then FILES_CHANGED="0"; fi
+          
+          INSERTIONS=$(echo "$STATS" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo "0")
+          DELETIONS=$(echo "$STATS" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo "0")
 
           echo "sha=$SHA" >> $GITHUB_OUTPUT
           echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
           echo "title=$TITLE" >> $GITHUB_OUTPUT
-
           echo "body<<EOF" >> $GITHUB_OUTPUT
           echo "$BODY" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
-
           echo "author=$AUTHOR" >> $GITHUB_OUTPUT
           echo "date=$DATE" >> $GITHUB_OUTPUT
           echo "branch=$BRANCH" >> $GITHUB_OUTPUT
@@ -87,11 +76,13 @@ jobs:
           echo "insertions=$INSERTIONS" >> $GITHUB_OUTPUT
           echo "deletions=$DELETIONS" >> $GITHUB_OUTPUT
 
-      - name: Create changelog.json
+      - name: Validate and Initialize changelog.json
         run: |
           FILE=data/changelog.json
-
-          if [ ! -f "$FILE" ]; then
+          
+          # Check if file exists, is not empty, and has valid JSON. If not, reset it to empty array.
+          if [ ! -s "$FILE" ] || ! jq -e . "$FILE" >/dev/null 2>&1; then
+            echo "Resetting or Initializing $FILE with empty JSON array"
             echo "[]" > "$FILE"
           fi
 
@@ -120,41 +111,25 @@ jobs:
             '
             . |= [{
                 version: "development",
-
                 title: $title,
-
                 description:
                   (if $description == ""
                    then "Platform improvements and optimizations."
                    else $description
                    end),
-
                 author: $author,
-
                 repository: $repository,
-
                 repository_url: $repository_url,
-
                 branch: $branch,
-
                 commit: $sha,
-
                 short_commit: $short,
-
                 commit_url: $commit_url,
-
                 website: $website,
-
                 date: $date,
-
                 files_changed: ($files_changed|tonumber),
-
                 insertions: ($insertions|tonumber),
-
                 deletions: ($deletions|tonumber),
-
                 changed_files: $changed_files
-
             }] + .
             ' "$FILE" > temp.json
 
@@ -164,9 +139,7 @@ jobs:
         run: |
 
           git config user.name "github-actions[bot]"
-
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-
           git add data/changelog.json
 
           if git diff --cached --quiet; then
@@ -175,5 +148,4 @@ jobs:
           fi
 
           git commit -m "docs(changelog): automatic update [skip ci]"
-
           git push
