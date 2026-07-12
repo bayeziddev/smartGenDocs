@@ -145,4 +145,6 @@ class Builder:
         """
         if type == 'static':
             return self.path_resolver.resolve_static(filename, current_depth)
+        elif type == 'page':
+            return self.path_resolver.get_breadcrumb_link(filename, current_depth)
         return filename

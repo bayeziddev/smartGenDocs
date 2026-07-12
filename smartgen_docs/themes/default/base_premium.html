@@ -18,7 +18,7 @@
     <header class="header">
         <div class="container">
             <div class="brand">
-                <a href="{{ path_resolver.get_breadcrumb_link('index.html', current_depth) }}">
+                <a href="{{ url_for('page', 'index.html') }}">
                     <i class="fas fa-book"></i>
                     {{ config.site_name }}
                 </a>
@@ -49,7 +49,7 @@
                             {% if link is string %}
                                 {% if not link.startswith('http') %}
                                     <li>
-                                        <a href="{{ path_resolver.get_breadcrumb_link(link.replace('.md', '.html'), current_depth) }}" class="{% if link == current_page %}active{% endif %}">
+                                        <a href="{{ url_for('page', link.replace('.md', '.html')) }}" class="{% if link == current_page %}active{% endif %}">
                                             {{ label }}
                                         </a>
                                     </li>
@@ -70,7 +70,7 @@
                                     {% for sublabel, sublink in subitem.items() %}
                                         {% if not sublink.startswith('http') %}
                                             <li>
-                                                <a href="{{ path_resolver.get_breadcrumb_link(sublink.replace('.md', '.html'), current_depth) }}" class="{% if sublink == current_page %}active{% endif %}" style="padding-left: 2rem;">
+                                                <a href="{{ url_for('page', sublink.replace('.md', '.html')) }}" class="{% if sublink == current_page %}active{% endif %}" style="padding-left: 2rem;">
                                                     {{ sublabel }}
                                                 </a>
                                             </li>
@@ -125,7 +125,7 @@
                 <a href="https://www.smartgentools.com" target="_blank">
                     <i class="fas fa-globe"></i> Smartgen Platform
                 </a>
-                <a href="{{ path_resolver.get_breadcrumb_link('LICENSE', current_depth) }}" target="_blank">
+                <a href="{{ url_for('page', 'LICENSE') }}" target="_blank">
                     <i class="fas fa-file-contract"></i> License (MIT)
                 </a>
             </div>
