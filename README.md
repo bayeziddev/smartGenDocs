@@ -1,4 +1,5 @@
 # SmartGen Docs
+[Live Demu Smartgen Docs](https://bayeziddev.github.io/smartGenDocs/)
 
 **SmartGen Docs** is a lightweight, open-source static site generator designed specifically for project documentation. Built from the ground up by **Sayad Md Bayezid Hosan** for the **Smartgen Platform (www.smartgentools.com)**, it offers a simple yet powerful way to transform Markdown files into elegant, responsive documentation websites.
 
