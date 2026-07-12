@@ -137,17 +137,34 @@ class PathResolver:
         """
         Calculate the depth of a page in the directory structure.
         
+        This counts the number of directory levels the page is nested under.
+        For example:
+          - 'index.html'          → depth 0 (root)
+          - 'getting-started/index.html' → depth 1 (one folder deep)
+          - 'docs/sub/index.html' → depth 2 (two folders deep)
+        
         Args:
             page_path: Path to the page (e.g., 'getting-started/index.html')
         
         Returns:
             Depth (0 for root, 1 for one level deep, etc.)
         """
-        # Remove leading/trailing slashes and count directory separators
+        if not page_path:
+            return 0
+        
+        # Normalize path
         clean_path = page_path.strip('/')
+        
+        # Split into parts by '/'
+        parts = clean_path.split('/')
+        
+        # If the last part is an HTML file, count directories only
         if clean_path.endswith('.html'):
-            clean_path = os.path.dirname(clean_path)
-        return clean_path.count('/') if clean_path else 0
+            # Directory depth = total parts minus 1 (the filename)
+            return len(parts) - 1 if len(parts) > 0 else 0
+        
+        # For non-html paths, count all parts
+        return len(parts)
     
     def normalize_path(self, path: str) -> str:
         """

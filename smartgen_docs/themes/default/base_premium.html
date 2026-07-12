@@ -17,16 +17,22 @@
     <!-- HEADER -->
     <header class="header">
         <div class="container">
-            <div class="brand">
-                <a href="{{ url_for('page', 'index.html') }}">
-                    <i class="fas fa-book"></i>
-                    {{ config.site_name }}
-                </a>
+            <div class="header-left">
+                <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <div class="brand">
+                    <a href="{{ url_for('page', 'index.html') }}">
+                        <i class="fas fa-book"></i>
+                        {{ config.site_name }}
+                    </a>
+                </div>
             </div>
             
             <div class="search-container">
                 <i class="fas fa-search search-icon"></i>
                 <input type="text" class="search-input" id="search-input" placeholder="Search documentation...">
+                <div class="search-results" id="search-results"></div>
             </div>
             
             <nav class="header-nav">
@@ -38,55 +44,88 @@
         </div>
     </header>
 
+    <!-- OVERLAY for mobile sidebar -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
+
     <!-- MAIN CONTENT -->
     <div class="container main-content">
         <!-- SIDEBAR -->
-        <aside class="sidebar">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-title">Documentation</span>
+                <button class="sidebar-close" id="sidebar-close" aria-label="Close navigation">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
             <nav class="side-nav">
-                <ul>
-                    {% for item in nav %}
-                        {% for label, link in item.items() %}
-                            {% if link is string %}
-                                {% if not link.startswith('http') %}
-                                    <li>
-                                        <a href="{{ url_for('page', link.replace('.md', '.html')) }}" class="{% if link == current_page %}active{% endif %}">
-                                            {{ label }}
-                                        </a>
-                                    </li>
-                                {% else %}
-                                    <li>
-                                        <a href="{{ link }}" target="_blank" class="{% if link == current_page %}active{% endif %}">
-                                            {{ label }}
-                                        </a>
-                                    </li>
-                                {% endif %}
-                            {% else %}
-                                <!-- Nested Category Heading -->
-                                <li class="nav-heading" style="padding: 0.5rem 1rem; font-weight: bold; color: #667eea; margin-top: 1rem; font-size: 0.85rem; text-transform: uppercase;">
-                                    {{ label }}
+                {% for item in nav %}
+                    {% for label, link in item.items() %}
+                        {% if link is string %}
+                            <!-- Single link (top-level) -->
+                            {% if not link.startswith('http') %}
+                                {% set html_link = link.replace('.md', '.html') %}
+                                {% set is_active = (link == current_page) %}
+                                <li class="nav-item nav-item-single{% if is_active %} active{% endif %}">
+                                    <a href="{{ url_for('page', html_link) }}" data-link="{{ html_link }}" class="nav-link{% if is_active %} active{% endif %}">
+                                        <span class="nav-link-text">{{ label }}</span>
+                                    </a>
                                 </li>
-                                <!-- Sub-menu items -->
-                                {% for subitem in link %}
-                                    {% for sublabel, sublink in subitem.items() %}
-                                        {% if not sublink.startswith('http') %}
-                                            <li>
-                                                <a href="{{ url_for('page', sublink.replace('.md', '.html')) }}" class="{% if sublink == current_page %}active{% endif %}" style="padding-left: 2rem;">
-                                                    {{ sublabel }}
-                                                </a>
-                                            </li>
-                                        {% else %}
-                                            <li>
-                                                <a href="{{ sublink }}" target="_blank" class="{% if sublink == current_page %}active{% endif %}" style="padding-left: 2rem;">
-                                                    {{ sublabel }}
-                                                </a>
-                                            </li>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endfor %}
+                            {% else %}
+                                <li class="nav-item nav-item-single">
+                                    <a href="{{ link }}" target="_blank" class="nav-link nav-link-external">
+                                        <span class="nav-link-text">{{ label }}</span>
+                                        <i class="fas fa-external-link-alt nav-link-external-icon"></i>
+                                    </a>
+                                </li>
                             {% endif %}
-                        {% endfor %}
+                        {% else %}
+                            <!-- Section with subsections (collapsible) -->
+                            {% set section_label = label %}
+                            {%- set ns = namespace(has_active_child=false) -%}
+                            {% for subitem in link %}
+                                {% for sublabel, sublink in subitem.items() %}
+                                    {% if not sublink.startswith('http') %}
+                                        {% if sublink == current_page %}
+                                            {% set ns.has_active_child = true %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            
+                            <li class="nav-item nav-item-section{% if ns.has_active_child %} active-section{% endif %}">
+                                <button class="nav-section-toggle" data-section="{{ section_label | lower | replace(' ', '-') }}">
+                                    <span class="section-label">{{ section_label }}</span>
+                                    <i class="fas fa-chevron-right section-arrow{% if ns.has_active_child %} expanded{% endif %}"></i>
+                                </button>
+                                <ul class="nav-submenu{% if ns.has_active_child %} expanded{% endif %}">
+                                    {% for subitem in link %}
+                                        {% for sublabel, sublink in subitem.items() %}
+                                            {% if not sublink.startswith('http') %}
+                                                {% set html_link = sublink.replace('.md', '.html') %}
+                                                {% set is_active = (sublink == current_page) %}
+                                                <li class="nav-item nav-item-sub">
+                                                    <a href="{{ url_for('page', html_link) }}" data-link="{{ html_link }}" class="nav-link{% if is_active %} active{% endif %}">
+                                                        <span class="nav-link-text">{{ sublabel }}</span>
+                                                        {% if is_active %}
+                                                        <span class="active-indicator"></span>
+                                                        {% endif %}
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="nav-item nav-item-sub">
+                                                    <a href="{{ sublink }}" target="_blank" class="nav-link nav-link-external">
+                                                        <span class="nav-link-text">{{ sublabel }}</span>
+                                                        <i class="fas fa-external-link-alt nav-link-external-icon"></i>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
                     {% endfor %}
-                </ul>
+                {% endfor %}
             </nav>
         </aside>
 
@@ -97,9 +136,11 @@
                 {% for crumb in breadcrumbs %}
                     {% if not loop.last %}
                         <a href="{{ crumb.link }}">{{ crumb.title }}</a>
-                        <span class="separator">/</span>
+                        <span class="separator">
+                            <i class="fas fa-chevron-right"></i>
+                        </span>
                     {% else %}
-                        <span>{{ crumb.title }}</span>
+                        <span class="breadcrumb-current">{{ crumb.title }}</span>
                     {% endif %}
                 {% endfor %}
             </div>
@@ -108,6 +149,18 @@
             <article class="markdown-body">
                 {% block content %}{% endblock %}
             </article>
+
+            <!-- Page Navigation (Previous / Next) -->
+            <div class="page-nav" id="page-nav">
+                <a href="#" class="page-nav-prev" id="page-nav-prev">
+                    <i class="fas fa-arrow-left"></i>
+                    <span>Previous</span>
+                </a>
+                <a href="#" class="page-nav-next" id="page-nav-next">
+                    <span>Next</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </main>
     </div>
 
@@ -134,17 +187,58 @@
 
     <!-- SCRIPTS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lunr.js/2.3.9/lunr.min.js"></script>
     
     <script>
-        // Highlight code blocks
-        hljs.highlightAll();
+        // ========== SIDEBAR TOGGLE (Mobile) ==========
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarClose = document.getElementById('sidebar-close');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
 
-        // Dark Mode Toggle
-        const themeToggle = document.getElementById('theme-toggle');
-        const htmlElement = document.documentElement;
+        function openSidebar() {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('visible');
+            document.body.classList.add('sidebar-open');
+        }
+
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('visible');
+            document.body.classList.remove('sidebar-open');
+        }
+
+        menuToggle.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // ========== COLLAPSIBLE SECTIONS ==========
+        const sectionToggles = document.querySelectorAll('.nav-section-toggle');
         
-        // Load saved theme preference
+        sectionToggles.forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const parent = toggle.closest('.nav-item-section');
+                const submenu = parent.querySelector('.nav-submenu');
+                const arrow = toggle.querySelector('.section-arrow');
+                
+                const isExpanded = submenu.classList.contains('expanded');
+                
+                if (isExpanded) {
+                    submenu.classList.remove('expanded');
+                    parent.classList.remove('active-section');
+                    arrow.classList.remove('expanded');
+                    parent.classList.add('collapsed');
+                } else {
+                    submenu.classList.add('expanded');
+                    parent.classList.add('active-section');
+                    parent.classList.remove('collapsed');
+                    arrow.classList.add('expanded');
+                }
+            });
+        });
+
+        // ========== DARK MODE TOGGLE ==========
+        const themeToggle = document.getElementById('theme-toggle');
+        
         const savedTheme = localStorage.getItem('theme') || 'light';
         if (savedTheme === 'dark') {
             document.body.classList.add('dark-mode');
@@ -160,23 +254,75 @@
                 : '<i class="fas fa-moon"></i> Dark';
         });
 
-        // Search functionality (client-side)
+        // ========== SEARCH FUNCTIONALITY ==========
         const searchInput = document.getElementById('search-input');
+        const searchResults = document.getElementById('search-results');
+        let allNavLinks = [];
+
+        // Collect all nav links for search
+        function collectNavLinks() {
+            allNavLinks = [];
+            document.querySelectorAll('.nav-link').forEach(link => {
+                allNavLinks.push({
+                    element: link,
+                    text: link.querySelector('.nav-link-text')?.textContent || link.textContent,
+                    href: link.getAttribute('href')
+                });
+            });
+        }
+        collectNavLinks();
+
         searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase();
-            const navLinks = document.querySelectorAll('.side-nav a');
+            const query = e.target.value.trim().toLowerCase();
             
-            navLinks.forEach(link => {
-                const text = link.textContent.toLowerCase();
-                if (text.includes(query)) {
-                    link.style.display = 'block';
+            if (query.length === 0) {
+                // Reset all
+                allNavLinks.forEach(item => {
+                    item.element.closest('.nav-item').style.display = '';
+                });
+                document.querySelectorAll('.nav-submenu').forEach(s => s.classList.add('expanded'));
+                searchResults.innerHTML = '';
+                searchResults.style.display = 'none';
+                return;
+            }
+
+            const matches = [];
+            allNavLinks.forEach(item => {
+                const navItem = item.element.closest('.nav-item');
+                if (item.text.toLowerCase().includes(query)) {
+                    navItem.style.display = '';
+                    matches.push(item);
                 } else {
-                    link.style.display = 'none';
+                    navItem.style.display = 'none';
                 }
             });
+
+            // Expand all sections when searching
+            document.querySelectorAll('.nav-submenu').forEach(s => {
+                const hasVisible = s.querySelector('.nav-item:not([style*="display: none"])');
+                if (hasVisible) s.classList.add('expanded');
+            });
+
+            // Show search results dropdown
+            if (matches.length > 0) {
+                searchResults.innerHTML = matches.slice(0, 8).map(item => 
+                    `<a href="${item.href}" class="search-result-item">${item.text}</a>`
+                ).join('');
+                searchResults.style.display = 'block';
+            } else {
+                searchResults.innerHTML = '<div class="search-no-results">No results found</div>';
+                searchResults.style.display = 'block';
+            }
         });
 
-        // Copy code button
+        // Hide search results when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                searchResults.style.display = 'none';
+            }
+        });
+
+        // ========== COPY CODE BUTTON ==========
         document.querySelectorAll('pre').forEach(block => {
             const button = document.createElement('button');
             button.className = 'copy-button';
@@ -185,8 +331,10 @@
                 const code = block.querySelector('code').textContent;
                 navigator.clipboard.writeText(code).then(() => {
                     button.textContent = 'Copied!';
+                    button.classList.add('copied');
                     setTimeout(() => {
                         button.textContent = 'Copy';
+                        button.classList.remove('copied');
                     }, 2000);
                 });
             });
@@ -196,6 +344,82 @@
             header.appendChild(button);
             block.insertBefore(header, block.firstChild);
         });
+
+        // ========== HIGHLIGHT ACTIVE NAV ==========
+        function updateActiveNav() {
+            const currentPage = window.location.pathname;
+            
+            // Remove all active states
+            document.querySelectorAll('.nav-link.active').forEach(link => {
+                link.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-item.active').forEach(item => {
+                item.classList.remove('active');
+            });
+
+            // Find and set active for current page
+            const currentFilename = currentPage.split('/').pop() || 'index.html';
+            const allLinks = document.querySelectorAll('.nav-link');
+            
+            allLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href && href.endsWith(currentFilename)) {
+                    link.classList.add('active');
+                    const navItem = link.closest('.nav-item');
+                    if (navItem) navItem.classList.add('active');
+                    
+                    // Expand parent section
+                    const section = link.closest('.nav-item-section');
+                    if (section) {
+                        section.classList.add('active-section');
+                        section.classList.remove('collapsed');
+                        const submenu = section.querySelector('.nav-submenu');
+                        if (submenu) submenu.classList.add('expanded');
+                        const arrow = section.querySelector('.section-arrow');
+                        if (arrow) arrow.classList.add('expanded');
+                    }
+                }
+            });
+        }
+
+        updateActiveNav();
+
+        // ========== PREVIOUS / NEXT PAGE NAVIGATION ==========
+        function setupPageNav() {
+            const navItems = document.querySelectorAll('.nav-link:not(.nav-link-external)');
+            let currentIndex = -1;
+            
+            navItems.forEach((link, index) => {
+                if (link.classList.contains('active')) {
+                    currentIndex = index;
+                }
+            });
+
+            const prevBtn = document.getElementById('page-nav-prev');
+            const nextBtn = document.getElementById('page-nav-next');
+
+            if (currentIndex > 0) {
+                const prevLink = navItems[currentIndex - 1];
+                prevBtn.href = prevLink.getAttribute('href');
+                prevBtn.querySelector('span').textContent = prevLink.querySelector('.nav-link-text')?.textContent || 'Previous';
+                prevBtn.classList.remove('disabled');
+            } else {
+                prevBtn.classList.add('disabled');
+                prevBtn.removeAttribute('href');
+            }
+
+            if (currentIndex >= 0 && currentIndex < navItems.length - 1) {
+                const nextLink = navItems[currentIndex + 1];
+                nextBtn.href = nextLink.getAttribute('href');
+                nextBtn.querySelector('span').textContent = nextLink.querySelector('.nav-link-text')?.textContent || 'Next';
+                nextBtn.classList.remove('disabled');
+            } else {
+                nextBtn.classList.add('disabled');
+                nextBtn.removeAttribute('href');
+            }
+        }
+
+        setupPageNav();
     </script>
 </body>
 </html>
