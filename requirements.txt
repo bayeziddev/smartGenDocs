@@ -1,4 +1,4 @@
-Copyright (c) 2026 Sayad Md Bayezid Hosan (Smartgen Platform)
+# Copyright (c) 2026 Sayad Md Bayezid Hosan (Smartgen Platform)
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to
 # deal in the Software without restriction, including without limitation the
@@ -17,15 +17,80 @@ Copyright (c) 2026 Sayad Md Bayezid Hosan (Smartgen Platform)
 # FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 # IN THE SOFTWARE.
 # Requirements for core
-jinja2>=3.1
-markdown>=3.2
-smartgendocs>=1.6,<2
-smartgendocs-material-extensions>=1.3
-pygments>=2.16
-pymdown-extensions>=10.2
-# Requirements for plugins
-babel>=2.10
-colorama>=0.4
-paginate>=0.5
-backrefs>=5.7.post1
-requests>=2.30
+# =============================================================================
+# SmartGen Docs
+# Modern Open-Source Documentation Framework
+#
+# Repository:
+# https://github.com/bayeziddev/smartGenDocs
+#
+# Website:
+# https://www.smartgentools.com
+#
+# Author:
+# Sayad Md Bayezid Hosan
+#
+# License:
+# MIT License
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Core Dependencies
+# -----------------------------------------------------------------------------
+
+click>=8.1.8
+Jinja2>=3.1.6
+markdown2>=2.5.4
+PyYAML>=6.0.2
+watchdog>=6.0.0
+Pygments>=2.19.2
+
+# -----------------------------------------------------------------------------
+# Template & HTML Processing
+# -----------------------------------------------------------------------------
+
+MarkupSafe>=3.0.2
+
+# -----------------------------------------------------------------------------
+# Optional Documentation Features
+# -----------------------------------------------------------------------------
+
+python-frontmatter>=1.1.0
+beautifulsoup4>=4.13.4
+
+# -----------------------------------------------------------------------------
+# Search Engine (Optional)
+# -----------------------------------------------------------------------------
+
+whoosh>=2.7.4
+
+# -----------------------------------------------------------------------------
+# Image Processing (Optional)
+# -----------------------------------------------------------------------------
+
+Pillow>=11.3.0
+
+# -----------------------------------------------------------------------------
+# HTTP Client (Future Extensions)
+# -----------------------------------------------------------------------------
+
+requests>=2.32.4
+
+# -----------------------------------------------------------------------------
+# Development Server
+# -----------------------------------------------------------------------------
+
+uvicorn>=0.35.0
+
+# -----------------------------------------------------------------------------
+# Optional Upload Manager
+# -----------------------------------------------------------------------------
+
+fastapi>=0.116.1
+
+# -----------------------------------------------------------------------------
+# Utilities
+# -----------------------------------------------------------------------------
+
+python-slugify>=8.0.4
+typing_extensions>=4.15.0
