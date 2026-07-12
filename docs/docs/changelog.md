@@ -10,6 +10,17 @@ All notable changes, automated architectural summaries, and SEO optimizations fo
 
 ## 🚀 2026-07-12 - Theme, UI & Frontend Template Adjustments
 
+**🎯 Impact Summary:** This update modified `70` files, resulting in `6` new additions and `65785` deletions.
+
+- **👤 Author:** bayeziddev
+- **🔗 Commit:** [3b420b6](https://github.com/bayeziddev/smartGenDocs/commit/3b420b600ac5e3821041f592310ab54a9e0d2064)
+- **🔍 SEO Keywords:** `theme`, `frontend`, `template`, `adjustments`, `updated`
+- **💡 System Note:** - Updated base_premium.html to use url_for helper for all internal links - Updated core.py to handle 'page' type in url_for for proper path resolution - Fixed main.yml workflow to deploy to gh-pages branch as per repository configuration - Removed built 'site/' directory from main branch to prevent interference - Verified path resolution for nested directories and static assets
+
+---
+
+## 🚀 2026-07-12 - Theme, UI & Frontend Template Adjustments
+
 **🎯 Impact Summary:** This update modified `148` files, resulting in `68274` new additions and `31` deletions.
 
 - **👤 Author:** bayeziddev
