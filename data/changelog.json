@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Create scripts.js",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "90e72f5e8ab9b6511604ffbe610e12ffd380da71",
+    "short_commit": "90e72f5",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/90e72f5e8ab9b6511604ffbe610e12ffd380da71",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-12T13:18:21+06:00",
+    "files_changed": 1,
+    "insertions": 85,
+    "deletions": 0,
+    "changed_files": [
+      "Updates/scripts.js"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Create index.html",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
