@@ -1,0 +1,179 @@
+name: SmartGen Auto Changelog
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - "data/changelog.json"
+      - ".github/workflows/**"
+
+permissions:
+  contents: write
+
+jobs:
+  update-changelog:
+    name: Update SmartGen Changelog
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Install jq
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+
+      - name: Prepare Data Directory
+        run: |
+          mkdir -p data
+
+      - name: Extract Commit Metadata
+        id: commit
+        shell: bash
+        run: |
+
+          SHA=$(git rev-parse HEAD)
+          SHORT_SHA=$(git rev-parse --short HEAD)
+
+          TITLE=$(git log -1 --pretty=%s)
+
+          BODY=$(git log -1 --pretty=%b)
+
+          AUTHOR=$(git log -1 --pretty=%an)
+
+          DATE=$(git log -1 --date=iso-strict --pretty=%cd)
+
+          BRANCH="${GITHUB_REF_NAME}"
+
+          REPOSITORY="${GITHUB_REPOSITORY}"
+
+          COMMIT_URL="https://github.com/${REPOSITORY}/commit/${SHA}"
+
+          REPOSITORY_URL="https://github.com/${REPOSITORY}"
+
+          WEBSITE_URL="https://bayeziddev.github.io/smartGenDocs/"
+
+          CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r HEAD | jq -R -s -c 'split("\n")[:-1]')
+
+          STATS=$(git show --stat --oneline --format="" HEAD)
+
+          FILES_CHANGED=$(echo "$STATS" | tail -1 | grep -oE '^[ ]*[0-9]+' | tr -d ' ')
+
+          INSERTIONS=$(echo "$STATS" | grep -oE '[0-9]+ insertion' | grep -oE '[0-9]+' || echo 0)
+
+          DELETIONS=$(echo "$STATS" | grep -oE '[0-9]+ deletion' | grep -oE '[0-9]+' || echo 0)
+
+          echo "sha=$SHA" >> $GITHUB_OUTPUT
+          echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+          echo "title=$TITLE" >> $GITHUB_OUTPUT
+
+          echo "body<<EOF" >> $GITHUB_OUTPUT
+          echo "$BODY" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+          echo "author=$AUTHOR" >> $GITHUB_OUTPUT
+          echo "date=$DATE" >> $GITHUB_OUTPUT
+          echo "branch=$BRANCH" >> $GITHUB_OUTPUT
+          echo "repository=$REPOSITORY" >> $GITHUB_OUTPUT
+          echo "repository_url=$REPOSITORY_URL" >> $GITHUB_OUTPUT
+          echo "commit_url=$COMMIT_URL" >> $GITHUB_OUTPUT
+          echo "website_url=$WEBSITE_URL" >> $GITHUB_OUTPUT
+          echo "files=$CHANGED_FILES" >> $GITHUB_OUTPUT
+          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
+          echo "insertions=$INSERTIONS" >> $GITHUB_OUTPUT
+          echo "deletions=$DELETIONS" >> $GITHUB_OUTPUT
+
+      - name: Create changelog.json
+        run: |
+          FILE=data/changelog.json
+
+          if [ ! -f "$FILE" ]; then
+            echo "[]" > "$FILE"
+          fi
+
+      - name: Update changelog.json
+        shell: bash
+        run: |
+
+          FILE=data/changelog.json
+
+          jq \
+            --arg title "${{ steps.commit.outputs.title }}" \
+            --arg description "${{ steps.commit.outputs.body }}" \
+            --arg author "${{ steps.commit.outputs.author }}" \
+            --arg repository "${{ steps.commit.outputs.repository }}" \
+            --arg repository_url "${{ steps.commit.outputs.repository_url }}" \
+            --arg branch "${{ steps.commit.outputs.branch }}" \
+            --arg sha "${{ steps.commit.outputs.sha }}" \
+            --arg short "${{ steps.commit.outputs.short_sha }}" \
+            --arg commit_url "${{ steps.commit.outputs.commit_url }}" \
+            --arg website "${{ steps.commit.outputs.website_url }}" \
+            --arg date "${{ steps.commit.outputs.date }}" \
+            --argjson changed_files '${{ steps.commit.outputs.files }}' \
+            --arg files_changed "${{ steps.commit.outputs.files_changed }}" \
+            --arg insertions "${{ steps.commit.outputs.insertions }}" \
+            --arg deletions "${{ steps.commit.outputs.deletions }}" \
+            '
+            . |= [{
+                version: "development",
+
+                title: $title,
+
+                description:
+                  (if $description == ""
+                   then "Platform improvements and optimizations."
+                   else $description
+                   end),
+
+                author: $author,
+
+                repository: $repository,
+
+                repository_url: $repository_url,
+
+                branch: $branch,
+
+                commit: $sha,
+
+                short_commit: $short,
+
+                commit_url: $commit_url,
+
+                website: $website,
+
+                date: $date,
+
+                files_changed: ($files_changed|tonumber),
+
+                insertions: ($insertions|tonumber),
+
+                deletions: ($deletions|tonumber),
+
+                changed_files: $changed_files
+
+            }] + .
+            ' "$FILE" > temp.json
+
+          mv temp.json "$FILE"
+
+      - name: Commit Changes
+        run: |
+
+          git config user.name "github-actions[bot]"
+
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git add data/changelog.json
+
+          if git diff --cached --quiet; then
+            echo "No changes detected."
+            exit 0
+          fi
+
+          git commit -m "docs(changelog): automatic update [skip ci]"
+
+          git push
