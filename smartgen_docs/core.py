@@ -32,15 +32,22 @@ class Builder:
         if os.path.exists(static_src):
             shutil.copytree(static_src, static_dst)
 
-        # Build pages
+        # Build pages with support for nested navigation
         nav = self.config.get('nav', [])
-        for item in nav:
-            if isinstance(item, dict):
-                for title, path in item.items():
-                    self.build_page(title, path)
-            elif isinstance(item, str):
-                # Handle simple string nav items if any
-                self.build_page(item, item)
+        
+        def process_nav(nav_list):
+            for item in nav_list:
+                if isinstance(item, dict):
+                    for title, path in item.items():
+                        if isinstance(path, str):
+                            self.build_page(title, path)
+                        elif isinstance(path, list):
+                            # Recursive call for nested categories (e.g., Getting Started)
+                            process_nav(path)
+                elif isinstance(item, str):
+                    self.build_page(item, item)
+                    
+        process_nav(nav)
 
     def build_page(self, title, md_path):
         src_path = os.path.join(self.docs_dir, md_path)
