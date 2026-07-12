@@ -1,0 +1,189 @@
+# Changelog
+
+All notable changes to **SmartGen Docs** are documented in this file.
+
+This project follows the principles of **Keep a Changelog** while adapting the format to the SmartGen Docs ecosystem. Every significant change is tracked to provide a transparent development history for users, contributors, and maintainers.
+
+---
+
+## About This Changelog
+
+The SmartGen Docs changelog is automatically maintained through GitHub Actions whenever changes are pushed to the repository.
+
+Each release or update may include:
+
+- ✨ New Features
+- 🚀 Improvements
+- 🛠 Bug Fixes
+- 📚 Documentation Updates
+- ♻️ Refactoring
+- ⚡ Performance Improvements
+- 🔒 Security Enhancements
+- 🎨 UI/UX Improvements
+- 🧪 Testing Improvements
+- 🏗 Build & CI/CD Updates
+- 📦 Dependency Updates
+
+---
+
+## Versioning
+
+SmartGen Docs follows **Semantic Versioning (SemVer)** whenever possible.
+
+Version Format:
+
+```text
+MAJOR.MINOR.PATCH
+```
+
+Example:
+
+```text
+1.0.0
+```
+
+Where:
+
+- **MAJOR** – Breaking changes
+- **MINOR** – New features (backward compatible)
+- **PATCH** – Bug fixes and minor improvements
+
+---
+
+# Unreleased
+
+## Added
+
+- Initial SmartGen Docs project structure.
+- Core documentation framework.
+- Static site generation architecture.
+- Theme system foundation.
+- Command Line Interface (CLI).
+- GitHub Actions automation.
+- Automatic changelog generation.
+- Documentation templates.
+- SEO-ready documentation structure.
+
+## Changed
+
+- Ongoing project improvements and optimizations.
+
+## Fixed
+
+- Initial project fixes and stability improvements.
+
+---
+
+# Roadmap
+
+Upcoming improvements may include:
+
+- Advanced Search Engine
+- Plugin System
+- Theme Marketplace
+- Multiple Theme Support
+- Live Preview
+- Markdown Extensions
+- API Reference Generator
+- Component Library
+- Internationalization (i18n)
+- RSS Feed
+- PWA Support
+- AI Documentation Assistant
+- Versioned Documentation
+- Smart Navigation
+- Analytics Dashboard
+
+---
+
+# Automatic Changelog
+
+The live changelog is automatically generated from Git commits using GitHub Actions.
+
+Each entry contains information such as:
+
+- Commit Title
+- Commit Description
+- Commit Hash
+- Commit URL
+- Repository
+- Branch
+- Author
+- Changed Files
+- Files Changed Count
+- Lines Added
+- Lines Removed
+- Commit Timestamp
+- Release Notes
+- Development History
+
+The generated data powers the SmartGen Docs website and provides a searchable development timeline.
+
+---
+
+# Release History
+
+Every tagged release will appear here automatically.
+
+Example:
+
+```text
+v1.0.0
+v1.1.0
+v1.2.0
+v2.0.0
+```
+
+---
+
+# Resources
+
+**Website**
+
+https://www.smartgentools.com
+
+**Documentation**
+
+https://bayeziddev.github.io/smartGenDocs/
+
+**Repository**
+
+https://github.com/bayeziddev/smartGenDocs
+
+**Issues**
+
+https://github.com/bayeziddev/smartGenDocs/issues
+
+**Discussions**
+
+https://github.com/bayeziddev/smartGenDocs/discussions
+
+---
+
+# Contributing
+
+Please see:
+
+- CONTRIBUTING.md
+- CODE_OF_CONDUCT.md
+- SECURITY.md
+
+before submitting Pull Requests or reporting issues.
+
+---
+
+# Credits
+
+Developed and maintained by
+
+**Sayad Md Bayezid Hosan**
+
+SmartGen Platform
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
+
+See the LICENSE file for details.
