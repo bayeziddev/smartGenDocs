@@ -1,74 +1,22 @@
-{
-  "schema": "1.0.0",
-  "generated_by": "SmartGen Docs",
-  "generated_at": null,
-  "last_updated": null,
-
-  "welcome": {
-    "title": "Welcome to SmartGen Docs Changelog",
-    "message": "This changelog automatically records every update made to the SmartGen Docs repository. Each entry includes commit information, release notes, changed files, timestamps, and development history, providing complete transparency for contributors and users.",
-    "description": "Every push to the main branch automatically generates a new changelog entry through GitHub Actions. This file serves as the single source of truth for project updates and powers the live changelog page on the SmartGen Docs website.",
-    "documentation": "https://github.com/bayeziddev/smartGenDocs",
-    "website": "https://bayeziddev.github.io/smartGenDocs/"
-  },
-
-  "project": {
-    "name": "SmartGen Docs",
-    "short_name": "SGD",
-    "description": "A modern, open-source documentation framework for building fast, searchable, SEO-friendly documentation websites, developer portals, API references, and knowledge bases.",
-    "author": "Sayad Md Bayezid Hosan",
-    "organization": "SmartGen Platform",
-    "repository": "https://github.com/bayeziddev/smartGenDocs",
-    "homepage": "https://www.smartgentools.com",
-    "documentation": "https://bayeziddev.github.io/smartGenDocs/",
-    "license": "MIT",
-    "default_branch": "main",
-    "status": "Development",
-    "version": "0.1.0"
-  },
-
-  "statistics": {
-    "total_entries": 0,
-    "total_commits": 0,
-    "total_releases": 0,
-    "first_release": null,
-    "latest_release": null,
-    "last_commit": null,
-    "last_updated": null
-  },
-
-  "features": [
-    "Automatic GitHub Commit Tracking",
-    "Live Changelog Generation",
-    "Commit History",
-    "Release Notes",
-    "Changed Files Tracking",
-    "Commit Statistics",
-    "GitHub Actions Automation",
-    "Developer Activity Timeline",
-    "Version History",
-    "SEO-Friendly JSON API"
-  ],
-
-"entries": [
+[
   {
-    "version": "0.1.0",
-    "title": "Initial Release",
-    "description": "Initial release of SmartGen Docs with automated changelog support.",
-    "author": "Sayad Md Bayezid Hosan",
+    "version": "development",
+    "title": "Update cli.py",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
     "repository": "bayeziddev/smartGenDocs",
     "repository_url": "https://github.com/bayeziddev/smartGenDocs",
     "branch": "main",
-    "commit": null,
-    "short_commit": null,
-    "commit_url": null,
+    "commit": "a4835fa541a52ea005939573e735e4324a818765",
+    "short_commit": "a4835fa",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/a4835fa541a52ea005939573e735e4324a818765",
     "website": "https://bayeziddev.github.io/smartGenDocs/",
-    "date": null,
-    "files_changed": 0,
-    "insertions": 0,
-    "deletions": 0,
-    "changed_files": [],
-    "release_type": "initial",
-    "status": "published"
+    "date": "2026-07-12T08:30:11+06:00",
+    "files_changed": 1,
+    "insertions": 42,
+    "deletions": 20,
+    "changed_files": [
+      "smartgen_docs/cli.py"
+    ]
   }
-],
+]
