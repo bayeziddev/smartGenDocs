@@ -149,13 +149,30 @@ jobs:
 
           echo "Build successful."
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload Build Artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
-          publish_branch: gh-pages
-          force_orphan: true
+          path: site
+
+  deploy:
+
+    name: Deploy GitHub Pages
+
+    if: github.ref == 'refs/heads/main'
+
+    needs: build
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Deploy
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   summary:
 
@@ -166,7 +183,7 @@ jobs:
     needs:
       - validate
       - build
-      
+      - deploy
 
     runs-on: ubuntu-latest
 
@@ -193,10 +210,8 @@ jobs:
 
           echo "Build: Completed" >> $GITHUB_STEP_SUMMARY
 
+          echo "Deployment: Completed (main branch only)" >> $GITHUB_STEP_SUMMARY
+
           echo "" >> $GITHUB_STEP_SUMMARY
 
           echo "SmartGen Docs CI finished successfully." >> $GITHUB_STEP_SUMMARY
-          
-          echo "Status: ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
-
-          echo "Repository: $GITHUB_REPOSITORY" >> $GITHUB_STEP_SUMMARY
