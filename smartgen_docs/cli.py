@@ -4,6 +4,7 @@ from .core import Builder
 from .server import DevServer
 from .autodoc import AutodocGenerator
 from .scaffold import Scaffolder
+from .changelog_renderer import ChangelogRenderer # নতুন ইম্পোর্ট
 
 @click.group()
 def main():
@@ -67,6 +68,15 @@ def autodoc(module_name, output):
     generator = AutodocGenerator(output)
     generator.generate_for_module(module_name)
     click.secho("API documentation generated successfully.", fg="green")
+
+@main.command()
+@click.option('--json-path', default='data/changelog.json', help='Path to changelog JSON.')
+@click.option('--output', default='docs/docs/changelog.md', help='Output Markdown file.')
+def render_changelog(json_path, output):
+    """Render changelog.json into a Markdown file for the docs."""
+    click.secho("Rendering changelog from JSON...", fg="cyan")
+    renderer = ChangelogRenderer(json_path, output)
+    renderer.render()
 
 @main.command()
 def init():
