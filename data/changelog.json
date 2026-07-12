@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Create index.html",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "5bb5ba698d9128e665694abf6f8fd8a5d1604fc2",
+    "short_commit": "5bb5ba6",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/5bb5ba698d9128e665694abf6f8fd8a5d1604fc2",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-12T12:37:40+06:00",
+    "files_changed": 1,
+    "insertions": 75,
+    "deletions": 0,
+    "changed_files": [
+      "Updates/index.html"
+    ]
+  },
+  {
+    "version": "development",
     "title": "feat: MkDocs-style collapsible navigation with improved active doc styling",
     "description": "- Redesigned sidebar with collapsible section headings and chevron arrows\n- Improved active link styling with blue left border, bold text, and dot indicator\n- Fixed path_resolver depth calculation for consistent CSS loading on nested pages\n- Added page prev/next navigation\n- Enhanced search with dropdown results\n- Added mobile hamburger menu with overlay\n- Improved responsive design and dark mode support\n- All custom-built, no third-party themes used",
     "author": "bayeziddev",
