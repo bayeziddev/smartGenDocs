@@ -3,6 +3,7 @@ import os
 from .core import Builder
 from .server import DevServer
 from .autodoc import AutodocGenerator
+from .scaffold import Scaffolder
 
 @click.group()
 def main():
@@ -50,6 +51,14 @@ def upload_manager(port):
         click.secho("Error: FastAPI is not installed. Install it with: pip install fastapi uvicorn", fg="red")
 
 @main.command()
+@click.option('--config', default='smartgen.yml', help='Path to config file.')
+def scaffold(config):
+    """Auto-generate missing markdown files and folders safely from config."""
+    click.secho("Starting scaffolding process...", fg="cyan")
+    scaffolder = Scaffolder(config)
+    scaffolder.create_files()
+
+@main.command()
 @click.argument('module_name')
 @click.option('--output', default='docs/api', help='Directory to save API docs.')
 def autodoc(module_name, output):
@@ -69,7 +78,7 @@ def init():
     # Create the premium boilerplate config
     config_content = """# SmartGen Docs Configuration
 site_name: My SmartGen Docs
-site_url: https://www.smartgentools.com
+site_url: https://github.com/bayeziddev/smartGenDocs
 site_author: Sayad Md Bayezid Hosan
 
 theme:
