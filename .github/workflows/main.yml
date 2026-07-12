@@ -153,7 +153,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
+          publish_dir: ./docs
           publish_branch: gh-pages
           force_orphan: true
 
@@ -166,7 +166,7 @@ jobs:
     needs:
       - validate
       - build
-      - deploy
+      
 
     runs-on: ubuntu-latest
 
@@ -193,8 +193,10 @@ jobs:
 
           echo "Build: Completed" >> $GITHUB_STEP_SUMMARY
 
-          echo "Deployment: Completed (main branch only)" >> $GITHUB_STEP_SUMMARY
-
           echo "" >> $GITHUB_STEP_SUMMARY
 
           echo "SmartGen Docs CI finished successfully." >> $GITHUB_STEP_SUMMARY
+          
+          echo "Status: ${{ needs.build.result }}" >> $GITHUB_STEP_SUMMARY
+
+          echo "Repository: $GITHUB_REPOSITORY" >> $GITHUB_STEP_SUMMARY
