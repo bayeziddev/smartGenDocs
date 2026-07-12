@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartGen | Changelog & Updates</title>
+    <!-- Root Relative CSS for stability -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --bg-body: #ffffff;
+            --bg-secondary: #f8fafc;
+            --text-primary: #0f172a;
+            --text-secondary: #64748b;
+        }
+
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg-body); color: var(--text-primary); margin: 0; }
+        
+        /* Premium Timeline Styles */
+        .updates-container { max-width: 800px; margin: 4rem auto; padding: 0 1.5rem; }
+        
+        .timeline { position: relative; padding: 2rem 0; }
+        .timeline::before { content: ''; position: absolute; left: 20px; width: 2px; height: 100%; background: #e2e8f0; }
+        
+        .timeline-item { position: relative; margin-bottom: 3rem; padding-left: 50px; }
+        .timeline-marker { position: absolute; left: 12px; width: 16px; height: 16px; background: var(--primary); border-radius: 50%; border: 3px solid white; box-shadow: 0 0 0 2px var(--primary); }
+        
+        .timeline-content { background: var(--bg-secondary); padding: 2rem; border-radius: 16px; border: 1px solid #e2e8f0; }
+        .timeline-date { font-size: 0.85rem; color: var(--primary); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 0.5rem; }
+        .timeline-title { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .timeline-description { list-style: none; padding: 0; }
+        .timeline-description li { margin-bottom: 0.5rem; color: var(--text-secondary); display: flex; align-items: flex-start; }
+        .timeline-description li::before { content: '✔'; margin-right: 10px; color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <main class="updates-container">
+        <header style="text-align: center; margin-bottom: 3rem;">
+            <h1 style="font-size: 2.5rem; margin-bottom: 1rem;">Platform Updates</h1>
+            <p style="color: var(--text-secondary);">The latest improvements to SmartGen</p>
+        </header>
+
+        <div class="timeline" id="timeline">
+            <!-- JavaScript data will inject here -->
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const timeline = document.getElementById('timeline');
+            try {
+                const response = await fetch('/Data/Data/Changelog.json');
+                const data = await response.json();
+                
+                timeline.innerHTML = data.map(item => `
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <div class="timeline-date">${item.date}</div>
+                            <div class="timeline-title">${item.version} - ${item.title}</div>
+                            <ul class="timeline-description">
+                                ${item.changes.map(c => `<li>${c}</li>`).join('')}
+                            </ul>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                timeline.innerHTML = '<p style="text-align:center;">Updates currently loading...</p>';
+            }
+        });
+    </script>
+</body>
+</html>
