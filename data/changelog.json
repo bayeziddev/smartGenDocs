@@ -48,7 +48,7 @@
     "Developer Activity Timeline",
     "Version History",
     "SEO-Friendly JSON API"
-  ],.entries = [{
+  ],"entries": [{
     version: "development",
     title: $title,
     description: (
