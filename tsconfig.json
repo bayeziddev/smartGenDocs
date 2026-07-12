@@ -1,0 +1,68 @@
+## tsconfig.json (Optional)
+
+> **Note**
+>
+> SmartGen Docs **does not currently use TypeScript**. This configuration file is **optional** and is **not required** for the core framework.
+>
+> It is provided as a reference for developers who want to add TypeScript-based frontend features in the future, such as:
+>
+> - Interactive UI components
+> - Client-side search
+> - Theme customization
+> - Documentation widgets
+> - Progressive Web App (PWA) features
+> - Other modern frontend enhancements
+>
+> If your project only uses **Python, HTML, CSS, Jinja2, and Markdown**, you can safely ignore or remove this file.
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Node",
+
+    "strict": true,
+
+    "allowJs": false,
+
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+
+    "sourceMap": true,
+
+    "removeComments": false,
+
+    "declaration": false,
+
+    "skipLibCheck": true,
+
+    "forceConsistentCasingInFileNames": true,
+
+    "isolatedModules": true,
+
+    "noEmitOnError": true,
+
+    "lib": [
+      "DOM",
+      "DOM.Iterable",
+      "ES2022"
+    ],
+
+    "outDir": "./dist",
+
+    "rootDir": "./src",
+
+    "types": [
+      "node"
+    ]
+  },
+
+  "include": [
+    "src/**/*.ts"
+  ],
+
+  "exclude": [
+    "node_modules",
+    "dist",
+    "site"
+  ]
+}
