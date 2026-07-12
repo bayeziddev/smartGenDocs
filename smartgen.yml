@@ -21,14 +21,13 @@
 site_name: SmartGen Docs 
 site_url: https://bayeziddev.github.io/smartGenDocs/
 site_author: Sayad Md Bayezid Hosan
-site_description: >-
-SmartGen Platform Documentation, API Reference, developer guides, SDKs, tutorials, integrations, Markdown documentation, searchable static docs, SEO-friendly technical documentation.
+site_description: SmartGen Platform Documentation, API Reference, developer guides, SDKs, tutorials, integrations, Markdown documentation, searchable static docs, SEO-friendly technical documentation.
 # Repository
 repo_name: bayeziddev/smartGenDocs
 repo_url: https://github.com/bayeziddev/smartGenDocs
 # Copyright
 copyright: Copyright &copy; 2026 Sayad Md Bayezid Hosan 
- Configuration
+# Configuration
 theme:
   name: material
   custom_dir: material/overrides
