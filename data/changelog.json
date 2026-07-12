@@ -48,81 +48,27 @@
     "Developer Activity Timeline",
     "Version History",
     "SEO-Friendly JSON API"
-  ],"entries": [{
-    version: "development",
-    title: $title,
-    description: (
-      if $description == ""
-      then "Platform improvements and optimizations."
-      else $description
-      end
-    ),
-    author: $author,
-    repository: $repository,
-    repository_url: $repository_url,
-    branch: $branch,
-    commit: $sha,
-    short_commit: $short,
-    commit_url: $commit_url,
-    website: $website,
-    date: $date,
-    files_changed: ($files_changed|tonumber),
-    insertions: ($insertions|tonumber),
-    deletions: ($deletions|tonumber),
-    changed_files: $changed_files
-}] + .entries
+  ],
 
-| .generated_at = $date
-| .last_updated = $date
-| .statistics.total_entries += 1
-| .statistics.total_commits += 1
-| .statistics.last_commit = $short
-| .statistics.last_updated = $date
-| if .statistics.first_release == null
-    then .statistics.first_release = $date
-    else .
-  end
-| .statistics.latest_release = $date
-
-  #choice one also
-.entries |= [{
-    version: "development",
-    title: $title,
-    description: (
-      if $description == ""
-      then "Platform improvements and optimizations."
-      else $description
-      end
-    ),
-    author: $author,
-    repository: $repository,
-    repository_url: $repository_url,
-    branch: $branch,
-    commit: $sha,
-    short_commit: $short,
-    commit_url: $commit_url,
-    website: $website,
-    date: $date,
-    files_changed: ($files_changed | tonumber),
-    insertions: ($insertions | tonumber),
-    deletions: ($deletions | tonumber),
-    changed_files: $changed_files
-}] + .
-
-| .generated_at = $date
-| .last_updated = $date
-
-| .statistics.total_entries += 1
-| .statistics.total_commits += 1
-| .statistics.last_commit = $short
-| .statistics.last_updated = $date
-
-| if .statistics.first_release == null
-  then .statistics.first_release = $date
-  else .
-  end
-
-| .statistics.latest_release = $date
-
-}
-
+"entries": [
+  {
+    "version": "0.1.0",
+    "title": "Initial Release",
+    "description": "Initial release of SmartGen Docs with automated changelog support.",
+    "author": "Sayad Md Bayezid Hosan",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": null,
+    "short_commit": null,
+    "commit_url": null,
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": null,
+    "files_changed": 0,
+    "insertions": 0,
+    "deletions": 0,
+    "changed_files": [],
+    "release_type": "initial",
+    "status": "published"
+  }
+]
