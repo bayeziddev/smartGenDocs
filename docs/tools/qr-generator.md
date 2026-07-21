@@ -10,7 +10,7 @@ A QR (Quick Response) code is a two-dimensional barcode that can store various t
 
 ## 2. Key Features of SmartGen QR Code Generator
 
-The SmartGen QR Code Generator at [qr.genzfrontir.com](https://qr.genzfrontir.com) offers a robust set of features to meet your QR code needs:
+The SmartGen QR Code Generator at [SmartGen](https://smartgentools.com/qr-code-generator/) offers a robust set of features to meet your QR code needs:
 
 *   **Multiple Content Types**: Generate QR codes for URLs, plain text, email addresses, phone numbers, SMS messages, Wi-Fi credentials, vCards (contact information), and more.
 *   **Customization Options**: Personalize your QR codes with different colors, shapes, and even embed your logo for branding.
@@ -62,4 +62,4 @@ By leveraging the SmartGen QR Code Generator, you can create professional, funct
 *   [SmartGen Tools Overview](index.md)
 *   [SmartGen Platform](https://www.smartgentools.com) - Discover more tools from the SmartGen Platform.
 *   [SmartGen Docs Home](../../index.md)
-*   [QR Code Generator](https://qr.genzfrontir.com) - Access the SmartGen QR Code Generator directly.
+*   [QR Code Generator](https://smartgentools.com/qr-code-generator/) - Access the SmartGen QR Code Generator directly.
