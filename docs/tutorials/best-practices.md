@@ -1,8 +1,7 @@
----
 title: Best Practices - SmartGen Docs Documentation
 description: Discover best practices for writing, structuring, and maintaining high-quality documentation with SmartGen Docs. Learn about content organization, Markdown usage, consistency, and collaboration.
 keywords: SmartGen Docs best practices, documentation best practices, content organization, Markdown, consistency, collaboration, technical writing, maintainability
----
+
 
 # Best Practices for SmartGen Docs Documentation
 
