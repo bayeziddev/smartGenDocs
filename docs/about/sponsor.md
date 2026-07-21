@@ -1,9 +1,3 @@
----
-title: Sponsor SmartGen Docs - Support Our Open-Source Mission
-description: Support the development of SmartGen Docs by becoming a sponsor. Learn about various sponsorship options, including PayPal, Crypto, and Bank Transfers.
-keywords: SmartGen Docs sponsor, open source support, donate, PayPal, Crypto, USDT, Payoneer, bank transfer, sponsorship
----
-
 # Sponsor SmartGen Docs: Support Our Open-Source Mission
 
 SmartGen Docs is an open-source project that thrives on the support and contributions of its community. Your sponsorship helps us maintain the platform, develop new features, and ensure that high-quality documentation tools remain accessible to everyone. If you find value in SmartGen Docs, please consider supporting us through one of the following methods.
