@@ -1,143 +1,192 @@
-# Theming Guide
+---
+title: Theming Guide - Customizing SmartGen Docs Appearance
+description: Learn how to customize the visual appearance of your SmartGen Docs site. This guide covers theme selection, palette configuration, font choices, custom CSS/JavaScript, and advanced theming techniques.
+keywords: SmartGen Docs theming, custom themes, Jinja2 templates, CSS customization, theme palette, fonts, favicon, logo, dark mode, responsive design
+---
 
-The visual presentation of your documentation is crucial for user experience. SmartGen Docs provides flexible theming capabilities, allowing you to customize the look and feel of your site to match your brand or project aesthetics. This guide will walk you through how to select, configure, and extend themes using Jinja2 templates and CSS.
+# Theming Guide: Customizing Your SmartGen Docs Appearance
 
-## 1. Theme Selection
+The visual appeal and user experience of your documentation site are significantly influenced by its theme. SmartGen Docs offers powerful theming capabilities, allowing you to customize nearly every aspect of your site\'s appearance, from colors and fonts to layout and interactive elements.
 
-SmartGen Docs comes with built-in themes, typically `default` and `premium`. You select your theme in the `smartgen.yml` configuration file under the `theme` section:
+This guide will walk you through selecting a theme, configuring its various options, and implementing advanced customizations to create a documentation site that perfectly aligns with your brand and user needs.
+
+## 1. Theme Selection and Configuration
+
+The primary theme settings are defined within the `theme` section of your `smartgen.yml` file. SmartGen Docs typically provides a `default` theme and a more feature-rich `premium` theme.
+
+### Basic Theme Configuration
 
 ```yaml
 theme:
-  name: premium # Choose 'default' or 'premium'
+  name: premium # Choose \'default\' or \'premium\'
+  palette:
+    primary: "#0052cc" # Primary brand color
+    accent: "#ff9900" # Accent color for highlights
+  font:
+    text: Roboto # Font for general text
+    code: Roboto Mono # Font for code blocks
+  favicon: assets/favicon.png # Path to your favicon
+  logo: assets/logo.png # Path to your site logo
 ```
 
-*   **`default`**: A clean, basic theme that provides essential functionality.
-*   **`premium`**: An enhanced theme offering more advanced features like dark mode, improved navigation, and a modern design.
+*   **`name`**: Specifies which base theme to use. The `premium` theme often includes advanced features like built-in dark mode support and more sophisticated navigation options.
+*   **`palette`**: Defines the color scheme. You can set `primary` and `accent` colors using hexadecimal codes or CSS color names. These colors are used throughout the theme for elements like headers, links, and highlights.
+*   **`font`**: Allows you to specify custom fonts for both general text (`text`) and code blocks (`code`). You can use web-safe fonts or link to Google Fonts (which might require additional `extra_css` or `extra_javascript` to import).
+*   **`favicon`**: The path to your site\'s favicon, a small icon that appears in browser tabs and bookmarks.
+*   **`logo`**: The path to your site\'s logo image, typically displayed in the header of your documentation.
 
-## 2. Customizing with `palette`
+### Advanced Palette Configuration (Light/Dark Mode)
 
-The `premium` theme (and potentially others) allows for extensive color customization through the `palette` setting in `smartgen.yml`. This enables you to define color schemes for both light and dark modes.
+The `premium` theme often supports sophisticated light and dark mode switching. You can configure distinct palettes for each mode, allowing users to toggle between them based on their system preferences or a manual switch.
 
 ```yaml
 theme:
   name: premium
   palette:
-    - media: "(prefers-color-scheme: light)"
+    - media: "(prefers-color-scheme: light)" # Applies when system prefers light mode
       scheme: default
-      primary: deep purple # Primary color for light mode
-      accent: amber        # Accent color for light mode
+      primary: deep purple
+      accent: amber
       toggle:
-        icon: material/weather-sunny
-        name: Switch to dark mode
-    - media: "(prefers-color-scheme: dark)"
+        icon: material/weather-sunny # Icon for light mode
+        name: Switch to dark mode # Text for the toggle button
+    - media: "(prefers-color-scheme: dark)" # Applies when system prefers dark mode
       scheme: slate
-      primary: deep purple # Primary color for dark mode
-      accent: amber        # Accent color for dark mode
+      primary: deep purple
+      accent: amber
       toggle:
-        icon: material/weather-night
-        name: Switch to light mode
+        icon: material/weather-night # Icon for dark mode
+        name: Switch to light mode # Text for the toggle button
 ```
 
-*   **`media`**: Specifies the media query for when this palette should be active (e.g., `(prefers-color-scheme: light)` for light mode).
-*   **`scheme`**: A descriptive name for the color scheme.
-*   **`primary`**: The main color used for headers, primary buttons, and other prominent elements.
-*   **`accent`**: A secondary color used for highlights, links, and interactive elements.
-*   **`toggle`**: Configures the icon and text for the theme switcher button.
+This configuration enables automatic switching based on the user\'s operating system settings and provides a toggle button for manual control.
 
-## 3. Custom Fonts
+## 2. Customizing with `extra_css` and `extra_javascript`
 
-You can specify custom fonts for your documentation site using the `font` setting:
+For more granular control over your site\'s appearance and behavior, you can inject custom CSS and JavaScript files.
+
+### Adding Custom Styles (`extra_css`)
+
+Create a CSS file (e.g., `docs/stylesheets/extra.css`) and reference it in your `smartgen.yml`:
 
 ```yaml
 theme:
-  name: premium
-  font:
-    text: Roboto      # Font for general text
-    code: Roboto Mono # Font for code blocks
-```
-
-SmartGen Docs will attempt to load these fonts. For web fonts (like Google Fonts), ensure they are correctly linked or imported in your custom CSS.
-
-## 4. Adding Custom CSS and JavaScript
-
-For more advanced styling and interactive features, you can include your own CSS and JavaScript files. These are specified in the `extra_css` and `extra_javascript` sections:
-
-```yaml
-theme:
-  name: premium
+  # ... other theme settings ...
   extra_css:
     - stylesheets/extra.css
+```
+
+**`docs/stylesheets/extra.css` example:**
+
+```css
+/* Custom styles for SmartGen Docs */
+:root {
+  --md-primary-fg-color: #1a73e8; /* Override primary color */
+  --md-accent-fg-color: #e91e63; /* Override accent color */
+}
+
+.md-header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.md-content h1 {
+  border-bottom: 2px solid var(--md-primary-fg-color);
+  padding-bottom: 10px;
+}
+```
+
+This allows you to override existing theme styles or add entirely new ones without modifying the core theme files.
+
+### Adding Custom JavaScript (`extra_javascript`)
+
+Similarly, you can include custom JavaScript files (e.g., `docs/javascripts/extra.js`) for interactive features or third-party integrations:
+
+```yaml
+theme:
+  # ... other theme settings ...
   extra_javascript:
     - javascripts/extra.js
 ```
 
-*   **`extra_css`**: A list of paths to your custom CSS files. These files will be loaded after the theme's default CSS, allowing you to override styles.
-*   **`extra_javascript`**: A list of paths to your custom JavaScript files. These scripts will be loaded at the end of the `<body>`, making them suitable for adding interactive elements or custom behaviors.
+**`docs/javascripts/extra.js` example:**
 
-**Example `stylesheets/extra.css`:**
-
-```css
-/* Custom styles to override theme defaults */
-:root {
-  --md-primary-fg-color: #673ab7; /* Deep Purple */
-  --md-accent-fg-color: #ffc107; /* Amber */
-}
-
-.md-header {
-  box-shadow: 0 2px 4px rgba(0,0,0,.1);
-}
+```javascript
+// Custom JavaScript for SmartGen Docs
+document.addEventListener(\'DOMContentLoaded\', function() {
+  console.log(\'SmartGen Docs custom script loaded!\');
+  // Add custom functionality here, e.g., analytics, dynamic content loading
+});
 ```
 
-## 5. Overriding Theme Templates with `custom_dir`
+## 3. Overriding Theme Templates (`custom_dir`)
 
-For complete control over the theme's layout and structure, you can override individual Jinja2 templates. This is done by specifying a `custom_dir` in your `smartgen.yml`:
+For the most advanced customizations, you can override individual theme templates. This requires a deeper understanding of Jinja2 templating and the theme\'s file structure.
 
-```yaml
-theme:
-  name: default
-  custom_dir: smartgen_docs/themes/my_custom_theme
-```
+1.  **Create a custom directory**: Specify a `custom_dir` in your `smartgen.yml` (e.g., `smartgen_docs/themes/custom`).
 
-1.  **Create a Custom Directory**: Create a directory (e.g., `smartgen_docs/themes/my_custom_theme`) in your project.
-2.  **Copy Templates**: Copy the specific template files you wish to modify from the original theme's directory (e.g., `smartgen_docs/themes/default/base.html`) into your `custom_dir`.
-3.  **Make Changes**: Edit the copied template files. SmartGen Docs will prioritize templates found in `custom_dir` over the default theme's templates.
-
-This approach allows you to modify any part of the HTML structure, add new blocks, or change the rendering logic using Jinja2 syntax.
-
-## 6. Favicon and Logo
-
-You can easily set your site's favicon and logo:
-
-```yaml
+    ```yaml
 theme:
   name: premium
-  favicon: assets/favicon.png
-  logo: assets/logo.png
-```
+  custom_dir: smartgen_docs/themes/custom
+    ```
 
-*   **`favicon`**: Path to a `.png`, `.ico`, or `.svg` file that will be used as the site's favicon.
-*   **`logo`**: Path to an image file (e.g., `.png`, `.svg`) that will be displayed as the site logo in the header.
+2.  **Copy and modify templates**: Copy the specific template file you wish to modify from the base theme\'s directory (e.g., `smartgen_docs/themes/premium/main.html`) into your `custom_dir` (e.g., `smartgen_docs/themes/custom/main.html`).
 
-Ensure these assets are placed in a publicly accessible directory, typically `docs/assets/` or similar, and the paths are correct relative to your project root.
+3.  **Make your changes**: Edit the copied template file. SmartGen Docs will prioritize templates found in your `custom_dir` over the default theme files.
 
-## 7. Theme Features
+This method is powerful but should be used judiciously, as it can make theme updates more challenging. Always start with `extra_css` and `extra_javascript` for simpler customizations.
 
-The `features` setting allows you to enable or disable specific functionalities provided by the theme. These can greatly enhance the user experience.
+## 4. Theme Features
+
+Many themes, especially the `premium` theme, offer a variety of features that can be enabled or disabled in your `smartgen.yml`.
 
 ```yaml
 theme:
-  name: premium
+  # ...
   features:
-    - navigation.tabs       # Top-level navigation as tabs
-    - navigation.sections   # Collapsible sections in sidebar
-    - search.suggest        # Search suggestions as you type
-    - search.highlight      # Highlight search results on page
-    - toc.integrate         # Integrate table of contents into sidebar
-    - header.autohide       # Header hides on scroll down, reappears on scroll up
-    - content.tabs.link     # Allow linking directly to content tabs
-    - content.code.copy     # Add a copy button to code blocks
+    - navigation.tabs # Top-level navigation as tabs
+    - navigation.sections # Group pages into sections in the sidebar
+    - search.suggest # Autocomplete suggestions in search
+    - search.highlight # Highlight search terms in results
+    - toc.integrate # Integrate table of contents into the sidebar
+    - header.autohide # Hide header on scroll down, show on scroll up
+    - content.tabs.link # Linkable tabs within content
+    - content.code.copy # Copy button for code blocks
 ```
 
-Refer to the theme's documentation (or experiment) to understand the full range of available features and their impact on your site.
+Experiment with these features to find the best presentation for your documentation. Each feature enhances usability and navigation in different ways.
 
-By leveraging these theming options, you can create a highly customized and visually appealing documentation site with SmartGen Docs that perfectly aligns with your project's identity.
+## 5. Icons and Analytics
+
+### Custom Icons
+
+You can specify icons for various elements, such as your repository link, using Font Awesome icons.
+
+```yaml
+theme:
+  # ...
+  icon:
+    repo: fontawesome/brands/github # GitHub icon for repository link
+```
+
+### Analytics Integration
+
+Integrate web analytics services to track user engagement and site performance.
+
+```yaml
+theme:
+  # ...
+  analytics:
+    provider: google # e.g., \'google\'
+    property: G-XXXXXXXXXX # Your Google Analytics tracking ID
+```
+
+This will automatically inject the necessary tracking code into your site.
+
+By leveraging the extensive theming options in SmartGen Docs, you can create a highly polished, branded, and user-friendly documentation experience that stands out.
+
+## See Also
+
+*   [Configuration Guide](configuration.md)
+*   [SmartGen Docs GitHub Repository](https://github.com/bayeziddev/smartGenDocs)
+*   [SmartGen Platform](https://www.smartgentools.com) - Discover more tools from the SmartGen Platform.

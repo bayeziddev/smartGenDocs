@@ -1,158 +1,165 @@
-# Deployment Guide
+---
+title: Deployment Guide - Publishing Your SmartGen Docs Site
+description: A comprehensive guide to deploying your SmartGen Docs documentation site. Learn how to publish your static HTML output to various hosting platforms like GitHub Pages, Netlify, Vercel, and custom web servers.
+keywords: SmartGen Docs deployment, static site hosting, GitHub Pages, Netlify, Vercel, web server, continuous deployment, documentation publishing
+---
 
-Once you have created and configured your documentation site with SmartGen Docs, the next crucial step is to deploy it so that it is accessible to your users. Since SmartGen Docs generates a static website, deployment is generally straightforward and can be done on various hosting platforms. This guide will walk you through the common methods and best practices for deploying your SmartGen Docs site.
+# Deployment Guide: Publishing Your SmartGen Docs Site
 
-## 1. Understanding the `site/` Directory
+Once you have created and built your SmartGen Docs project, the next crucial step is to deploy it so that your audience can access your documentation. SmartGen Docs generates a static HTML website, which makes it incredibly flexible and easy to host on a wide variety of platforms.
 
-When you run the `smartgen-docs build` command, SmartGen Docs processes your Markdown files, `smartgen.yml` configuration, and theme templates to generate a complete static website. All the output files (HTML, CSS, JavaScript, images, etc.) are placed in the `site/` directory at the root of your project.
+This guide will walk you through the process of deploying your SmartGen Docs site to popular hosting services, as well as general instructions for custom web servers.
 
-This `site/` directory is what you need to upload to your web server or hosting provider. It is self-contained and does not require any server-side processing (like PHP, Node.js, or Python applications) to run.
+## 1. Building Your Documentation Site
 
-## 2. Deployment Methods
+Before deployment, you must build your documentation site. This process compiles your Markdown files, applies your theme, and generates all the necessary HTML, CSS, and JavaScript files into a `site/` directory (by default).
 
-There are several popular and efficient ways to deploy static websites. Choose the method that best suits your needs and existing infrastructure.
+Navigate to your project\'s root directory in your terminal and run:
 
-### A. GitHub Pages
+```bash
+smartgen-docs build --clean
+```
 
-**GitHub Pages** is a free and popular hosting service that publishes websites directly from a GitHub repository. It's an excellent choice for open-source projects and personal documentation.
+*   The `build` command generates the static site.
+*   The `--clean` flag ensures that the `site/` directory is cleared before a new build, preventing any old or stale files from being included.
 
-#### Steps:
+After a successful build, all the files ready for deployment will be located in the `site/` directory.
 
-1.  **Create a GitHub Repository**: If you haven't already, create a public GitHub repository for your SmartGen Docs project.
-2.  **Configure `smartgen.yml`**: Ensure your `site_url` in `smartgen.yml` is set correctly to your GitHub Pages URL (e.g., `https://username.github.io/repository-name/`).
-3.  **Build Your Site**: Run `smartgen-docs build` to generate the `site/` directory.
-4.  **Push to `gh-pages` Branch**: GitHub Pages typically serves from a `gh-pages` branch or the `docs/` folder on your `main` branch. The recommended approach for static site generators is to push the contents of your `site/` directory to a dedicated `gh-pages` branch.
+## 2. Deployment Options
+
+SmartGen Docs\' static output allows for numerous deployment strategies. Here are some of the most common and recommended options:
+
+### Option A: GitHub Pages (Recommended for Open Source Projects)
+
+GitHub Pages is a free hosting service provided by GitHub, ideal for hosting open-source project documentation directly from your repository. SmartGen Docs integrates seamlessly with GitHub Pages.
+
+#### Method 1: Using the `gh-pages` Branch
+
+This is the most common method. Your built site is pushed to a dedicated `gh-pages` branch.
+
+1.  **Install `gh-pages`**: If not already installed, you might need a tool to push your `site/` directory to a `gh-pages` branch. Many static site generators have built-in support or you can use a utility like `gh-pages` npm package or a custom script.
+
+    If SmartGen Docs has a built-in `deploy` command for GitHub Pages (check `smartgen-docs deploy --help`), use that. Otherwise, you can use a tool like `gh-pages` (Node.js package):
+
     ```bash
-    # Navigate into the built site directory
-    cd site
-    # Initialize a new Git repository (if not already done)
-    git init
-    # Add all files
-    git add .
-    # Commit changes
-    git commit -m "Deploy SmartGen Docs to GitHub Pages"
-    # Force push to the gh-pages branch (create if it doesn't exist)
-    git push -f https://github.com/YOUR_USERNAME/YOUR_REPOSITORY_NAME.git main:gh-pages
-    # Go back to your project root
-    cd ..
+    # Install gh-pages (if you have Node.js/npm)
+npm install --save-dev gh-pages
     ```
-5.  **Enable GitHub Pages**: In your GitHub repository settings, go to 
-"Pages" and select the `gh-pages` branch as your publishing source. Your site should be live shortly.
 
-### B. Netlify
+2.  **Configure `package.json` (if using `gh-pages` npm package)**:
 
-**Netlify** is a popular platform for hosting static sites, offering continuous deployment, global CDN, and custom domain support. It integrates directly with your Git repository.
+    Add a deploy script to your `package.json`:
 
-#### Steps:
+    ```json
+    {
+      "name": "my-smartgen-docs",
+      "version": "1.0.0",
+      "scripts": {
+        "deploy": "gh-pages -d site"
+      },
+      "devDependencies": {
+        "gh-pages": "^x.y.z"
+      }
+    }
+    ```
+
+3.  **Deploy**: After building your site, run the deploy script:
+
+    ```bash
+smartgen-docs build --clean
+npm run deploy
+    ```
+
+4.  **GitHub Repository Settings**: Go to your GitHub repository settings, navigate to the "Pages" section, and ensure that "Deploy from a branch" is selected, with `gh-pages` as the source branch and `/ (root)` as the folder.
+
+#### Method 2: Deploying from `main` (or `master`) Branch `/docs` Folder
+
+If you prefer to keep your documentation source and built output in the same branch, you can configure GitHub Pages to serve from the `/docs` folder of your `main` (or `master`) branch.
+
+1.  **Build to `docs`**: Modify your `smartgen-docs build` command or configuration to output to a `docs/` subdirectory within your project root (not `site/`). This might require a custom build script or a `smartgen.yml` setting if available.
+
+    *Note: SmartGen Docs typically builds to `site/`. You would need to copy the contents of `site/` to `docs/` before pushing, or configure SmartGen Docs to output directly to `docs/`.* For example:
+
+    ```bash
+smartgen-docs build --clean
+mkdir -p docs # Ensure docs directory exists
+cp -r site/* docs/
+git add docs/
+git commit -m "Update documentation"
+git push origin main
+    ```
+
+2.  **GitHub Repository Settings**: In your GitHub repository settings, go to the "Pages" section, select your `main` (or `master`) branch as the source, and choose `/docs` as the folder.
+
+### Option B: Netlify
+
+Netlify is an excellent platform for hosting static sites, offering continuous deployment, custom domains, and HTTPS out of the box.
 
 1.  **Connect to Git**: Sign up for Netlify and connect your GitHub (or GitLab/Bitbucket) repository.
-2.  **Configure Build Settings**: When prompted, configure your build settings:
-    *   **Build Command**: `smartgen-docs build`
-    *   **Publish Directory**: `site/`
-3.  **Deploy**: Netlify will automatically build and deploy your site every time you push changes to your repository. You can also configure custom domains and other features through the Netlify dashboard.
+2.  **Build Settings**: When prompted, configure your build settings:
+    *   **Build command**: `smartgen-docs build --clean`
+    *   **Publish directory**: `site`
+3.  **Deploy**: Netlify will automatically build and deploy your site every time you push changes to your connected branch.
 
-### C. Vercel
+### Option C: Vercel
 
-**Vercel** is another excellent platform for static sites and serverless functions, known for its developer experience and performance. It also offers continuous deployment from Git.
+Vercel is another popular platform for static sites and serverless functions, known for its ease of use and developer experience.
 
-#### Steps:
+1.  **Connect to Git**: Sign up for Vercel and connect your GitHub (or GitLab/Bitbucket) repository.
+2.  **Configure Project**: When importing your project, Vercel will usually auto-detect SmartGen Docs. If not, configure:
+    *   **Build Command**: `smartgen-docs build --clean`
+    *   **Output Directory**: `site`
+3.  **Deploy**: Vercel will automatically deploy your site on every push to your connected branch.
 
-1.  **Connect to Git**: Sign up for Vercel and import your Git repository.
-2.  **Configure Project**: Vercel will usually auto-detect your project. If not, configure:
-    *   **Build Command**: `smartgen-docs build`
-    *   **Output Directory**: `site/`
-3.  **Deploy**: Vercel will deploy your site on every push to your connected branch. You can manage domains, analytics, and more from the Vercel dashboard.
+### Option D: Custom Web Server (Nginx, Apache, etc.)
 
-### D. Amazon S3 / Google Cloud Storage
+For self-hosting, you can simply copy the contents of your `site/` directory to any web server.
 
-For more control or integration with existing cloud infrastructure, you can host your static site on object storage services like Amazon S3 or Google Cloud Storage.
+1.  **Build**: Run `smartgen-docs build --clean` to generate your static files.
+2.  **Copy Files**: Transfer the entire content of the `site/` directory to your web server\'s document root (e.g., `/var/www/html/` for Apache or Nginx).
 
-#### Steps:
+    ```bash
+    # Example using rsync for SSH deployment
+    rsync -avz --delete site/ user@your-server.com:/var/www/html/your-docs-path/
+    ```
 
-1.  **Build Your Site**: Run `smartgen-docs build` to generate the `site/` directory.
-2.  **Upload Files**: Use the respective cloud provider's CLI (e.g., `aws s3 sync` or `gsutil rsync`) or web console to upload the entire contents of your `site/` directory to a configured bucket.
-3.  **Configure Bucket for Static Hosting**: Enable static website hosting on your bucket and configure a custom domain if desired.
-4.  **CDN (Optional but Recommended)**: For better performance and security, integrate a Content Delivery Network (CDN) like Amazon CloudFront or Google Cloud CDN in front of your storage bucket.
+3.  **Configure Web Server**: Ensure your web server is configured to serve static files from the chosen directory. For example, an Nginx configuration might look like this:
 
-### E. Traditional Web Server (Nginx/Apache)
+    ```nginx
+    server {
+        listen 80;
+        server_name docs.yourdomain.com;
 
-You can also host your SmartGen Docs site on a traditional web server like Nginx or Apache.
+        root /var/www/html/your-docs-path;
+        index index.html;
 
-#### Steps:
-
-1.  **Build Your Site**: Run `smartgen-docs build` to generate the `site/` directory.
-2.  **Transfer Files**: Copy the entire `site/` directory to your web server's document root (e.g., `/var/www/html/your-docs/`).
-3.  **Configure Web Server**: Configure your web server to serve the files from this directory. Ensure proper MIME types are set and that `index.html` is recognized as the default file for directories.
-
-#### Example Nginx Configuration (Conceptual)
-
-```nginx
-server {
-    listen 80;
-    server_name docs.yourdomain.com;
-
-    root /var/www/html/your-docs/site;
-    index index.html index.htm;
-
-    location / {
-        try_files $uri $uri/ =404;
+        location / {
+            try_files $uri $uri/ =404;
+        }
     }
-}
-```
+    ```
 
 ## 3. Continuous Deployment (CI/CD)
 
-For automated deployments, especially in team environments, integrating SmartGen Docs into a Continuous Integration/Continuous Deployment (CI/CD) pipeline is highly recommended. Tools like GitHub Actions, GitLab CI/CD, or Jenkins can automate the build and deployment process whenever changes are pushed to your repository.
+For larger projects or teams, automating the build and deployment process with Continuous Integration/Continuous Deployment (CI/CD) is highly recommended. Platforms like GitHub Actions, GitLab CI/CD, or Jenkins can be configured to:
 
-#### Example GitHub Actions Workflow (Conceptual `main.yml`)
+1.  Listen for changes in your documentation repository.
+2.  Run `smartgen-docs build`.
+3.  Deploy the `site/` directory to your chosen hosting platform.
 
-```yaml
-name: Deploy SmartGen Docs to GitHub Pages
+This ensures that your documentation is always up-to-date with your latest changes without manual intervention.
 
-on:
-  push:
-    branches:
-      - main
+## Troubleshooting Deployment Issues
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+*   **Broken Links**: Ensure your `site_url` in `smartgen.yml` is correct and matches your deployed URL. Incorrect `site_url` can lead to broken absolute links.
+*   **Missing Files**: Verify that all necessary assets (images, CSS, JS) are present in your `site/` directory after building. Check your `smartgen.yml` for correct paths.
+*   **Build Errors**: Review the output of `smartgen-docs build` for any warnings or errors. Use `--verbose` for more detailed debugging information.
+*   **Cache Issues**: If changes aren\'t appearing, clear your browser cache or the cache of your CDN/hosting provider.
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.x'
+By following this guide, you can confidently deploy your SmartGen Docs site and make your valuable documentation accessible to the world.
 
-      - name: Install dependencies
-        run: pip install -r requirements.txt
+## See Also
 
-      - name: Build SmartGen Docs
-        run: smartgen-docs build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./site
-          publish_branch: gh-pages
-```
-
-This workflow will:
-
-1.  Checkout your repository.
-2.  Set up a Python environment.
-3.  Install the necessary Python dependencies.
-4.  Run `smartgen-docs build` to generate the static site.
-5.  Deploy the contents of the `site/` directory to the `gh-pages` branch of your repository.
-
-## Post-Deployment Considerations
-
-*   **Custom Domains**: Most hosting providers allow you to configure custom domains for your static site.
-*   **HTTPS**: Always ensure your deployed site uses HTTPS for security.
-*   **SEO**: Optimize your `smartgen.yml` metadata (`site_description`, `site_name`) and ensure your Markdown content is well-structured for search engines.
-*   **Monitoring**: Monitor your deployed site for uptime and performance.
-
-By following this guide, you can successfully deploy your SmartGen Docs site and make your documentation accessible to your audience.
+*   [Configuration Guide](configuration.md)
+*   [CLI Reference](cli.md)
+*   [SmartGen Platform](https://www.smartgentools.com) - Explore more tools from the SmartGen Platform.

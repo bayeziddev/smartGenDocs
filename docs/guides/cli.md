@@ -1,141 +1,149 @@
-# Command-Line Interface (CLI) Reference
+---
+title: CLI Reference - SmartGen Docs Command-Line Interface
+description: A comprehensive reference for the SmartGen Docs Command-Line Interface (CLI). Learn how to use CLI commands for project initialization, building, serving, and managing your documentation site.
+keywords: SmartGen Docs CLI, command-line interface, smartgen-docs, build, serve, init, deploy, documentation tools
+---
 
-The SmartGen Docs Command-Line Interface (CLI) is your primary tool for interacting with the documentation generator. It allows you to initialize new projects, build your documentation site, serve it locally for development, and perform various utility tasks. This guide provides a comprehensive overview of all available CLI commands and their usage.
+# CLI Reference: SmartGen Docs Command-Line Interface
 
-## Basic Usage
+The SmartGen Docs Command-Line Interface (CLI) is your primary tool for interacting with and managing your documentation projects. It provides a set of powerful commands to initialize new projects, build your documentation, serve it locally for development, and perform other essential tasks.
 
-All SmartGen Docs commands start with `smartgen-docs` followed by the specific command and its arguments or options.
+This guide provides a comprehensive reference for all available CLI commands, their options, and practical usage examples.
+
+## Installation
+
+Before using the CLI, ensure SmartGen Docs is installed. If you haven't already, you can install it via pip:
 
 ```bash
-smartgen-docs <command> [options]
+pip install smartgen-docs
 ```
 
-To get help for any command, you can use the `--help` flag:
+Once installed, the `smartgen-docs` command will be available in your terminal.
+
+## General Command Structure
+
+All SmartGen Docs CLI commands follow a similar structure:
 
 ```bash
-smartgen-docs --help
-smartgen-docs <command> --help
+smartgen-docs <command> [options] [arguments]
 ```
+
+*   **`<command>`**: The specific action you want to perform (e.g., `init`, `build`, `serve`).
+*   **`[options]`**: Optional flags that modify the behavior of the command (e.g., `--clean`, `--verbose`).
+*   **`[arguments]`**: Additional parameters required by the command (e.g., a project name).
 
 ## Available Commands
 
-### 1. `smartgen-docs init`
+### 1. `smartgen-docs init <project_name>`
 
-Initializes a new SmartGen Docs project in the current directory. This command sets up the basic directory structure and creates a default `smartgen.yml` configuration file.
-
-*   **Usage**: `smartgen-docs init`
-*   **Options**:
-    *   `--force`: Overwrite existing files if they conflict with the new project structure.
-
-#### Example
+Initializes a new SmartGen Docs project with a basic directory structure and a default `smartgen.yml` configuration file.
 
 ```bash
-# Initialize a new project
-smartgen-docs init
-
-# Initialize and overwrite existing files if any conflicts
-smartgen-docs init --force
+smartgen-docs init my-new-docs
 ```
+
+This command creates a new directory named `my-new-docs` (or whatever `project_name` you provide) and populates it with essential files, including:
+
+*   `smartgen.yml`: The main configuration file.
+*   `docs/`: Directory for your Markdown documentation files.
+*   `docs/index.md`: A sample home page.
+
+**Options:**
+
+*   `--template <template_name>`: Specify a custom template for initialization (e.g., `smartgen-docs init --template advanced my-advanced-docs`).
+*   `--force`: Overwrite existing files if the project directory is not empty.
 
 ### 2. `smartgen-docs build`
 
-Builds the static HTML documentation site from your Markdown source files and `smartgen.yml` configuration. The generated site will be placed in the `site/` directory.
-
-*   **Usage**: `smartgen-docs build`
-*   **Options**:
-    *   `--clean`: Remove the `site/` directory before building.
-    *   `--strict`: Treat warnings as errors.
-    *   `--verbose`: Enable verbose output.
-
-#### Example
+Builds your documentation project into a static HTML website. The generated files are placed in the `site/` directory by default.
 
 ```bash
-# Build the documentation site
 smartgen-docs build
-
-# Clean the site directory and then build
-smartgen-docs build --clean
 ```
+
+This command processes all your Markdown files, applies the chosen theme, generates navigation, and creates a complete static site ready for deployment.
+
+**Options:**
+
+*   `--clean`: Remove the `site/` directory before building to ensure a fresh build.
+*   `--strict`: Treat warnings as errors, causing the build to fail if any issues are detected.
+*   `--verbose`: Output more detailed information during the build process.
+*   `--config <path_to_config>`: Specify an alternative `smartgen.yml` file.
+*   `--theme <theme_name>`: Override the theme specified in `smartgen.yml`.
 
 ### 3. `smartgen-docs serve`
 
-Starts a local development server with live reloading. This allows you to preview your documentation in real-time as you make changes to your Markdown files or `smartgen.yml`.
-
-*   **Usage**: `smartgen-docs serve`
-*   **Options**:
-    *   `--host <address>`: Specify the host address for the server (default: `127.0.0.1`).
-    *   `--port <port>`: Specify the port for the server (default: `8000`).
-    *   `--livereload-port <port>`: Specify the port for the live reload server (default: `8001`).
-    *   `--dev-addr <address:port>`: Shorthand for `--host` and `--port`.
-
-#### Example
+Starts a local development server to preview your documentation site in real-time. This command automatically rebuilds and reloads your browser whenever you make changes to your Markdown files or `smartgen.yml`.
 
 ```bash
-# Start the development server on default host and port
 smartgen-docs serve
-
-# Start the server on a specific port
-smartgen-docs serve --port 8080
-
-# Start the server on a specific address and port
-smartgen-docs serve --dev-addr 0.0.0.0:8000
 ```
 
-### 4. `smartgen-docs scaffold`
+By default, the server runs on `http://127.0.0.1:8000`. Open this URL in your web browser to view your documentation.
 
-Automatically generates missing Markdown files and directories based on the navigation structure defined in your `smartgen.yml` file. This helps ensure that all pages listed in your navigation have corresponding content files.
+**Options:**
 
-*   **Usage**: `smartgen-docs scaffold`
+*   `--host <address>`: Specify the host address (e.g., `0.0.0.0` to make it accessible from other devices on your network).
+*   `--port <port_number>`: Specify a different port (e.g., `smartgen-docs serve --port 8080`).
+*   `--dev-addr <address:port>`: Equivalent to `--host` and `--port` combined.
+*   `--livereload-ignore <pattern>`: Ignore specific files or directories from live reloading.
 
-#### Example
+### 4. `smartgen-docs deploy`
+
+Deploys your built documentation site to a hosting service. The exact behavior of this command depends on configured plugins or deployment scripts.
 
 ```bash
-# Scaffold missing documentation files
-smartgen-docs scaffold
+smartgen-docs deploy
 ```
 
-### 5. `smartgen-docs autodoc`
+Typically, this command is used in conjunction with a `gh-pages` plugin for GitHub Pages deployment or custom scripts for other platforms.
 
-Generates API reference documentation from Python docstrings. This command scans your specified Python source directories and creates Markdown files with API documentation, which can then be included in your site.
+**Options:**
 
-*   **Usage**: `smartgen-docs autodoc [options]`
-*   **Options**:
-    *   `--source-dir <path>`: The directory containing your Python source code (default: `smartgen_docs`).
-    *   `--output-dir <path>`: The directory where generated Markdown files will be saved (default: `docs/api/modules`).
-    *   `--exclude <pattern>`: A glob pattern to exclude files or directories from processing (can be used multiple times).
+*   `--message <commit_message>`: Specify a custom commit message for deployment (e.g., for Git-based deployments).
 
-#### Example
+### 5. `smartgen-docs new <path/to/page.md>`
+
+Creates a new Markdown page with a predefined template and adds it to your navigation (if configured to do so by a scaffolding plugin).
 
 ```bash
-# Generate API documentation from smartgen_docs directory
-smartgen-docs autodoc
-
-# Generate API documentation from a specific source and output directory
-smartgen-docs autodoc --source-dir my_project/src --output-dir docs/reference
-
-# Generate API documentation excluding a specific file
-smartgen-docs autodoc --exclude "smartgen_docs/cli.py"
+smartgen-docs new docs/guides/my-new-guide.md
 ```
 
-### 6. `smartgen-docs render-changelog`
+This command helps maintain consistency in your documentation structure and can pre-fill front matter.
 
-Renders a JSON changelog file into a Markdown formatted changelog page. This command is useful for maintaining an up-to-date and easily readable changelog within your documentation.
+### 6. `smartgen-docs upload`
 
-*   **Usage**: `smartgen-docs render-changelog [options]`
-*   **Options**:
-    *   `--json-path <path>`: The path to your JSON changelog file (default: `data/changelog.json`).
-    *   `--output <path>`: The path where the Markdown changelog will be saved (default: `docs/docs/changelog.md`).
-
-#### Example
+Launches the web-based Upload Manager, allowing you to easily upload assets (images, files) to your documentation project.
 
 ```bash
-# Render the default changelog.json to Markdown
-smartgen-docs render-changelog
-
-# Render a custom changelog file to a specific output path
-smartgen-docs render-changelog --json-path my_project/changelog.json --output docs/updates/project_changelog.md
+smartgen-docs upload
 ```
 
-## Next Steps
+This command is useful for managing media files without directly interacting with the file system.
 
-For more detailed information on specific plugins and their configurations, refer to the [Autodoc Guide](autodoc.md) and the [Configuration Guide](configuration.md).
+## Getting Help
+
+For a quick overview of any command and its options, use the `--help` flag:
+
+```bash
+smartgen-docs --help
+smartgen-docs build --help
+```
+
+This will display detailed usage information directly in your terminal.
+
+## Best Practices for CLI Usage
+
+*   **Work in your project root**: Always run `smartgen-docs` commands from the root directory of your documentation project (where `smartgen.yml` is located).
+*   **Use `serve` for development**: Leverage the `smartgen-docs serve` command for real-time feedback during content creation.
+*   **Clean builds**: Use `smartgen-docs build --clean` before deploying to ensure no stale files are included.
+*   **Version Control**: Keep your entire documentation project, including `smartgen.yml` and all Markdown files, under version control (e.g., Git).
+
+By mastering the SmartGen Docs CLI, you can efficiently manage your documentation workflow, from initial setup to deployment and ongoing maintenance.
+
+## See Also
+
+*   [Configuration Guide](configuration.md)
+*   [Deployment Guide](deployment.md)
+*   [SmartGen Platform](https://www.smartgentools.com) - Explore other tools from the SmartGen Platform.
