@@ -1,9 +1,3 @@
----
-title: Theming Guide - Customizing SmartGen Docs Appearance
-description: Learn how to customize the visual appearance of your SmartGen Docs site. This guide covers theme selection, palette configuration, font choices, custom CSS/JavaScript, and advanced theming techniques.
-keywords: SmartGen Docs theming, custom themes, Jinja2 templates, CSS customization, theme palette, fonts, favicon, logo, dark mode, responsive design
----
-
 # Theming Guide: Customizing Your SmartGen Docs Appearance
 
 The visual appeal and user experience of your documentation site are significantly influenced by its theme. SmartGen Docs offers powerful theming capabilities, allowing you to customize nearly every aspect of your site\'s appearance, from colors and fonts to layout and interactive elements.
