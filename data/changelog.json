@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update case-studies.md",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "ce8e420c6e256b9ee47febf32382836d87681541",
+    "short_commit": "ce8e420",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/ce8e420c6e256b9ee47febf32382836d87681541",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T00:06:13+06:00",
+    "files_changed": 1,
+    "insertions": 1,
+    "deletions": 2,
+    "changed_files": [
+      "docs/tutorials/case-studies.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update ai.md",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
