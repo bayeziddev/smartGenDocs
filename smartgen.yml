@@ -34,8 +34,8 @@ copyright: Copyright &copy; 2026 Sayad Md Bayezid Hosan
 theme:
   name: premium
   palette:
-    primary: "#0052cc"
-    accent: "#ff9900"
+    primary: "#4A3AE3"
+    accent: "#C2660D"
   font:
     text: Roboto
     code: Roboto Mono
