@@ -1,8 +1,7 @@
----
 title: SmartGen Docs Tutorials - Step-by-Step Guides for Documentation
 description: Explore step-by-step tutorials for SmartGen Docs, covering beginner guides, API usage, integrations, best practices, and real-world case studies. Learn to build and manage your documentation effectively.
 keywords: SmartGen Docs tutorials, documentation guides, beginner tutorials, API tutorials, integration guides, best practices, case studies, technical documentation, how-to guides
----
+
 
 # SmartGen Docs Tutorials: Learn by Doing
 
