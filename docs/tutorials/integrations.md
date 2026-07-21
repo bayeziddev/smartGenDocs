@@ -1,8 +1,3 @@
-title: Integration Guides - Connecting SmartGen Docs with Other Tools
-description: Learn how to integrate SmartGen Docs with various external tools and services to enhance your documentation workflow. This guide covers CI/CD, analytics, search, and more.
-keywords: SmartGen Docs integrations, CI/CD, analytics, search, webhooks, external tools, documentation workflow, continuous deployment
-
-
 # Integration Guides: Connecting SmartGen Docs with Other Tools
 
 SmartGen Docs is designed to be a flexible and extensible documentation platform. While it provides core functionalities for generating static sites, its true power can be unlocked by integrating it with other tools and services. These integrations can streamline your workflow, enhance user experience, and provide valuable insights into your documentation usage.
