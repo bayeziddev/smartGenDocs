@@ -1,8 +1,3 @@
-title: Beginner Guides - Getting Started with SmartGen Docs
-description: A step-by-step beginner's guide to SmartGen Docs. Learn how to install, set up your first project, understand the folder structure, and write your first Markdown documentation page.
-keywords: SmartGen Docs beginner, getting started, installation, first project, folder structure, Markdown documentation, static site generator
-
-
 # Beginner Guides: Your First Steps with SmartGen Docs
 
 Welcome to SmartGen Docs! This section is designed for newcomers, providing a gentle introduction and step-by-step instructions to get your first documentation site up and running. By the end of these guides, you'll have a foundational understanding of SmartGen Docs and be ready to create your own comprehensive project documentation.
