@@ -47,7 +47,7 @@ This will replace your current installation with the newest available version, e
 
 ## Next Steps
 
-Once SmartGen Docs is installed, you are ready to create your first documentation project. Proceed to the [Quick Start Guide](quick-start.md) to learn how to initialize and serve your documentation locally.
+Once SmartGen Docs is installed, you are ready to create your first documentation project. Proceed to the [Quick Start Guide](docs/getting-started/quick-start.md) to learn how to initialize and serve your documentation locally.
 
 ## Troubleshooting
 
