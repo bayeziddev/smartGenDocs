@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update ai.md",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "aa85f3f399292c387d7ce0cf665493fc23f3e96d",
+    "short_commit": "aa85f3f",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/aa85f3f399292c387d7ce0cf665493fc23f3e96d",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T00:03:42+06:00",
+    "files_changed": 1,
+    "insertions": 0,
+    "deletions": 2,
+    "changed_files": [
+      "docs/tools/ai.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update marketing.md",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
