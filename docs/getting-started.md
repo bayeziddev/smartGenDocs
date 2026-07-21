@@ -1,4 +1,3 @@
-File : getting-started.md
 # Getting Started with SmartGen Docs
 Welcome to the **SmartGen Docs** ecosystem. This guide will walk you through the essential steps to initialize your project, structure your documentation, and deploy your site to the web.
 ## 1. Installation
@@ -53,4 +52,4 @@ smartgen-docs build
 
 ```
 This command generates your site into the **site/** folder. Your GitHub Actions workflow will automatically pick up these files and deploy them to your GitHub Pages site.
-*For advanced configurations, API generation, or managing your files via the web interface, refer to the GUIDELINES.md file in your project root.*
+*For advanced configurations, API generation, or managing your files via the web interface, refer to the [GUIDELINES.md](GUIDELINES.md)file in your project root.*
