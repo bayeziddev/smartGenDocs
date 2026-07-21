@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Create sitemap.xml",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "30fb54555207e7e94d4b277b45c798da10d6970e",
+    "short_commit": "30fb545",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/30fb54555207e7e94d4b277b45c798da10d6970e",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T03:04:38+06:00",
+    "files_changed": 1,
+    "insertions": 148,
+    "deletions": 0,
+    "changed_files": [
+      "sitemap.xml"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update sponsor.md",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
