@@ -1,8 +1,3 @@
-title: API Tutorials - Integrating and Documenting APIs with SmartGen Docs
-description: Learn how to effectively integrate and document APIs within your SmartGen Docs project. This tutorial covers API reference generation, best practices for API documentation, and examples.
-keywords: SmartGen Docs API tutorials, API documentation, API reference, REST API, webhooks, authentication, API endpoints, technical writing
-
-
 # API Tutorials: Integrating and Documenting APIs
 
 APIs (Application Programming Interfaces) are the backbone of modern software, enabling different systems to communicate and share data. Documenting your APIs clearly and comprehensively is crucial for developers who need to integrate with your services. SmartGen Docs provides robust features to help you create professional and user-friendly API documentation.
