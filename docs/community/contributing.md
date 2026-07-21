@@ -1,9 +1,3 @@
----
-title: Contributing to SmartGen Docs - How to Get Involved
-description: A guide on how to contribute to the SmartGen Docs open-source project. Learn about code contributions, documentation improvements, bug reporting, feature requests, and community engagement.
-keywords: SmartGen Docs contribution, open source contribution, contributing guide, code contribution, documentation contribution, bug report, feature request, pull request, community guidelines
----
-
 # Contributing to SmartGen Docs: How to Get Involved
 
 SmartGen Docs is an open-source project, and its growth and success are driven by the valuable contributions of its community. We welcome and encourage everyone, regardless of their experience level, to get involved and help us make SmartGen Docs the best documentation platform possible. Your contributions can range from reporting bugs and suggesting new features to improving documentation and writing code.
