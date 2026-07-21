@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update marketing.md",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "fecd4e4a5e7f6604c5bf63b663b23808e6815106",
+    "short_commit": "fecd4e4",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/fecd4e4a5e7f6604c5bf63b663b23808e6815106",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T00:01:40+06:00",
+    "files_changed": 1,
+    "insertions": 1,
+    "deletions": 2,
+    "changed_files": [
+      "docs/tools/marketing.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update qr-generator.md",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
