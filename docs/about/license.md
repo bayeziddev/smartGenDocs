@@ -1,9 +1,3 @@
-
-title: License Information - SmartGen Docs Open-Source Project
-description: Details about the open-source license governing SmartGen Docs. Understand your rights and obligations regarding the use, modification, and distribution of this project.
-keywords: SmartGen Docs license, open source license, MIT license, Apache 2.0 license, GNU GPL, copyright, terms of use, legal information
-
-
 # License Information: SmartGen Docs Open-Source Project
 
 SmartGen Docs is an open-source project, and its source code is made available under a permissive license to encourage broad adoption, collaboration, and innovation. This section provides details about the license under which SmartGen Docs is distributed, outlining your rights and obligations when using, modifying, and distributing the software.
