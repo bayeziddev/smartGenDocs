@@ -1,6 +1,6 @@
 # Sponsor SmartGen Docs
 
-SmartGen Docs is built and maintained independently. If it's saved you time, sponsoring keeps development going — new features, bug fixes, and the roadmap items tracked on the [Roadmap](/resources/roadmap.html) page.
+SmartGen Docs is built and maintained independently. If it's saved you time, sponsoring keeps development going — new features, bug fixes, and the roadmap items tracked on the [Roadmap](docs/resources/roadmap.html) page.
 
 ## Ways to Support
 
