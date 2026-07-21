@@ -1,9 +1,3 @@
----
-title: Contact Us - Get in Touch with the SmartGen Docs Team
-description: Find out how to contact the SmartGen Docs team for support, general inquiries, partnerships, or media requests. Explore our various communication channels.
-keywords: SmartGen Docs contact, support, general inquiry, partnership, media request, community, email, GitHub, WhatsApp
----
-
 # Contact Us: Get in Touch with the SmartGen Docs Team
 
 We value your feedback, questions, and collaboration. Whether you need support, have a business inquiry, or want to explore partnership opportunities, there are several ways to get in touch with the SmartGen Docs team.
