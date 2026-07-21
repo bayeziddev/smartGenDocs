@@ -1,9 +1,3 @@
----
-title: SEO Optimization Guide - SmartGen Docs
-description: Learn how to optimize your SmartGen Docs documentation site for search engines (SEO). Discover best practices for metadata, sitemaps, URLs, and content structure to improve visibility.
-keywords: SmartGen Docs SEO, search engine optimization, documentation SEO, metadata, sitemap, canonical URLs, open graph, twitter cards
----
-
 # SEO Optimization Guide
 
 Search Engine Optimization (SEO) is crucial for ensuring that your documentation is easily discoverable by users searching for solutions online. SmartGen Docs provides several built-in features and best practices to help you optimize your documentation site for search engines like Google, Bing, and DuckDuckGo.
