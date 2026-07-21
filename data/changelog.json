@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Create robots.txt",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "564f8e9b6f5af9a908e90e2a3d3277e862141990",
+    "short_commit": "564f8e9",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/564f8e9b6f5af9a908e90e2a3d3277e862141990",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T03:09:19+06:00",
+    "files_changed": 1,
+    "insertions": 14,
+    "deletions": 0,
+    "changed_files": [
+      "robots.txt"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update sitemap.xml",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
