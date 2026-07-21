@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update roadmap.md",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "edcd4acd9d82a26cfffd510e7ce2fc1422fee6d6",
+    "short_commit": "edcd4ac",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/edcd4acd9d82a26cfffd510e7ce2fc1422fee6d6",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T00:38:21+06:00",
+    "files_changed": 1,
+    "insertions": 16,
+    "deletions": 15,
+    "changed_files": [
+      "docs/resources/roadmap.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update premium.css",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
