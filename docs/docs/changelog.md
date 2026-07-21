@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-07-21 - Add CNAME for custom domain
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `1` new additions and `0` deletions.
+
+- **👤 Author:** bayeziddev
+- **🔗 Commit:** [118d39a](https://github.com/bayeziddev/smartGenDocs/commit/118d39a55fd956f324dc248fa5f27e3eda6a55a6)
+- **🔍 SEO Keywords:** `cname`, `custom`, `domain`, `automated`, `system`
+- **💡 System Note:** Automated system analysis indicates architectural modifications primarily affecting `CNAME`. These changes were implemented to enhance backend logic, stability, and processing workflows.
+
+---
+
 ## 🚀 2026-07-21 - Theme, UI & Frontend Template Adjustments
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `0` new additions and `1` deletions.
