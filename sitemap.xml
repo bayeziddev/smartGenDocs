@@ -5,7 +5,11 @@
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <url>
+    <url>
+    <loc>https://docs.smartgentools.com/about/developer.html</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
     <loc>https://docs.smartgentools.com/getting-started/index.html</loc>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
