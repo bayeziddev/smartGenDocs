@@ -1,9 +1,3 @@
----
-title: SmartGen Docs Guides - Comprehensive Documentation for Your Projects
-description: Explore in-depth guides for SmartGen Docs, covering configuration, theming, CLI usage, autodoc, deployment, customization, security, performance, SEO, accessibility, and troubleshooting. Master SmartGen Docs for efficient and professional documentation.
-keywords: SmartGen Docs guides, documentation, configuration, theming, CLI, autodoc, deployment, customization, security, performance, SEO, accessibility, troubleshooting, technical writing, open source
----
-
 # SmartGen Docs Guides: Your Path to Mastering Documentation
 
 Welcome to the **Guides** section of SmartGen Docs, your essential resource for building, customizing, and deploying exceptional project documentation. This section provides a comprehensive collection of practical, step-by-step instructions, in-depth explanations, and best practices designed to empower you at every stage of your documentation journey.
