@@ -1,9 +1,3 @@
----
-title: SmartGen Docs Community - Engage, Contribute, and Collaborate
-description: Join the SmartGen Docs community to engage with other users, contribute to the project, find support, and collaborate on improving documentation practices. Discover forums, issues, and feature requests.
-keywords: SmartGen Docs community, open source, contribution, collaboration, support, forums, issues, feature requests, documentation community
----
-
 # SmartGen Docs Community: Engage, Contribute, and Collaborate
 
 Welcome to the **SmartGen Docs Community**! This is the heart of our open-source project, where users, contributors, and enthusiasts come together to share knowledge, seek support, report issues, and collaborate on making SmartGen Docs even better. Our community thrives on active participation and mutual assistance, fostering an environment of continuous improvement and innovation.
