@@ -1,9 +1,3 @@
----
-title: Discussions and Support - SmartGen Docs Community
-description: Find support, ask questions, and engage in discussions within the SmartGen Docs community. Learn about official forums, chat channels, and how to get help from maintainers and fellow users.
-keywords: SmartGen Docs discussions, community support, technical help, forums, chat, Q&A, troubleshooting, open source support
----
-
 # Discussions and Support: Engaging with the SmartGen Docs Community
 
 One of the greatest strengths of an open-source project like SmartGen Docs is its community. This section is dedicated to guiding you on how to effectively engage in discussions, ask for support, and find solutions to your questions within the SmartGen Docs ecosystem. Whether you're facing a technical challenge, have a general inquiry, or want to share your insights, there are several avenues available to you.
