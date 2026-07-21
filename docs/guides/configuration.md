@@ -1,9 +1,3 @@
----
-title: Configuration Guide - SmartGen Docs
-description: A comprehensive guide to configuring your SmartGen Docs project using smartgen.yml. Learn about site metadata, theme settings, navigation structure, plugins, and extra variables for optimal documentation.
-keywords: SmartGen Docs configuration, smartgen.yml, site metadata, theme configuration, navigation, plugins, extra variables, documentation setup, project settings
----
-
 # Configuration Guide: Mastering `smartgen.yml`
 
 The `smartgen.yml` file is the central configuration hub for your SmartGen Docs project. It defines everything from your site's metadata and navigation structure to its visual theme and various build settings. A well-structured and thoughtfully configured `smartgen.yml` is crucial for creating a functional, user-friendly, and SEO-optimized documentation site.
