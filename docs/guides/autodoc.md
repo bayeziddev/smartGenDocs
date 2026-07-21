@@ -1,9 +1,3 @@
----
-title: Autodoc Guide - Automated API Documentation with SmartGen Docs
-description: Learn how to automatically generate API reference documentation from your Python code using the Autodoc feature in SmartGen Docs. This guide covers configuration, usage, and best practices for integrating code documentation.
-keywords: SmartGen Docs autodoc, automated documentation, API reference, Python documentation, docstrings, Sphinx, technical writing, code documentation
----
-
 # Autodoc Guide: Automated API Documentation
 
 Maintaining up-to-date API reference documentation can be a time-consuming task, especially for projects with rapidly evolving codebases. SmartGen Docs simplifies this process with its powerful **Autodoc** feature, allowing you to automatically generate API documentation directly from your Python source code docstrings.
