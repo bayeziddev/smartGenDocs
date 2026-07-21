@@ -1,9 +1,3 @@
----
-title: Deployment Guide - Publishing Your SmartGen Docs Site
-description: A comprehensive guide to deploying your SmartGen Docs documentation site. Learn how to publish your static HTML output to various hosting platforms like GitHub Pages, Netlify, Vercel, and custom web servers.
-keywords: SmartGen Docs deployment, static site hosting, GitHub Pages, Netlify, Vercel, web server, continuous deployment, documentation publishing
----
-
 # Deployment Guide: Publishing Your SmartGen Docs Site
 
 Once you have created and built your SmartGen Docs project, the next crucial step is to deploy it so that your audience can access your documentation. SmartGen Docs generates a static HTML website, which makes it incredibly flexible and easy to host on a wide variety of platforms.
