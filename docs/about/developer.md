@@ -1,9 +1,3 @@
----
-title: Meet the Developer - The Visionary Behind SmartGen Docs
-description: Learn about Sayad Md Bayezid Hosan, the developer and visionary behind SmartGen Docs. Discover his mission and commitment to open-source documentation.
-keywords: SmartGen Docs developer, Sayad Md Bayezid Hosan, bayeziddev, open source, technical team, project lead
----
-
 # Meet the Developer: The Visionary Behind SmartGen Docs
 
 SmartGen Docs is the creation of **Sayad Md Bayezid Hosan**, a passionate developer and visionary dedicated to simplifying technical documentation for everyone. This project reflects his commitment to the open-source community and his desire to provide tools that empower developers and creators worldwide.
