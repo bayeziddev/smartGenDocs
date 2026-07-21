@@ -1,3 +1,4 @@
+cat > /home/claude/docsbuild/smartgen_docs/themes/default/static/css/premium.css << 'CSSEOF'
 /* ============================================================
    SmartGen Docs — Original Theme (v2)
    Hand-built design system. No third-party CSS frameworks,
@@ -373,3 +374,9 @@ body.dark-mode .codehilite .mi, body.dark-mode .codehilite .mf, body.dark-mode .
     .content { padding: 1.25rem 1rem 2.5rem; }
     .markdown-body pre { padding: .8rem; }
 }
+CSSEOF
+echo "written, checking braces:"
+python3 -c "
+css = open('/home/claude/docsbuild/smartgen_docs/themes/default/static/css/premium.css').read()
+print(css.count('{'), css.count('}'))
+"
