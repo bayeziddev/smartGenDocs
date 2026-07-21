@@ -1,9 +1,3 @@
----
-title: Reporting Issues - SmartGen Docs Bug Reports and Feature Requests
-description: Learn how to effectively report bugs and submit feature requests for SmartGen Docs. This guide covers best practices for clear communication, providing necessary details, and tracking issue progress.
-keywords: SmartGen Docs issues, bug report, feature request, issue tracking, GitHub issues, open source bug reporting, enhancement request
----
-
 # Reporting Issues: Bug Reports and Feature Requests for SmartGen Docs
 
 Your feedback is invaluable to the SmartGen Docs project. Reporting issues, whether they are bugs you've encountered or ideas for new features, helps us improve the platform for everyone. This guide will walk you through the process of effectively reporting issues on our GitHub repository, ensuring your feedback is clear, actionable, and can be addressed efficiently.
