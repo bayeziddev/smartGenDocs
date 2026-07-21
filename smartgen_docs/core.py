@@ -52,6 +52,24 @@ class Builder:
             shutil.rmtree(self.site_dir)
         os.makedirs(self.site_dir)
 
+        # Tell GitHub Pages not to run its own Jekyll build over this output.
+        # Without this, GitHub Pages can silently fall back to auto-generating
+        # a Jekyll site from README.md whenever the Pages source is set to
+        # "Deploy from a branch" instead of "GitHub Actions".
+        with open(os.path.join(self.site_dir, '.nojekyll'), 'w') as f:
+            pass
+
+        # Persist the custom domain across every deploy. Without this file in
+        # the build artifact, an Actions-based Pages deployment can silently
+        # drop a custom domain that was only ever set through the repo's
+        # Settings UI.
+        site_url = self.config.get('site_url', '')
+        if site_url:
+            domain = site_url.replace('https://', '').replace('http://', '').split('/')[0]
+            if domain and '.' in domain and 'github.io' not in domain:
+                with open(os.path.join(self.site_dir, 'CNAME'), 'w') as f:
+                    f.write(domain)
+
         # Copy static assets
         static_src = os.path.join(self.theme_dir, 'static')
         static_dst = os.path.join(self.site_dir, 'static')
