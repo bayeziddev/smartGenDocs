@@ -1,4 +1,3 @@
-cat > /home/claude/docsbuild/smartgen_docs/themes/default/static/css/premium.css << 'CSSEOF'
 /* ============================================================
    SmartGen Docs — Original Theme (v2)
    Hand-built design system. No third-party CSS frameworks,
@@ -304,7 +303,7 @@ body.dark-mode #theme-toggle .icon-sun { display: block; }
 .markdown-body .codehilite { position: relative; margin-bottom: 1.4rem; }
 .markdown-body .codehilite pre { margin-bottom: 0; }
 .copy-code-btn {
-    position: absolute; top: .6rem; right: .6rem; display: flex; align-items: center; gap: .3rem;
+    position: absolute; top: .6rem; right: .6rem; display: inline-flex; align-items: center; gap: .3rem; z-index: 2;
     background: var(--bg-primary); border: 1px solid var(--border-color); border-radius: var(--radius-sm);
     color: var(--text-secondary); font-size: .72rem; padding: .3rem .55rem; cursor: pointer; opacity: 0;
     transition: opacity var(--transition-fast), color var(--transition-fast);
@@ -374,9 +373,3 @@ body.dark-mode .codehilite .mi, body.dark-mode .codehilite .mf, body.dark-mode .
     .content { padding: 1.25rem 1rem 2.5rem; }
     .markdown-body pre { padding: .8rem; }
 }
-CSSEOF
-echo "written, checking braces:"
-python3 -c "
-css = open('/home/claude/docsbuild/smartgen_docs/themes/default/static/css/premium.css').read()
-print(css.count('{'), css.count('}'))
-"
