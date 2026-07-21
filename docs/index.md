@@ -18,7 +18,7 @@ SmartGen Docs is a lightweight, open-source static site generator. It transforms
 
 ## Get Started in Seconds
 
-If you are new to the platform, check out our **[Getting Started](getting-started.md)** guide to initialize your first project.
+If you are new to the platform, check out our **[Getting Started](https://github.com/bayeziddev/smartGenDocs/blob/main/docs/getting-started.md)** guide to initialize your first project.
 
 ### Quick Commands
 
