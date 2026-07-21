@@ -1,9 +1,3 @@
----
-title: CLI Reference - SmartGen Docs Command-Line Interface
-description: A comprehensive reference for the SmartGen Docs Command-Line Interface (CLI). Learn how to use CLI commands for project initialization, building, serving, and managing your documentation site.
-keywords: SmartGen Docs CLI, command-line interface, smartgen-docs, build, serve, init, deploy, documentation tools
----
-
 # CLI Reference: SmartGen Docs Command-Line Interface
 
 The SmartGen Docs Command-Line Interface (CLI) is your primary tool for interacting with and managing your documentation projects. It provides a set of powerful commands to initialize new projects, build your documentation, serve it locally for development, and perform other essential tasks.
