@@ -1,9 +1,3 @@
----
-title: SEO Tools - Optimize Your Website with SmartGen
-description: Explore the suite of SEO tools offered by SmartGen to improve your website's search engine ranking, analyze keywords, monitor backlinks, and optimize content for better visibility.
-keywords: SmartGen SEO tools, search engine optimization, keyword research, backlink analysis, site audit, content optimization, rank tracking, SEO analytics
----
-
 # SEO Tools: Elevate Your Search Engine Ranking with SmartGen
 
 Search Engine Optimization (SEO) is fundamental for increasing the visibility of your website and attracting organic traffic. The **SmartGen SEO Tools** provide a comprehensive suite of functionalities designed to help you analyze, optimize, and monitor your website's performance in search engine results pages (SERPs).
