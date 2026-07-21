@@ -1,9 +1,3 @@
----
-title: QR Code Generator - SmartGen Tools
-description: Learn how to use the SmartGen QR Code Generator to create custom QR codes for URLs, text, contact information, Wi-Fi, and more. Enhance your marketing and information sharing with dynamic QR codes.
-keywords: SmartGen QR code generator, custom QR codes, dynamic QR codes, QR code marketing, QR code for URL, QR code for Wi-Fi, QR code for contact, qr.genzfrontir.com
----
-
 # QR Code Generator: Create Custom QR Codes with Ease
 
 In today's fast-paced digital world, QR codes offer a quick and efficient way to bridge the gap between physical and digital information. The **SmartGen QR Code Generator** is a powerful and user-friendly tool designed to help you create custom QR codes for a wide range of purposes, from sharing website links to providing Wi-Fi access.
@@ -28,7 +22,7 @@ The SmartGen QR Code Generator at [qr.genzfrontir.com](https://qr.genzfrontir.co
 
 Creating a QR code with the SmartGen QR Code Generator is a straightforward process:
 
-1.  **Visit the Generator**: Open your web browser and navigate to [qr.genzfrontir.com](https://qr.genzfrontir.com).
+1.  **Visit the Generator**: Open your web browser and navigate to [SmartGen Qr Code Generator](https://smartgentools.com/qr-generator/).
 2.  **Select Content Type**: Choose the type of content you want to encode from the available options (e.g., URL, Text, Wi-Fi, Contact).
 3.  **Enter Information**: Fill in the required fields based on your selected content type. For example:
     *   **URL**: Enter the full website address (e.g., `https://www.smartgentools.com`).
