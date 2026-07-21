@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update autodoc.md",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "4c56bd66482430b029aa1b3e368fe7ca6328db5e",
+    "short_commit": "4c56bd6",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/4c56bd66482430b029aa1b3e368fe7ca6328db5e",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T00:22:50+06:00",
+    "files_changed": 1,
+    "insertions": 0,
+    "deletions": 6,
+    "changed_files": [
+      "docs/guides/autodoc.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update sponsor.md",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
