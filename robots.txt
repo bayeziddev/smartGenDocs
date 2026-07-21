@@ -1,0 +1,14 @@
+# Explicitly allow Google
+User-agent: Googlebot
+Allow: /
+
+# Explicitly allow Bing
+User-agent: Bingbot
+Allow: /
+
+# Allow all other standard bots
+User-agent: *
+Allow: /
+
+# Point bots directly to your indexing map
+Sitemap: https://docs.smartgentools.com/sitemap.xml
