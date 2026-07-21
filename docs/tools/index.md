@@ -1,8 +1,7 @@
----
 title: SmartGen Tools - Overview of Utilities and Services
 description: Explore the suite of SmartGen Tools, including AI tools, SEO tools, QR code generator, developer tools, and marketing tools. Enhance your productivity and digital presence with powerful utilities.
 keywords: SmartGen Tools, AI tools, SEO tools, QR code generator, developer tools, marketing tools, utilities, productivity, digital marketing
----
+
 
 # SmartGen Tools: Empowering Your Digital Journey
 
