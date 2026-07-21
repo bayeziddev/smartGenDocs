@@ -1,9 +1,3 @@
----
-title: About SmartGen Docs - Our Mission, Vision, and Team
-description: Learn about SmartGen Docs, its mission to simplify documentation, our vision for the future of open-source projects, and the dedicated team behind its development. Discover our values and commitment to the community.
-keywords: SmartGen Docs about, mission, vision, team, open source, documentation, values, community, project overview
------
-
 # About SmartGen Docs: Our Story and Vision
 
 Welcome to the **About** section of SmartGen Docs. Here, you can learn more about the project, the philosophy that drives its development, the dedicated individuals who contribute to its success, and our commitment to the open-source community. SmartGen Docs is more than just a tool; it's a mission to simplify and enhance the way technical documentation is created and maintained.
