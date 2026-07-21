@@ -1,8 +1,7 @@
----
 title: Marketing Tools - Boost Your Digital Presence with SmartGen
 description: Explore SmartGen's marketing tools for content planning, social media management, email campaigns, and analytics. Enhance your digital marketing strategies and reach your target audience effectively.
 keywords: SmartGen marketing tools, digital marketing, content planning, social media management, email marketing, marketing analytics, SEO, campaign management
----
+
 
 # Marketing Tools: Boost Your Digital Presence with SmartGen
 
