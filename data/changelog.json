@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update sponsor.md",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "dd38a6d64e356edaffc80182d4654e86d78f89b3",
+    "short_commit": "dd38a6d",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/dd38a6d64e356edaffc80182d4654e86d78f89b3",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T00:20:07+06:00",
+    "files_changed": 1,
+    "insertions": 0,
+    "deletions": 6,
+    "changed_files": [
+      "docs/about/sponsor.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update index.md",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
