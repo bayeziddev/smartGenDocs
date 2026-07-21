@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update smartgen.yml",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "79e9801fced5b66723662f74c84778e728811c02",
+    "short_commit": "79e9801",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/79e9801fced5b66723662f74c84778e728811c02",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T00:33:58+06:00",
+    "files_changed": 1,
+    "insertions": 2,
+    "deletions": 2,
+    "changed_files": [
+      "smartgen.yml"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update qr-generator.md",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
