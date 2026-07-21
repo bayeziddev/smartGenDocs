@@ -1,9 +1,3 @@
----
-title: Community Features - Enhancing Collaboration in SmartGen Docs
-description: Explore the community features of SmartGen Docs designed to foster collaboration, support, and engagement among users and contributors. Learn about forums, chat, and other interactive elements.
-keywords: SmartGen Docs community features, collaboration, support, forums, chat, interactive community, user engagement, open source community
----
-
 # Community Features: Enhancing Collaboration in SmartGen Docs
 
 The SmartGen Docs project is built on the principles of open-source collaboration and community-driven development. To foster a vibrant and supportive ecosystem, we provide several features and platforms that enable users and contributors to connect, share knowledge, and work together effectively. This guide highlights the key community features available and how you can leverage them.
