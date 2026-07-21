@@ -1,26 +1,31 @@
-# License
+---
+title: License
+description: Official MIT License and attribution requirements for SmartGen Docs.
+---
 
-## Introduction
+# License Agreement
 
-This page covers license.
+**SmartGen Docs** is made available under the open-source MIT License. By downloading, copying, installing, or using the software, you agree to the terms and conditions outlined below.
 
-## Content
+---
 
-Add your content here.
+## MIT License
 
-## Examples
+**Copyright &copy; SmartGen LLC**
 
-```python
-# Example code here
-pass
-```
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-## See Also
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
-- Related Topic 1
-- Related Topic 2
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-## References
+---
 
-- [Reference 1](#)
-- [Reference 2](#)
+### Copyright & Authorship
+
+This project is proudly developed and maintained by:
+
+* **Platform:** [SmartGen Tools](https://smartgentools.com)
+* **Author:** [Sayad Md Bayezid Hosan](https://sayadbayezid.com)
+
+> **Note to Developers:** While the MIT license allows for free use and modification, we kindly request that you keep the attribution and author links intact when utilizing the SmartGen platform for your own projects.
