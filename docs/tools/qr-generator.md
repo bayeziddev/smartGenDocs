@@ -2,7 +2,7 @@
 
 In today's fast-paced digital world, QR codes offer a quick and efficient way to bridge the gap between physical and digital information. The **SmartGen QR Code Generator** is a powerful and user-friendly tool designed to help you create custom QR codes for a wide range of purposes, from sharing website links to providing Wi-Fi access.
 
-This guide will walk you through the features of the SmartGen QR Code Generator, explain how to create different types of QR codes, and provide tips for effective usage in your marketing and information-sharing strategies. You can access the generator directly at [qr.genzfrontir.com](https://qr.genzfrontir.com).
+This guide will walk you through the features of the SmartGen QR Code Generator, explain how to create different types of QR codes, and provide tips for effective usage in your marketing and information-sharing strategies. You can access the generator directly at [Smartgen](https://smartgentools.com).
 
 ## 1. What is a QR Code?
 
