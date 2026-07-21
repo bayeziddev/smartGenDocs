@@ -29,7 +29,8 @@ We envision a world where high-quality documentation is the norm, not the except
 SmartGen Docs is a collaborative effort, driven by passionate individuals who believe in the power of well-crafted documentation. Our team consists of developers, technical writers, designers, and community managers who work tirelessly to improve the platform and support its users.
 
 *   **[Meet the Developers](developer.md)**: Learn more about the core development team and their contributions.
-*   **[Contact Us](contact.md)**: Find out how to get in touch with the SmartGen Docs team for support, partnerships, or general inquiries.
+*   **[Contact Us](contact.md)**: Find out how to get in touch with the SmartGen Docs team for support, partnerships, or media requests.
+*   **[Sponsor Us](sponsor.md)**: Support the open-source mission of SmartGen Docs through various sponsorship and donation options.
 
 ## License and Legal Information
 
