@@ -70,12 +70,12 @@ A typical SmartGen Docs project looks like this:
 
 ## Contributing
 
-SmartGen Docs is open source and welcomes contributions. Feel free to fork the repository, make your changes, and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
+SmartGen Docs is open source and welcomes [contributions](CONTRIBUTING.md). Feel free to fork the repository, make your changes, and submit a pull request. For major changes, please open an issue first to discuss what you would like to change.
 
-## License
+## [License](LICENSE)|[smartGen](https://smartgentools.com)
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## About the Author
 
-**Sayad Md Bayezid Hosan** is the creator of SmartGen Docs and the founder of [Smartgen Platform](https://www.smartgentools.com), a hub for innovative tools and solutions.
+**Sayad Md Bayezid Hosan** is the creator of SmartGen Docs and the founder of [Smartgen Verified](https://sayadbayezid.com/verified-profiles/), a hub for innovative tools and solutions.
