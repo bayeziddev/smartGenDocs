@@ -10,26 +10,23 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 concurrency:
-  group: smartgen-pages
-  cancel-in-progress: true
+  group: "pages-${{ github.ref }}"
+  cancel-in-progress: false
 
 env:
   PYTHON_VERSION: "3.12"
 
 jobs:
   validate:
-
     name: Validate Project
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -49,71 +46,43 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           fi
-
           pip install .
 
       - name: Validate Configuration
         run: |
           echo "Checking SmartGen configuration..."
-
-          if [ -f smartgen.yml ]; then
-            echo "✔ smartgen.yml found"
+          if [ -f smartgen.yml ] || [ -f SmartGen.yml ]; then
+            echo "✔ Configuration file found"
           else
-            echo "⚠ smartgen.yml not found."
+            echo "⚠ Configuration file not found."
           fi
 
       - name: Validate Documentation Folder
         run: |
-
           if [ ! -d docs ]; then
             echo "docs folder not found"
             exit 1
           fi
-
           echo "Documentation folder verified."
-
-      - name: Validate Themes
-        run: |
-
-          if [ -d smartgen_docs/themes ]; then
-            echo "Theme directory found."
-          else
-            echo "No themes found."
-          fi
 
       - name: Validate Markdown Files
         run: |
-
           COUNT=$(find docs -name "*.md" | wc -l)
-
-          echo "Markdown files: $COUNT"
-
+          echo "Markdown files found: $COUNT"
           if [ "$COUNT" -eq "0" ]; then
-            echo "No documentation found."
+            echo "No documentation files found in docs/."
             exit 1
           fi
 
-      - name: Show Project Information
-        run: |
-          echo "Repository : $GITHUB_REPOSITORY"
-          echo "Branch     : $GITHUB_REF_NAME"
-          echo "Commit     : $GITHUB_SHA"
-          echo "Actor      : $GITHUB_ACTOR"
-
   build:
-
     name: Build SmartGen Docs
-
     runs-on: ubuntu-latest
-
     needs: validate
 
     steps:
-
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -125,41 +94,34 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
-
           if [ -f requirements.txt ]; then
             pip install -r requirements.txt
           fi
-
           pip install .
 
       - name: Build Documentation
         run: |
-
           echo "Building SmartGen Docs..."
-
           smartgen-docs build
 
-      - name: Verify Build
+      - name: Verify Build & Prevent Jekyll Overrides
         run: |
-
           if [ ! -d site ]; then
-            echo "Build failed."
+            echo "Build failed: 'site' directory not generated."
             exit 1
           fi
+          # Touch .nojekyll to ensure GitHub Pages serves underscore assets properly
+          touch site/.nojekyll
+          echo "Build successful. Added .nojekyll flag."
 
-          echo "Build successful."
-
-      - name: Upload Build Artifact
+      - name: Upload Pages Artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
 
   deploy:
-
     name: Deploy GitHub Pages
-
-    if: github.ref == 'refs/heads/main'
-
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     needs: build
 
     environment:
@@ -169,17 +131,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
-      - name: Deploy
+      - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
 
   summary:
-
     name: Build Summary
-
     if: always()
-
     needs:
       - validate
       - build
@@ -188,30 +146,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Workflow Summary
         run: |
-
           echo "# SmartGen Docs Build Summary" >> $GITHUB_STEP_SUMMARY
-
           echo "" >> $GITHUB_STEP_SUMMARY
-
           echo "Repository: $GITHUB_REPOSITORY" >> $GITHUB_STEP_SUMMARY
-
           echo "Branch: $GITHUB_REF_NAME" >> $GITHUB_STEP_SUMMARY
-
           echo "Commit: $GITHUB_SHA" >> $GITHUB_STEP_SUMMARY
-
           echo "Triggered by: $GITHUB_ACTOR" >> $GITHUB_STEP_SUMMARY
-
           echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "Validation: Completed" >> $GITHUB_STEP_SUMMARY
-
-          echo "Build: Completed" >> $GITHUB_STEP_SUMMARY
-
-          echo "Deployment: Completed (main branch only)" >> $GITHUB_STEP_SUMMARY
-
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          echo "SmartGen Docs CI finished successfully." >> $GITHUB_STEP_SUMMARY
+          echo "Status: Workflow execution finished." >> $GITHUB_STEP_SUMMARY
