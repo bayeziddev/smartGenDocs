@@ -1,6 +1,28 @@
 [
   {
     "version": "development",
+    "title": "Update issue templates",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "2b26afdcabbbf0ab8409ce8fffd5d822228de898",
+    "short_commit": "2b26afd",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/2b26afdcabbbf0ab8409ce8fffd5d822228de898",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-07-22T12:03:30+06:00",
+    "files_changed": 3,
+    "insertions": 68,
+    "deletions": 0,
+    "changed_files": [
+      ".github/ISSUE_TEMPLATE/bug_report.md",
+      ".github/ISSUE_TEMPLATE/custom.md",
+      ".github/ISSUE_TEMPLATE/feature_request.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update index.md",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
