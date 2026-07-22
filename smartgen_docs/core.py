@@ -78,7 +78,27 @@ class Builder:
 
         # Build pages with support for nested navigation
         nav = self.config.get('nav', [])
-        
+
+        # Flatten nav into an ordered sequence of real (title, md_path) pages,
+        # in the same order they appear in the sidebar. This lets us compute
+        # real, server-rendered Previous/Next links per page instead of
+        # relying on client-side JS to fill them in after the fact.
+        self.page_sequence = []
+
+        def flatten_nav(nav_list):
+            for item in nav_list:
+                if isinstance(item, dict):
+                    for title, path in item.items():
+                        if isinstance(path, str):
+                            if not path.startswith('http'):
+                                self.page_sequence.append((title, path))
+                        elif isinstance(path, list):
+                            flatten_nav(path)
+                elif isinstance(item, str):
+                    self.page_sequence.append((item, item))
+
+        flatten_nav(nav)
+
         def process_nav(nav_list):
             """Recursively process navigation items."""
             for item in nav_list:
@@ -130,13 +150,29 @@ class Builder:
             {"title": title, "link": relative_path}
         ]
 
+        # Real, server-rendered previous/next links (same order as the sidebar)
+        prev_page, next_page = None, None
+        sequence = getattr(self, 'page_sequence', [])
+        for i, (seq_title, seq_path) in enumerate(sequence):
+            if seq_path == md_path:
+                if i > 0:
+                    p_title, p_path = sequence[i - 1]
+                    prev_page = {"title": p_title, "link": self.path_resolver.get_breadcrumb_link(p_path.replace('.md', '.html'), current_depth)}
+                if i < len(sequence) - 1:
+                    n_title, n_path = sequence[i + 1]
+                    next_page = {"title": n_title, "link": self.path_resolver.get_breadcrumb_link(n_path.replace('.md', '.html'), current_depth)}
+                break
+
         output_content = template.render(
             title=title,
             content=html_body,
             config=self.config,
             nav=self.config.get('nav', []),
             current_page=md_path,
+            raw_markdown=md_content,
             breadcrumbs=breadcrumbs,
+            prev_page=prev_page,
+            next_page=next_page,
             current_depth=current_depth,
             path_resolver=self.path_resolver,
             url_for=lambda type, filename: self._url_for(type, filename, current_depth)
