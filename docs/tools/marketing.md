@@ -75,5 +75,5 @@ By leveraging the comprehensive suite of SmartGen Marketing Tools and adhering t
 *   [AI Tools](ai.md)
 *   [SmartGen Platform](https://www.smartgentools.com) - Explore the full range of tools offered by the SmartGen Platform.
 *   [SmartGen Docs Home](../../index.md)
-*   [SmartGen Docs Guides](../guides/index.md)
-*   [SmartGen Docs Tutorials](../tutorials/index.md)
+*   [SmartGen Docs Guides](https://smartgentools.com/docs/)
+*   [SmartGen Docs Tutorials](../tutorials/index.html)
