@@ -29,17 +29,17 @@ Ready to create your first documentation site? Follow our quick guide to get up 
 
 Navigate through the sections below to find detailed information on specific topics:
 
-*   **[Getting Started](getting-started/index.md)**: Comprehensive guides for setting up and beginning your SmartGen Docs project.
-*   **[Documentation](docs/index.md)**: Understand the core concepts, architecture, and features of SmartGen Docs.
-*   **[API Reference](api/index.md)**: Detailed documentation for interacting with the SmartGen Docs API.
-*   **[SDKs](sdk/index.md)**: Language-specific guides and examples for integrating SmartGen Docs into your applications.
-*   **[SmartGen Tools](tools/index.md)**: Discover the various tools provided by the SmartGen Platform.
-*   **[Tutorials](tutorials/index.md)**: Step-by-step instructions for common tasks and advanced use cases.
-*   **[Guides](guides/configuration.md)**: Best practices, customization options, and troubleshooting tips.
-*   **[Resources](resources/index.md)**: Supplementary materials, including downloads, templates, and a glossary.
-*   **[Community](community/index.md)**: Information on how to contribute, report issues, and engage with the SmartGen Docs community.
-*   **[Blog](blog/index.md)**: Stay updated with the latest news, articles, and release notes.
-*   **[About](about/index.md)**: Learn more about the SmartGen Docs project and its creator.
+*   **[Getting Started](getting-started/index.html)**: Comprehensive guides for setting up and beginning your SmartGen Docs project.
+*   **[Documentation](docs/index.html)**: Understand the core concepts, architecture, and features of SmartGen Docs.
+*   **[API Reference](api/index.html)**: Detailed documentation for interacting with the SmartGen Docs API.
+*   **[SDKs](sdk/index.html)**: Language-specific guides and examples for integrating SmartGen Docs into your applications.
+*   **[SmartGen Tools](tools/index.html)**: Discover the various tools provided by the SmartGen Platform.
+*   **[Tutorials](tutorials/index.html)**: Step-by-step instructions for common tasks and advanced use cases.
+*   **[Guides](guides/configuration.html)**: Best practices, customization options, and troubleshooting tips.
+*   **[Resources](resources/index.html)**: Supplementary materials, including downloads, templates, and a glossary.
+*   **[Community](community/index.html)**: Information on how to contribute, report issues, and engage with the SmartGen Docs community.
+*   **[Blog](blog/index.html)**: Stay updated with the latest news, articles, and release notes.
+*   **[About](about/index.html)**: Learn more about the SmartGen Docs project and its creator.
 
 ---
 
