@@ -15,8 +15,8 @@
 </div>
 
 ---
-<!report-linkready>
-<!report-linkready>
+<<report-linkready>>
+<<<<report-linkready >>
 
 ---
 ## What is SmartGen Docs?
