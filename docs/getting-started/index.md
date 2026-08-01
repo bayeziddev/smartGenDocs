@@ -8,7 +8,7 @@ SmartGen Docs simplifies the process of creating professional, responsive docume
 
 Explore the following topics to get started:
 
-*   **[Installation](installation.md)**: Learn how to install SmartGen Docs on your local machine.
+*   **[Installation](/installation.md)**: Learn how to install SmartGen Docs on your local machine.
 *   **[Quick Start](quick-start.md)**: A rapid guide to creating and serving your first documentation site.
 *   **[Your First Project](first-project.md)**: A detailed walkthrough of initializing a new project and understanding its components.
 *   **[Folder Structure](folder-structure.md)**: Understand the recommended directory layout for your SmartGen Docs project.
