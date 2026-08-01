@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Create link_fixer.py",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "1c32fa3c1f0833a67b46caf7bccaf37147050284",
+    "short_commit": "1c32fa3",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/1c32fa3c1f0833a67b46caf7bccaf37147050284",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-01T21:03:15+06:00",
+    "files_changed": 1,
+    "insertions": 211,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/link_fixer.py"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update pyproject.toml",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",
