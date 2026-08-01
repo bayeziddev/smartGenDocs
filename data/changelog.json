@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update pyproject.toml",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "4929dabbb4289b507d26020e6b0380d3e32efea1",
+    "short_commit": "4929dab",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/4929dabbb4289b507d26020e6b0380d3e32efea1",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-01T20:49:12+06:00",
+    "files_changed": 1,
+    "insertions": 1,
+    "deletions": 1,
+    "changed_files": [
+      "pyproject.toml"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Create audit-report.html",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",
