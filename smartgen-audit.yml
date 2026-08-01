@@ -1,0 +1,43 @@
+# smartgen-audit.yml
+# Standalone link-audit config. Drop this file next to smartgen.yml and run:
+#   smartgen-docs audit
+# No other setup, and no changes to smartgen.yml, are required.
+#
+# If you'd rather keep everything in one file, delete this file and paste
+# the block below under an `audit:` key inside your existing smartgen.yml
+# instead -- link_auditor.py checks for smartgen-audit.yml first, and
+# falls back to an `audit:` block in smartgen.yml if this file is absent.
+
+audit:
+  # Folder the auditor scans -- this should match the --site-dir you build to
+  site_dir: site
+
+  # What should fail the build:
+  #   internal -> fail only on broken internal links (recommended default)
+  #   external -> fail only on broken external links
+  #   both     -> fail on either
+  #   none     -> never fail, just report (useful for a first run)
+  fail_on: internal
+
+  # How many external links to check in parallel
+  concurrency: 10
+
+  # Seconds to wait per external request
+  timeout: 5
+
+  # Retries per external link before marking it broken
+  retries: 1
+
+  # Glob patterns for links to skip entirely (rate-limited or bot-blocking hosts, etc.)
+  ignore:
+    - "https://twitter.com/*"
+    - "https://x.com/*"
+    - "https://www.linkedin.com/*"
+
+  # External check results are cached here so re-running audit doesn't
+  # re-hit every external URL on every build
+  cache_file: .smartgen-cache/link-status.json
+
+  report:
+    json: null   # defaults to <site_dir>/audit-report.json
+    html: null   # defaults to <site_dir>/audit-report.html
