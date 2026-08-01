@@ -16,6 +16,7 @@
 
 ---
 <<report-linkready>>
+🚨 **Alert:** The `report html` has been updated with the latest broken link scan results!
 <<<<report-linkready >>
 
 ---
