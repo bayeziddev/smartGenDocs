@@ -1,0 +1,72 @@
+name: Auto-Fix Broken Links (Helper)
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+env:
+  PYTHON_VERSION: "3.12"
+
+jobs:
+  auto-fix:
+    name: Fix Links and Commit
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            pip-${{ runner.os }}-
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then
+            pip install -r requirements.txt
+          fi
+          pip install .
+
+      - name: Generate Audit Report
+        run: |
+          echo "Building site to generate audit report..."
+          smartgen-docs build --config smartgen.yml --site-dir site
+          
+          echo "Running audit to detect broken links..."
+          # Using || true so the workflow doesn't stop if broken links are found
+          smartgen-docs audit || true
+
+      - name: Run Auto-Fixer
+        run: |
+          echo "Running link fixer engine..."
+          smartgen-docs fix-links --apply --report site/audit-report.json
+
+      - name: Commit and Push Fixes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Only stage changes in the docs folder where the markdown files are
+          git add docs/
+          
+          if ! git diff --staged --quiet; then
+            echo "Changes detected. Committing fixes..."
+            git commit -m "docs: auto-fix broken links [skip ci]"
+            git pull --rebase origin main
+            git push
+            echo "✅ Broken links have been successfully fixed and pushed."
+          else
+            echo "✅ No markdown files were modified. Everything is intact."
+          fi
