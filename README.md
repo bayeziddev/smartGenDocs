@@ -15,7 +15,10 @@
 </div>
 
 ---
+<<report-linkready>>
+<<<<report-linkready >>
 
+---
 ## What is SmartGen Docs?
 
 **SmartGen Docs** is an open-source **Python static site generator** built specifically for **project documentation**. It's a `pip install`-able alternative in the same space as MkDocs and Sphinx, with three deliberate differences:
