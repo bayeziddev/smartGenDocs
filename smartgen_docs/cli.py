@@ -120,5 +120,12 @@ nav:
     click.secho("smartgen-docs serve", fg="cyan", bold=True, nl=False)
     click.echo(" to see it in action.")
 
+@main.command()
+@click.option("--config", default=".", help="Project root containing smartgen.yml or smartgen-audit.yml")
+def audit(config):
+    """Crawl the built site and report broken internal/external links."""
+    from .link_auditor import run_audit
+    run_audit(project_root=config)
+    
 if __name__ == "__main__":
     main()
