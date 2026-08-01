@@ -120,7 +120,7 @@ full = [
 
 [project.urls]
 Homepage = "https://www.smartgentools.com"
-Documentation = "https://bayeziddev.github.io/smartGenDocs/"
+Documentation = "https://docs.smartgentools.com/"
 Repository = "https://github.com/bayeziddev/smartGenDocs"
 Issues = "https://github.com/bayeziddev/smartGenDocs/issues"
 Discussions = "https://github.com/bayeziddev/smartGenDocs/discussions"
