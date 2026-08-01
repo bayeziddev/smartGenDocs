@@ -1,0 +1,31 @@
+{
+  "total_links_checked": 45,
+  "broken_internal": 1,
+  "broken_external": 1,
+  "results": [
+    {
+      "source_page": "site/index.html",
+      "url": "https://github.com/bayeziddev/smartGenDocs/tree/main/docs",
+      "link_type": "external",
+      "status": "ok",
+      "status_code": 200,
+      "error": null
+    },
+    {
+      "source_page": "site/getting-started/index.html",
+      "url": "/setup-guide.html",
+      "link_type": "internal",
+      "status": "broken",
+      "status_code": null,
+      "error": "File not found in build output"
+    },
+    {
+      "source_page": "site/roadmap.html",
+      "url": "https://example-broken-link.com",
+      "link_type": "external",
+      "status": "broken",
+      "status_code": 404,
+      "error": null
+    }
+  ]
+}
