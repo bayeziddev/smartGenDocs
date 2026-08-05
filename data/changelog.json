@@ -7,6 +7,26 @@
     "repository": "bayeziddev/smartGenDocs",
     "repository_url": "https://github.com/bayeziddev/smartGenDocs",
     "branch": "main",
+    "commit": "09ca39861de7b109433b601ddd449ab485a65db8",
+    "short_commit": "09ca398",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/09ca39861de7b109433b601ddd449ab485a65db8",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-05T16:09:13+06:00",
+    "files_changed": 1,
+    "insertions": 133,
+    "deletions": 15,
+    "changed_files": [
+      "smartgen_docs/themes/default/base_premium.html"
+    ]
+  },
+  {
+    "version": "development",
+    "title": "Add files via upload",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
     "commit": "ecfa36c7842a05b51619621006d705165b2f4b80",
     "short_commit": "ecfa36c",
     "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/ecfa36c7842a05b51619621006d705165b2f4b80",
