@@ -3,6 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Theme applied before first paint, to avoid a flash of the wrong
+         theme. Deliberately tiny and dependency-free: reads the saved
+         choice (or the OS preference on a first visit) and sets
+         data-theme on <html> synchronously, before CSS/images load. -->
+    <script>
+    (function () {
+        try {
+            var THEME_KEY = 'smartgen-theme';
+            var VALID = ['light', 'dark', 'sepia', 'contrast'];
+            var saved = localStorage.getItem(THEME_KEY);
+            var theme = VALID.indexOf(saved) !== -1
+                ? saved
+                : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            if (theme !== 'light') {
+                document.documentElement.setAttribute('data-theme', theme);
+            }
+        } catch (e) { /* localStorage unavailable (e.g. privacy mode) -- fall back to Light */ }
+    })();
+    </script>
     <meta name="description" content="{{ config.site_description | default('Documentation') }}">
     {% set page_url = config.site_url.rstrip('/') + '/' + current_page.replace('.md', '.html') if current_page and current_page != 'index.md' else config.site_url %}
     <link rel="canonical" href="{{ page_url }}">
@@ -20,7 +39,13 @@
     <link rel="stylesheet" href="{{ url_for('static', 'css/premium.css') }}">
     {% if config.theme and config.theme.palette %}
     <style>
-        :root {
+        /* Site-level brand override from smartgen.yml. The attribute
+           selector on the second half matches every built-in theme
+           (:root[data-theme="dark"] etc. have equal specificity), and
+           because this block is later in the cascade it wins -- so a
+           configured brand color applies no matter which theme the
+           reader has picked. */
+        :root, :root[data-theme] {
             --color-primary: {{ config.theme.palette.primary | default('#4A3AE3') }};
             --color-accent: {{ config.theme.palette.accent | default('#C2660D') }};
         }
@@ -62,10 +87,16 @@
                     <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.5s-7.5-4.6-10-9.3C.4 7.8 2.3 4 6 4c2 0 3.6 1.1 4.5 2.7L12 8.5l1.5-1.8C14.4 5.1 16 4 18 4c3.7 0 5.6 3.8 4 7.2-2.5 4.7-10 9.3-10 9.3Z"/></svg>
                     <span>Sponsor</span>
                 </a>
-                <button class="icon-btn" id="theme-toggle" aria-label="Toggle dark mode">
-                    <svg class="icon icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
-                    <svg class="icon icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
-                </button>
+                <!-- Theme switcher: one trigger button + a small popover menu,
+                     built from the THEMES list in the script at the bottom of
+                     this file. No third-party menu/dropdown library. -->
+                <div class="theme-switcher" id="theme-switcher">
+                    <button class="icon-btn" id="theme-toggle" aria-haspopup="true" aria-expanded="false" aria-controls="theme-menu" aria-label="Choose theme">
+                        <svg class="icon icon-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a7 7 0 0 0 10.5 10.5Z"/></svg>
+                        <svg class="icon icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.5M12 19v2.5M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2.5 12H5M19 12h2.5M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+                    </button>
+                    <div class="theme-menu" id="theme-menu" role="menu" aria-label="Theme" hidden></div>
+                </div>
             </div>
         </div>
     </header>
@@ -273,18 +304,99 @@
             });
         });
 
-        // ========== DARK MODE TOGGLE ==========
-        const themeToggle = document.getElementById('theme-toggle');
+        // ========== THEME SWITCHER ==========
+        // Single source of truth for every built-in theme. To add a new
+        // one: add a row here, then add a matching :root[data-theme="..."]
+        // block to premium.css with the same set of tokens as the others.
+        // See docs/guides/theming.md.
+        const THEME_KEY = 'smartgen-theme';
+        const THEMES = [
+            { value: 'light',    label: 'Light',        swatchBg: '#ffffff', swatchFg: '#4A3AE3' },
+            { value: 'dark',     label: 'Dark',          swatchBg: '#0B0E16', swatchFg: '#8C9EFF' },
+            { value: 'sepia',    label: 'Sepia',         swatchBg: '#F7F1E3', swatchFg: '#A8540B' },
+            { value: 'contrast', label: 'High Contrast', swatchBg: '#000000', swatchFg: '#A6B4FF' },
+        ];
 
-        const savedTheme = localStorage.getItem('theme') || 'light';
-        if (savedTheme === 'dark') {
-            document.body.classList.add('dark-mode');
+        const themeSwitcher = document.getElementById('theme-switcher');
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeMenu = document.getElementById('theme-menu');
+
+        function getCurrentTheme() {
+            return document.documentElement.getAttribute('data-theme') || 'light';
         }
 
+        function applyTheme(value, { persist = true } = {}) {
+            if (value === 'light') {
+                document.documentElement.removeAttribute('data-theme');
+            } else {
+                document.documentElement.setAttribute('data-theme', value);
+            }
+            // Back-compat with the old binary body.dark-mode toggle.
+            document.body.classList.toggle('dark-mode', value === 'dark');
+            if (persist) {
+                try { localStorage.setItem(THEME_KEY, value); } catch (e) { /* ignore */ }
+            }
+            renderThemeMenu();
+        }
+
+        function renderThemeMenu() {
+            const current = getCurrentTheme();
+            themeMenu.innerHTML = THEMES.map(t => `
+                <button type="button" class="theme-option" role="menuitemradio"
+                        aria-checked="${t.value === current}" data-theme-value="${t.value}">
+                    <span class="theme-swatch" style="--swatch-bg:${t.swatchBg};--swatch-fg:${t.swatchFg}"></span>
+                    <span class="theme-option-label">${t.label}</span>
+                    <svg class="theme-check icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+                </button>
+            `).join('');
+        }
+
+        function openThemeMenu() {
+            themeMenu.hidden = false;
+            themeToggle.setAttribute('aria-expanded', 'true');
+            const active = themeMenu.querySelector('[aria-checked="true"]');
+            (active || themeMenu.querySelector('.theme-option'))?.focus();
+        }
+
+        function closeThemeMenu({ refocusTrigger = false } = {}) {
+            themeMenu.hidden = true;
+            themeToggle.setAttribute('aria-expanded', 'false');
+            if (refocusTrigger) themeToggle.focus();
+        }
+
+        // Initialize from whatever the pre-paint script in <head> already set.
+        renderThemeMenu();
+
         themeToggle.addEventListener('click', () => {
-            document.body.classList.toggle('dark-mode');
-            const isDark = document.body.classList.contains('dark-mode');
-            localStorage.setItem('theme', isDark ? 'dark' : 'light');
+            themeMenu.hidden ? openThemeMenu() : closeThemeMenu();
+        });
+
+        themeMenu.addEventListener('click', (e) => {
+            const option = e.target.closest('.theme-option');
+            if (!option) return;
+            applyTheme(option.dataset.themeValue);
+            closeThemeMenu({ refocusTrigger: true });
+        });
+
+        themeMenu.addEventListener('keydown', (e) => {
+            const options = Array.from(themeMenu.querySelectorAll('.theme-option'));
+            const currentIndex = options.indexOf(document.activeElement);
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                options[(currentIndex + 1) % options.length].focus();
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                options[(currentIndex - 1 + options.length) % options.length].focus();
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                closeThemeMenu({ refocusTrigger: true });
+            } else if (e.key === 'Tab') {
+                closeThemeMenu();
+            }
+        });
+
+        document.addEventListener('click', (e) => {
+            if (!themeMenu.hidden && !themeSwitcher.contains(e.target)) closeThemeMenu();
         });
 
         // ========== SEARCH FUNCTIONALITY ==========
@@ -377,16 +489,22 @@
 
         // ========== HIGHLIGHT ACTIVE NAV ==========
         function updateActiveNav() {
-            const currentPage = window.location.pathname;
             document.querySelectorAll('.nav-link.active').forEach(link => link.classList.remove('active'));
             document.querySelectorAll('.nav-item.active').forEach(item => item.classList.remove('active'));
 
-            const currentFilename = currentPage.split('/').pop() || 'index.html';
+            // Compare fully-resolved paths, not just the trailing filename.
+            // Every section has its own index.html (api/index.html,
+            // about/index.html, ...), so matching by filename alone marks
+            // ALL of them active at once and breaks Previous/Next below.
+            const normalize = (pathname) => pathname.replace(/\/$/, '').replace(/\/index\.html$/, '');
+            const currentPath = normalize(window.location.pathname);
             const allLinks = document.querySelectorAll('.nav-link');
 
             allLinks.forEach(link => {
                 const href = link.getAttribute('href');
-                if (href && href.endsWith(currentFilename)) {
+                if (!href) return;
+                const linkPath = normalize(new URL(href, window.location.href).pathname);
+                if (linkPath === currentPath) {
                     link.classList.add('active');
                     const navItem = link.closest('.nav-item');
                     if (navItem) navItem.classList.add('active');
