@@ -1,0 +1,348 @@
+diff --git a/docs/about/index.md b/docs/about/index.md
+index 111fb1c..d7581e0 100644
+--- a/docs/about/index.md
++++ b/docs/about/index.md
+@@ -24,7 +24,7 @@ SmartGen Docs is a collaborative effort, driven by passionate individuals who be
+ 
+ *   **[Meet the Developers](developer.md)**: Learn more about the core development team and their contributions.
+ *   **[Contact Us](contact.md)**: Find out how to get in touch with the SmartGen Docs team for support, partnerships, or media requests.
+-*   **[Sponsor Us](sponsor.md)**: Support the open-source mission of SmartGen Docs through various sponsorship and donation options.
++*   **[Sponsor Us](../community/sponsor.md)**: Support the open-source mission of SmartGen Docs through various sponsorship and donation options.
+ 
+ ## License and Legal Information
+ 
+diff --git a/docs/getting-started/index.md b/docs/getting-started/index.md
+index d74afed..2f0df02 100644
+--- a/docs/getting-started/index.md
++++ b/docs/getting-started/index.md
+@@ -8,7 +8,7 @@ SmartGen Docs simplifies the process of creating professional, responsive docume
+ 
+ Explore the following topics to get started:
+ 
+-*   **[Installation](/installation.md)**: Learn how to install SmartGen Docs on your local machine.
++*   **[Installation](/getting-started/installation.html)**: Learn how to install SmartGen Docs on your local machine.
+ *   **[Quick Start](quick-start.md)**: A rapid guide to creating and serving your first documentation site.
+ *   **[Your First Project](first-project.md)**: A detailed walkthrough of initializing a new project and understanding its components.
+ *   **[Folder Structure](folder-structure.md)**: Understand the recommended directory layout for your SmartGen Docs project.
+diff --git a/docs/getting-started/installation.md b/docs/getting-started/installation.md
+index a389c84..e87e44e 100644
+--- a/docs/getting-started/installation.md
++++ b/docs/getting-started/installation.md
+@@ -47,7 +47,7 @@ This will replace your current installation with the newest available version, e
+ 
+ ## Next Steps
+ 
+-Once SmartGen Docs is installed, you are ready to create your first documentation project. Proceed to the [Quick Start Guide](docs/getting-started/quick-start.md) to learn how to initialize and serve your documentation locally.
++Once SmartGen Docs is installed, you are ready to create your first documentation project. Proceed to the [Quick Start Guide](quick-start.md) to learn how to initialize and serve your documentation locally.
+ 
+ ## Troubleshooting
+ 
+diff --git a/docs/guides/configuration.md b/docs/guides/configuration.md
+index fe61216..f395398 100644
+--- a/docs/guides/configuration.md
++++ b/docs/guides/configuration.md
+@@ -174,7 +174,7 @@ plugins:
+ 
+ *   **`search`**: Enables the built-in search functionality for your documentation site, allowing users to quickly find relevant content.
+ *   **`autodoc`**: Activates the API auto-generation feature, allowing you to generate documentation from Python docstrings or other code comments. Refer to the [Autodoc Guide](autodoc.md) for detailed configuration and usage.
+-*   **`changelog_renderer`**: Enables the plugin that renders a JSON changelog file into a Markdown page. This is what generated the [Changelog](docs/changelog.md) page, providing an automated way to display project updates.
++*   **`changelog_renderer`**: Enables the plugin that renders a JSON changelog file into a Markdown page. This is what generated the [Changelog](../docs/changelog.md) page, providing an automated way to display project updates.
+ *   **`scaffold`**: Activates the scaffolding plugin, which can automatically create missing Markdown files and directories based on your `nav` configuration, streamlining project setup.
+ *   **`upload_manager`**: Enables the web-based Upload Manager for easier content management, allowing you to upload assets directly through a web interface.
+ 
+@@ -223,5 +223,5 @@ By mastering the `smartgen.yml` configuration, you gain full control over the st
+ *   [Theming Guide](theming.md)
+ *   [CLI Reference](cli.md)
+ *   [Autodoc Guide](autodoc.md)
+-*   [Deployment Guide](deployment.md)
++*   [Deployment Guide](../getting-started/deployment.md)
+ *   [SmartGen Platform](https://www.smartgentools.com) - Discover more tools from the SmartGen Platform.
+diff --git a/docs/sdk/index.md b/docs/sdk/index.md
+index 6d9eab9..ddb6a75 100644
+--- a/docs/sdk/index.md
++++ b/docs/sdk/index.md
+@@ -33,7 +33,7 @@ The Python SDK allows Python developers to easily interact with the SmartGen Doc
+     *   Document upload and retrieval.
+     *   Site build management.
+     *   Configuration access.
+-*   **[Python SDK Reference](python-sdk.md)**: Detailed documentation for the Python client library.
++*   **[Python SDK Reference](python.md)**: Detailed documentation for the Python client library.
+ 
+ ### 2. JavaScript SDK
+ 
+@@ -44,7 +44,7 @@ The JavaScript SDK is designed for web and Node.js developers, enabling seamless
+     *   Asynchronous API calls.
+     *   Browser and Node.js compatibility.
+     *   Event handling for webhooks.
+-*   **[JavaScript SDK Reference](javascript-sdk.md)**: Detailed documentation for the JavaScript client library.
++*   **[JavaScript SDK Reference](javascript.md)**: Detailed documentation for the JavaScript client library.
+ 
+ ## Getting Started with an SDK
+ 
+diff --git a/docs/tools/marketing.md b/docs/tools/marketing.md
+index 35c10ca..ef70086 100644
+--- a/docs/tools/marketing.md
++++ b/docs/tools/marketing.md
+@@ -75,5 +75,5 @@ By leveraging the comprehensive suite of SmartGen Marketing Tools and adhering t
+ *   [AI Tools](ai.md)
+ *   [SmartGen Platform](https://www.smartgentools.com) - Explore the full range of tools offered by the SmartGen Platform.
+ *   [SmartGen Docs Home](../../index.md)
+-*   [SmartGen Docs Guides](https://smartgentools.com/docs/)
++*   [SmartGen Docs Guides](../guides/configuration.md)
+ *   [SmartGen Docs Tutorials](../tutorials/index.html)
+diff --git a/docs/tutorials/case-studies.md b/docs/tutorials/case-studies.md
+index 92c65bc..5ab5d71 100644
+--- a/docs/tutorials/case-studies.md
++++ b/docs/tutorials/case-studies.md
+@@ -59,5 +59,5 @@ By leveraging the features of SmartGen Docs, organizations and developers can bu
+ ## See Also
+ 
+ *   [Beginner Guides](beginner.md)
+-*   [Deployment Guide](../guides/deployment.md)
++*   [Deployment Guide](../getting-started/deployment.md)
+ *   [SmartGen Platform](https://www.smartgentools.com) - Discover more tools from the SmartGen Platform.
+diff --git a/docs/tutorials/integrations.md b/docs/tutorials/integrations.md
+index d665a7e..0439283 100644
+--- a/docs/tutorials/integrations.md
++++ b/docs/tutorials/integrations.md
+@@ -12,7 +12,7 @@ Automating the build and deployment of your documentation is a cornerstone of ef
+ 
+ *   **GitHub Actions**: Integrate directly within your GitHub repository to build and deploy your SmartGen Docs site on every push to a specific branch.
+     *   **Use Case**: Automatically deploy to GitHub Pages, Netlify, or Vercel.
+-    *   **Example Workflow**: Refer to the [Deployment Guide](../guides/deployment.md#3-continuous-deployment-cicd) for a conceptual GitHub Actions workflow.
++    *   **Example Workflow**: Refer to the [Deployment Guide](../getting-started/deployment.md) for a conceptual GitHub Actions workflow.
+ *   **GitLab CI/CD**: Similar to GitHub Actions, GitLab CI/CD allows you to define pipelines directly in your GitLab repository.
+ *   **Jenkins**: A highly configurable automation server for complex CI/CD setups, suitable for on-premise or custom environments.
+ *   **Netlify/Vercel Built-in CI**: These platforms offer seamless integration with Git repositories, automatically building and deploying your site upon code changes.
+@@ -108,6 +108,6 @@ By strategically integrating SmartGen Docs with these and other tools, you can b
+ 
+ ## See Also
+ 
+-*   [Deployment Guide](../guides/deployment.md)
++*   [Deployment Guide](../getting-started/deployment.md)
+ *   [Configuration Guide](../guides/configuration.md)
+ *   [SmartGen Platform](https://www.smartgentools.com) - Explore more tools from the SmartGen Platform.
+diff --git a/smartgen_docs/cli.py b/smartgen_docs/cli.py
+index 203079d..e8be6b8 100644
+--- a/smartgen_docs/cli.py
++++ b/smartgen_docs/cli.py
+@@ -124,8 +124,21 @@ nav:
+ @click.option("--config", default=".", help="Project root containing smartgen.yml or smartgen-audit.yml")
+ def audit(config):
+     """Crawl the built site and report broken internal/external links."""
+-    from .link_auditor import run_audit
++    try:
++        from .link_auditor import run_audit
++    except ImportError:
++        click.secho(
++            "Error: 'smartgen_docs/link_auditor.py' is missing from this install, "
++            "so 'smartgen-docs audit' can't run.",
++            fg="red",
++        )
++        click.echo(
++            "In the meantime, 'smartgen-docs build' now auto-fixes contextual "
++            "'.md' -> '.html' links on every build, and you can dry-run the "
++            "same rewrite manually with: python -m smartgen_docs.link_fixer"
++        )
++        raise SystemExit(1)
+     run_audit(project_root=config)
+-    
++
+ if __name__ == "__main__":
+     main()
+\ No newline at end of file
+diff --git a/smartgen_docs/core.py b/smartgen_docs/core.py
+index 30b2fea..dd10238 100644
+--- a/smartgen_docs/core.py
++++ b/smartgen_docs/core.py
+@@ -11,6 +11,7 @@ import shutil
+ from jinja2 import Environment, FileSystemLoader
+ from .converter import MarkdownConverter
+ from .path_resolver import PathResolver
++from .link_fixer import rewrite_md_links
+ 
+ 
+ class Builder:
+@@ -134,6 +135,14 @@ class Builder:
+         with open(src_path, 'r', encoding='utf-8') as f:
+             md_content = f.read()
+ 
++        # Rewrite contextual internal links that still point at the '.md'
++        # source (e.g. '[Installation](installation.md)') so they point at
++        # the built '.html' page instead. Without this, every in-body link
++        # 404s on the live site even though the generated nav menu is fine,
++        # because the nav is built from smartgen.yml paths directly while
++        # body content is authored in Markdown and passed through untouched.
++        md_content, _links_fixed = rewrite_md_links(md_content)
++
+         html_body = self.converter.convert(md_content)
+         
+         # Use premium template if it exists
+diff --git a/smartgen_docs/link_fixer.py b/smartgen_docs/link_fixer.py
+index b27881f..66ccd77 100644
+--- a/smartgen_docs/link_fixer.py
++++ b/smartgen_docs/link_fixer.py
+@@ -1,9 +1,20 @@
+ """
+ SmartGen Docs -- Contextual Link Fixer Engine
+ 
+-Scans the root 'docs/' folder and safely converts internal '.md' links to '.html'.
+-Guarantees zero side-effects: Skips third-party external domains, strictly modifies
+-only the text content of the files, and never alters the actual file names.
++Rewrites internal Markdown-style links that point at a `.md` source file
++(e.g. `[Installation](installation.md)`) so they point at the built `.html`
++output instead (`[Installation](installation.html)`).
++
++This module is used two ways:
++
++1.  Automatically, in-memory, by `core.Builder.build_page()` on every build --
++    so every page ships with correct contextual links with zero manual steps.
++2.  As a standalone maintenance script you can still run by hand against the
++    `docs/` source tree (`python -m smartgen_docs.link_fixer --apply`) if you
++    ever want the *source* Markdown files themselves rewritten too.
++
++Guarantees zero side-effects: skips third-party external domains, strictly
++modifies only text content, and never touches file names.
+ """
+ 
+ from __future__ import annotations
+@@ -16,72 +27,98 @@ from pathlib import Path
+ TARGET_DOMAIN = "docs.smartgentools.com"
+ DOCS_DIR = Path("docs")
+ 
+-def fix_md_to_html_in_file(md_file: Path, apply: bool = False) -> int:
+-    """Scans a single markdown file and replaces targeted .md links with .html in its content."""
+-    if not md_file.exists():
+-        return 0
++# Strict Regex Pattern: Matches [text](url.md) or [text](url.md#anchor)
++_MD_LINK_PATTERN = re.compile(r'(\[.*?\])\(([^)]*?\.md(?:#[^)]*)?)\)')
+ 
+-    # 1. Read the file content into memory (does not touch the filename)
+-    content = md_file.read_text(encoding="utf-8")
+-    
+-    # Strict Regex Pattern: Matches [text](url.md) or [text](url.md#anchor)
+-    pattern = re.compile(r'(\[.*?\])\(([^)]*?\.md(?:#[^)]*)?)\)')
+-    
+-    def replacer(match):
++
++def rewrite_md_links(content: str, *, target_domain: str = TARGET_DOMAIN, on_fix=None) -> tuple[str, int]:
++    """Rewrite internal `.md` links in a Markdown string to `.html`, in memory.
++
++    This is the core, side-effect-free transform: it takes a string of
++    Markdown source and returns `(new_content, links_fixed_count)`. It does
++    NOT touch the filesystem -- callers decide what to do with the result
++    (write it back to disk, or -- as `core.Builder` does -- convert it to
++    HTML immediately after).
++
++    Args:
++        content: Markdown source text.
++        target_domain: Absolute links to this domain are also rewritten,
++            in addition to any relative/internal link.
++        on_fix: Optional callback `(old_url, new_url) -> None`, invoked for
++            every link that gets rewritten. Leave as `None` for silent
++            operation (used during normal builds).
++
++    Returns:
++        Tuple of (possibly modified content, number of links fixed).
++    """
++
++    def replacer(match: re.Match) -> str:
+         text_part = match.group(1)
+         url_part = match.group(2)
+-        
++
+         # Extract just the URL base without the anchor for domain checking
+         url_base = url_part.split('#')[0]
+-        
+-        # Guardrail: Check if it is an internal relative link OR matches the target domain
++
++        # Guardrail: only touch an internal relative link OR one that
++        # explicitly matches our own target domain. Third-party `.md`
++        # links (e.g. a link to a README on GitHub) are left untouched.
+         is_internal = not url_base.startswith("http")
+-        is_target_domain = TARGET_DOMAIN in url_base
+-        
+-        if is_internal or is_target_domain:
+-            # Replace the '.md' with '.html' safely, keeping anchors intact if any
+-            # Using rsplit or replace to ensure we only change the extension
+-            new_url = url_part.replace(".md", ".html", 1)
+-            
+-            if apply:
+-                print(f"✅ Fixed in {md_file.name}: '{url_part}' ➔ '{new_url}'")
+-            else:
+-                print(f"🔍 [DRY RUN] Would fix in {md_file.name}: '{url_part}' ➔ '{new_url}'")
+-            
+-            return f"{text_part}({new_url})"
+-        
+-        # If it is a third-party .md link, return the original match unaltered
+-        return match.group(0)
+-
+-    # 2. Perform the substitution in memory
+-    new_content, count = pattern.subn(replacer, content)
+-
+-    # 3. Write changes back to the exact same file (overwrites content, does not rename)
++        is_target_domain = target_domain in url_base
++
++        if not (is_internal or is_target_domain):
++            return match.group(0)
++
++        # Replace only the first '.md' occurrence, keeping any anchor intact
++        new_url = url_part.replace(".md", ".html", 1)
++
++        if on_fix:
++            on_fix(url_part, new_url)
++
++        return f"{text_part}({new_url})"
++
++    return _MD_LINK_PATTERN.subn(replacer, content)
++
++
++def fix_md_to_html_in_file(md_file: Path, apply: bool = False) -> int:
++    """Scans a single markdown file and replaces targeted .md links with .html in its content."""
++    if not md_file.exists():
++        return 0
++
++    content = md_file.read_text(encoding="utf-8")
++
++    prefix = "✅ Fixed" if apply else "🔍 [DRY RUN] Would fix"
++
++    def _log(old_url: str, new_url: str) -> None:
++        print(f"{prefix} in {md_file.name}: '{old_url}' ➔ '{new_url}'")
++
++    new_content, count = rewrite_md_links(content, on_fix=_log)
++
+     if apply and count > 0:
+         md_file.write_text(new_content, encoding="utf-8")
+ 
+     return count
+ 
++
+ def run_fixer(apply: bool = False, **kwargs):
+-    """Main execution block to recursively scan the docs folder."""
++    """Main execution block to recursively scan the docs folder (standalone/manual use)."""
+     if not DOCS_DIR.exists() or not DOCS_DIR.is_dir():
+         print("❌ Fatal Error: 'docs/' directory not found. Must be executed from the project root.")
+         return
+ 
+     print(f"\n--- SmartGen Docs Contextual Link Fixer (Apply Mode: {apply}) ---\n")
+-    
++
+     total_fixed = 0
+-    
+-    # Recursively find all markdown files strictly inside the docs/ folder
++
+     for md_file in DOCS_DIR.rglob("*.md"):
+         fixed_in_file = fix_md_to_html_in_file(md_file, apply=apply)
+         total_fixed += fixed_in_file
+ 
+     print(f"\nSummary: {total_fixed} contextual '.md' links processed and converted to '.html'.\n")
+ 
++
+ if __name__ == "__main__":
+     parser = argparse.ArgumentParser(description="SmartGen Docs Auto Link Fixer")
+     parser.add_argument("--apply", action="store_true", help="Apply changes directly to .md files")
+     args = parser.parse_args()
+ 
+-    run_fixer(apply=args.apply)
+\ No newline at end of file
++    run_fixer(apply=args.apply)
