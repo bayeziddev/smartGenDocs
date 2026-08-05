@@ -136,6 +136,7 @@ nav:
   - Guides:
       - Configuration: guides/configuration.md
       - Customization: guides/customization.md
+      - Theming: guides/theming.md
       - Security: guides/security.md
       - Performance: guides/performance.md
       - SEO Optimization: guides/seo.md
