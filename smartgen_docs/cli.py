@@ -124,8 +124,21 @@ nav:
 @click.option("--config", default=".", help="Project root containing smartgen.yml or smartgen-audit.yml")
 def audit(config):
     """Crawl the built site and report broken internal/external links."""
-    from .link_auditor import run_audit
+    try:
+        from .link_auditor import run_audit
+    except ImportError:
+        click.secho(
+            "Error: 'smartgen_docs/link_auditor.py' is missing from this install, "
+            "so 'smartgen-docs audit' can't run.",
+            fg="red",
+        )
+        click.echo(
+            "In the meantime, 'smartgen-docs build' now auto-fixes contextual "
+            "'.md' -> '.html' links on every build, and you can dry-run the "
+            "same rewrite manually with: python -m smartgen_docs.link_fixer"
+        )
+        raise SystemExit(1)
     run_audit(project_root=config)
-    
+
 if __name__ == "__main__":
     main()
