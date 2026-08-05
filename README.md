@@ -21,258 +21,60 @@
 
 ---
 ## What is SmartGen Docs?
+# Multi-theme system for SmartGen Docs
 
-**SmartGen Docs** is an open-source **Python static site generator** built specifically for **project documentation**. It's a `pip install`-able alternative in the same space as MkDocs and Sphinx, with three deliberate differences:
+**Repo:** `bayeziddev/smartGenDocs`
+**Files touched:** `smartgen_docs/themes/default/static/css/premium.css`, `smartgen_docs/themes/default/base_premium.html`, `smartgen.yml`, `docs/guides/theming.md` (new), plus 11 pre-existing broken-link fixes across `docs/*.md`.
 
-- **Zero third-party front-end dependency.** No icon fonts, no UI framework, no CDN calls. Every pixel in the default theme is hand-authored CSS and inline SVG. Code syntax highlighting runs server-side through **Pygments** at build time — highlighted code even with JavaScript disabled.
-- **One toolchain, one config file.** `smartgen-docs init / serve / build` covers scaffolding, a live-reload dev server, and static output. Navigation, theme palette, and site metadata all live in a single `smartgen.yml`.
-- **Markdown-first, no lock-in.** Every page is a plain `.md` file with YAML front matter. Your content isn't trapped in a proprietary format.
+Everything below was built with zero third-party CSS/JS — no theming library, no icon font, no CDN script. Same approach the project already uses.
 
-If you're searching for a **documentation generator**, a **markdown to HTML converter**, an **MkDocs alternative**, or a lightweight **docs-as-code** tool that deploys straight to **GitHub Pages**, this repo is built for exactly that.
+## What you get
 
----
+**Four themes** — Light (existing), Dark (existing, unchanged visually), and two new ones:
+- **Sepia** — warm, low-glare paper tone for long reading sessions.
+- **High Contrast** — pure black/white dark theme with flat 1px outlines instead of soft shadows, aimed at readers who need stronger contrast rather than a decorative dark mode.
 
-## Table of Contents — Your A-to-Z Guide
+**A real switcher**, not just a toggle — the moon/sun icon (top right) now opens a small keyboard-accessible menu (arrow keys, Enter, Escape) with all four themes, a preview swatch, and a checkmark on the active one.
 
-| # | Section | What's there |
-|---|---|---|
-| A | [What is SmartGen Docs?](#what-is-smartgen-docs) | Project summary and philosophy |
-| B | [Features](#features) | Full feature list |
-| C | [Live Demo](#live-demo) | See it running |
-| D | [Installation](#installation) | `pip install` and requirements |
-| E | [Quick Start](#quick-start) | Your first project in 3 commands |
-| F | [Project and Folder Structure](#project-and-folder-structure) | Where everything lives |
-| G | [Configuration (`smartgen.yml`)](#configuration-smartgenyml) | Site metadata, nav, theme palette |
-| H | [Writing Content](#writing-content) | Markdown conventions, front matter |
-| I | [Theming and Customization](#theming-and-customization) | CSS tokens, light/dark mode |
-| J | [CLI Reference](#cli-reference) | `init`, `serve`, `build` |
-| K | [Deployment (GitHub Pages)](#deployment-github-pages) | Correct Pages setup, `.nojekyll`, `CNAME` |
-| L | [SEO and Metadata](#seo-and-metadata) | Canonical URLs, Open Graph, sitemap |
-| M | [Full Documentation](#full-documentation) | Every guide, tutorial, and reference page |
-| N | [Roadmap](#roadmap) | Where the project is headed |
-| O | [Contributing](#contributing) | How to open a PR |
-| P | [Community](#community) | Discussions, issues, feature requests |
-| Q | [Sponsor](#sponsor) | Support the project |
-| R | [License](#license) | MIT |
-| S | [Contact](#contact) | Direct contact details |
+**No flash of the wrong theme.** A tiny inline script at the very top of `<head>` reads the reader's saved choice (or their OS's `prefers-color-scheme` on a first visit) and sets it before anything else loads.
 
----
+**Everything is CSS custom properties.** Each theme is one block in `premium.css` (`:root[data-theme="sepia"] { --bg-primary: ...; }` etc.) redefining the same ~25 tokens the whole site is already built on — adding a 5th theme is copy a block, add one line to a JS array, done. Full walkthrough with a worked example in `docs/guides/theming.md`.
 
-## Features
+**A brand-color override still works.** If `smartgen.yml` sets `theme.palette.primary`/`accent`, that now applies across all 4 themes consistently (previously it only worked because there was only one light + one dark palette to override).
 
-- 📝 **Markdown-centric** authoring with YAML front matter
-- ⚙️ **Single YAML config** (`smartgen.yml`) for navigation, metadata, and theme palette
-- 🔁 **Live-reload dev server** — edits appear instantly while you write
-- 🎨 **Original, configurable theme** — no Material Design, no icon-font dependency
-- 🌓 **Light/dark mode**, tuned for contrast in both
-- 🖍️ **Server-side syntax highlighting** via Pygments — zero client-side highlighting JS
-- 🔍 **Built-in client-side search**
-- 🧭 **Collapsible sidebar navigation**, breadcrumbs, and previous/next page links
-- 📱 **Fully responsive**, mobile-first layout
-- 🚀 **GitHub Actions deploy workflow** included, ready for GitHub Pages
-- 🔎 **SEO-ready out of the box** — per-page canonical URLs, Open Graph, Twitter Card meta
+## A bug I fixed along the way
 
-## Live Demo
+While wiring up the switcher I found — and fixed — a real, pre-existing bug in the same file: the Previous/Next page navigation at the bottom of every page picks the "active" sidebar link by matching the URL's filename only. Since every section has its own `index.html` (`api/index.html`, `about/index.html`, ...), on any section-overview page ALL of them matched at once, and Previous/Next silently showed the wrong neighbors. I verified this with a real headless-browser render before and after — see the API audit report for the before/after on `api/index.html` specifically. The fix (`updateActiveNav()` in `base_premium.html`) now compares fully-resolved page paths instead of filenames.
 
-The docs you're reading about are themselves built with SmartGen Docs:
+## A pre-existing documentation problem I found and fixed
 
-**→ [docs.smartgentools.com](https://docs.smartgentools.com)**
+`docs/guides/theming.md` already existed in your repo (tracked in `origin/main`), but it was never in `smartgen.yml`'s `nav`, so it was never built — which is why `https://docs.smartgentools.com/guides/theming.html` 404s on the live site today. More importantly, its *content* described a theming system that doesn't exist in this codebase at all: `extra_css`/`extra_javascript` config, a `custom_dir` template-override mechanism, Font Awesome icon config, an `analytics.provider` block, and an MkDocs-Material-style `palette` array with `toggle: { icon: material/weather-sunny }`. None of that is implemented anywhere in `smartgen_docs/core.py` — it looks like leftover placeholder content from an earlier pass that documented a different tool's config format rather than this one, and it directly contradicts the project's own "zero third-party" positioning by describing a Font-Awesome/Google-Fonts-style setup. I replaced it with documentation of the theme system that's actually in this codebase, and added it to `smartgen.yml`'s nav so it actually gets built and is reachable.
 
-## Installation
+## Also included: the still-outstanding link fixes from the last round
+
+11 of the content-level link fixes from the previous broken-link audit hadn't been applied yet (only the generator-level `.md`→`.html` code fix was merged) — I reapplied them here so this patch is a complete, one-shot fix: `Sponsor Us`, both SDK reference links, the marketing-page "Guides" link, both `Deployment Guide` cross-references, the `Changelog` link, the homepage `Installation` link, and the doubled-path `Quick Start` link. I also fixed a handful of new ones I found while writing the theming guide: two dead-end references to a nonexistent `extra_javascript` feature, and four references to the still-missing CLI Reference / Autodoc Guide pages — those two guides genuinely don't exist yet (real content gap, not a link bug), so I pointed them at the closest real content instead (`docs/features.html`'s CLI and Autodoc sections) rather than leaving them 404.
+
+## How to apply
 
 ```bash
-pip install -r requirements.txt
-pip install -e .
+cd smartGenDocs
+git checkout -b feature/multi-theme-system
+git apply theme-system-and-fixes.patch
 ```
 
-Requires Python 3.9+. Core dependencies: `Jinja2`, `markdown2`, `PyYAML`, `Pygments`, `click`, `watchdog` — see [`requirements.txt`](requirements.txt) for the full list.
+Or copy the 4 standalone files in this delivery directly over their counterparts in your repo:
+- `base_premium.html` → `smartgen_docs/themes/default/base_premium.html`
+- `premium.css` → `smartgen_docs/themes/default/static/css/premium.css`
+- `theming.md` → `docs/guides/theming.md`
+- `smartgen.yml` → repo root (only adds one `Theming:` nav line — diff it against yours first if you've made other nav changes since)
 
-## Quick Start
+Then rebuild (`smartgen-docs build`) and check the palette icon in the header.
 
-```bash
-# 1. Scaffold a new documentation project
-smartgen-docs init my-docs
-cd my-docs
+## Verified
 
-# 2. Start the live-reload dev server
-smartgen-docs serve
+I built the site locally with all of this applied and confirmed, via a real headless-browser render (not just static HTML inspection):
+- All 4 themes apply correctly, persist across reloads via `localStorage`, and respect OS preference on first visit.
+- All 25 code blocks across the site stay properly Pygments-highlighted and readable in every theme, including computed-color contrast checks on the High Contrast theme specifically.
+- The Previous/Next nav bug is fixed on `api/index.html` and confirmed unaffected on every other page.
+- Zero `.md` hrefs remain anywhere in the built output.
 
-# 3. Build the static site for deployment
-smartgen-docs build --config smartgen.yml --site-dir site
-```
-
-Your static site is now in `site/` — upload it anywhere, or see [Deployment](#deployment-github-pages) below for GitHub Pages.
-
-## Project and Folder Structure
-
-```
-smartGenDocs/
-├── smartgen.yml                    # Site config: nav, metadata, theme palette
-├── docs/                           # All Markdown content lives here
-│   ├── index.md                    # Homepage
-│   ├── getting-started/            # Onboarding guides
-│   ├── docs/                       # Core concepts & architecture
-│   ├── guides/                     # Configuration, SEO, performance, security
-│   ├── api/                        # API reference
-│   ├── sdk/                        # Language SDKs
-│   ├── tools/                      # SmartGen Tools documentation
-│   ├── tutorials/                  # Step-by-step tutorials
-│   ├── resources/                  # Roadmap, examples, glossary
-│   ├── community/                  # Contributing, sponsor, issues
-│   ├── blog/                       # Release notes & articles
-│   └── about/                      # Project & license info
-├── smartgen_docs/                  # The generator itself (Python package)
-│   ├── core.py                     # Build pipeline
-│   ├── cli.py                      # `smartgen-docs` command entry point
-│   ├── converter.py                # Markdown → HTML (Pygments-highlighted)
-│   ├── theme_engine.py             # Template loader
-│   └── themes/default/             # The default theme
-│       ├── base_premium.html       # Page shell: header, sidebar, footer
-│       ├── page_premium.html       # Content wrapper
-│       └── static/css/premium.css  # The entire visual design system
-├── .github/workflows/main.yml      # CI: validate → build → deploy to Pages
-└── site/                           # Build output (generated, not committed)
-```
-
-## Configuration (`smartgen.yml`)
-
-Everything about a SmartGen Docs site is declared in one file:
-
-```yaml
-site_name: SmartGen Docs
-site_url: https://docs.smartgentools.com/
-site_author: Sayad Md Bayezid Hosan
-
-theme:
-  palette:
-    primary: "#4A3AE3"
-    accent: "#C2660D"
-
-nav:
-  - Home: index.md
-  - Getting Started:
-      - Welcome: getting-started/index.md
-      - Quick Start: getting-started/quick-start.md
-  # ...full tree in smartgen.yml
-```
-
-Change `theme.palette` to reskin the entire site without touching CSS. Change `nav` to restructure the whole sidebar.
-
-## Writing Content
-
-Every page is Markdown with YAML front matter:
-
-```markdown
----
-title: Page Title
----
-
-# Page Title
-
-Regular Markdown. Fenced code blocks are highlighted automatically:
-
-\`\`\`python
-def hello():
-    print("SmartGen Docs")
-\`\`\`
-```
-
-Add the page's path to `nav:` in `smartgen.yml` to make it appear in the sidebar — pages not listed in `nav` are not built.
-
-## Theming and Customization
-
-The entire look lives in [`smartgen_docs/themes/default/static/css/premium.css`](smartgen_docs/themes/default/static/css/premium.css) as CSS custom properties:
-
-```css
-:root {
-  --color-primary: #4A3AE3;
-  --color-accent: #C2660D;
-  --font-sans: 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', monospace;
-}
-```
-
-Override any token, or override `theme.palette` in `smartgen.yml` for primary/accent without touching CSS at all.
-
-## CLI Reference
-
-| Command | Description |
-|---|---|
-| `smartgen-docs init <name>` | Scaffold a new documentation project |
-| `smartgen-docs serve` | Start the live-reload development server |
-| `smartgen-docs build --config smartgen.yml --site-dir site` | Build the static site |
-
-## Deployment (GitHub Pages)
-
-This repo ships a complete CI/CD workflow at [`.github/workflows/main.yml`](.github/workflows/main.yml) that validates, builds, and deploys on every push to `main`.
-
-**For this to work, your repo's Pages source must be set correctly:**
-
-1. Go to **Settings → Pages**
-2. Under **Build and deployment → Source**, select **"GitHub Actions"** — *not* "Deploy from a branch"
-
-If Pages is left on "Deploy from a branch," GitHub will run its own Jekyll build over your repository in parallel with the Actions workflow, and whichever one "wins" can vary — this is what causes a raw `README.md`/Jekyll page to appear instead of your real site. The build now also writes `.nojekyll` and `CNAME` (from `site_url`) into every build automatically, so once the Source setting above is corrected, this shouldn't resurface.
-
-## SEO and Metadata
-
-Every built page includes:
-- A unique, self-referencing `<link rel="canonical">`
-- Open Graph (`og:title`, `og:description`, `og:url`) and Twitter Card meta, both page-specific
-- A single `<h1>` per page and a clean heading hierarchy
-
-## Full Documentation
-
-The complete guide lives at **[docs.smartgentools.com](https://docs.smartgentools.com)**:
-
-- [Getting Started](https://docs.smartgentools.com/getting-started/index.html) — installation, first project, deployment, FAQ
-- [Documentation](https://docs.smartgentools.com/docs/index.html) — concepts, architecture, platform, release notes
-- [Guides](https://docs.smartgentools.com/guides/configuration.html) — configuration, customization, SEO, performance, accessibility, security
-- [API Reference](https://docs.smartgentools.com/api/index.html) — REST API, authentication, endpoints, webhooks
-- [SDKs](https://docs.smartgentools.com/sdk/index.html) — Python, JavaScript, PHP, Go, Java
-- [Tools](https://docs.smartgentools.com/tools/index.html) — the SmartGen Tools suite
-- [Tutorials](https://docs.smartgentools.com/tutorials/index.html) — beginner to advanced walkthroughs
-
-## Roadmap
-
-Where the project stands today and what's next, kept honest and updated as things ship: **[docs/resources/roadmap.md](docs/resources/roadmap.md)**.
-
-## Contributing
-
-Contributions are welcome — see **[docs/community/contributing.md](docs/community/contributing.md)**.
-
-- 🐛 [Report an issue](https://github.com/bayeziddev/smartGenDocs/issues)
-- 💡 [Request a feature](docs/community/features.md)
-- 💬 [Join discussions](docs/community/discussions.md)
-
-## Community
-
-- [Community Home](docs/community/index.md)
-- [Discussions](docs/community/discussions.md)
-- [Report an Issue](https://github.com/bayeziddev/smartGenDocs/issues)
-
-## Sponsor
-
-If SmartGen Docs saves you time, consider supporting development: **[docs/community/sponsor.md](docs/community/sponsor.md)**
-
-PayPal, crypto (USDT/BEP20), bKash, Nagad, and international bank transfer are all listed there.
-
-## License
-
-MIT — see [LICENSE](LICENSE). Free to use, modify, and distribute, with attribution.
-
-## Contact
-
-Built and maintained by **Sayad Md Bayezid Hosan**.
-
-- Business: [info@sayadbayezid.com](mailto:info@sayadbayezid.com)
-- Support: [support@sayadbayezid.com](mailto:support@sayadbayezid.com)
-- WhatsApp: [+880 1519-601517](https://wa.me/8801519601517)
-- All verified profiles: [sayadbayezid.com/verified-profiles](https://sayadbayezid.com/verified-profiles/)
-
----
-
-<div align="center">
-
-**[⬆ back to top](#smartgen-docs)**
-
-</div>
