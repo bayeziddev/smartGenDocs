@@ -1,186 +1,150 @@
-# Theming Guide: Customizing Your SmartGen Docs Appearance
+# Theming Guide
 
-The visual appeal and user experience of your documentation site are significantly influenced by its theme. SmartGen Docs offers powerful theming capabilities, allowing you to customize nearly every aspect of your site\'s appearance, from colors and fonts to layout and interactive elements.
+SmartGen Docs ships with a built-in, multi-theme system: readers can switch between **Light**, **Dark**, **Sepia**, and **High Contrast**, and their choice is remembered on their next visit. Like the rest of the default theme, it's hand-authored CSS and vanilla JavaScript — no theming framework, no icon library, no third-party stylesheet. Every color a theme uses lives in one place and is easy to read, copy, and change.
 
-This guide will walk you through selecting a theme, configuring its various options, and implementing advanced customizations to create a documentation site that perfectly aligns with your brand and user needs.
+This guide explains how the system works, how to pick a theme as a reader, how to set a site-wide brand color as a site owner, and how to add your own theme as a contributor.
 
-## 1. Theme Selection and Configuration
+## The four built-in themes
 
-The primary theme settings are defined within the `theme` section of your `smartgen.yml` file. SmartGen Docs typically provides a `default` theme and a more feature-rich `premium` theme.
+| Theme | Family | Purpose |
+|---|---|---|
+| **Light** | Light | The default. Balanced contrast for typical daytime reading. |
+| **Dark** | Dark | Reduced brightness for low-light environments. |
+| **Sepia** | Light | Warm, low-glare paper tone, aimed at long reading sessions. |
+| **High Contrast** | Dark | Pure black background, pure white text, solid 1px borders instead of soft shadows — aimed at readers who need stronger contrast (WCAG AAA-level target) rather than a decorative dark mode. |
 
-### Basic Theme Configuration
+Readers switch themes from the palette icon at the top right of every page. It opens a small menu (keyboard-accessible: arrow keys to move, <kbd>Enter</kbd> to pick, <kbd>Esc</kbd> to close) listing all four, each with a small preview swatch and a checkmark on the active one.
 
-```yaml
-theme:
-  name: premium # Choose \'default\' or \'premium\'
-  palette:
-    primary: "#0052cc" # Primary brand color
-    accent: "#ff9900" # Accent color for highlights
-  font:
-    text: Roboto # Font for general text
-    code: Roboto Mono # Font for code blocks
-  favicon: assets/favicon.png # Path to your favicon
-  logo: assets/logo.png # Path to your site logo
-```
+## How it works
 
-*   **`name`**: Specifies which base theme to use. The `premium` theme often includes advanced features like built-in dark mode support and more sophisticated navigation options.
-*   **`palette`**: Defines the color scheme. You can set `primary` and `accent` colors using hexadecimal codes or CSS color names. These colors are used throughout the theme for elements like headers, links, and highlights.
-*   **`font`**: Allows you to specify custom fonts for both general text (`text`) and code blocks (`code`). You can use web-safe fonts or link to Google Fonts (which might require additional `extra_css` or `extra_javascript` to import).
-*   **`favicon`**: The path to your site\'s favicon, a small icon that appears in browser tabs and bookmarks.
-*   **`logo`**: The path to your site\'s logo image, typically displayed in the header of your documentation.
+The whole system is four pieces, all in `smartgen_docs/themes/default/`:
 
-### Advanced Palette Configuration (Light/Dark Mode)
+1. **Design tokens**, in `static/css/premium.css`. `:root` defines the Light theme's values as plain CSS custom properties (`--bg-primary`, `--text-primary`, `--color-primary`, and so on). Each other theme is a block like:
 
-The `premium` theme often supports sophisticated light and dark mode switching. You can configure distinct palettes for each mode, allowing users to toggle between them based on their system preferences or a manual switch.
-
-```yaml
-theme:
-  name: premium
-  palette:
-    - media: "(prefers-color-scheme: light)" # Applies when system prefers light mode
-      scheme: default
-      primary: deep purple
-      accent: amber
-      toggle:
-        icon: material/weather-sunny # Icon for light mode
-        name: Switch to dark mode # Text for the toggle button
-    - media: "(prefers-color-scheme: dark)" # Applies when system prefers dark mode
-      scheme: slate
-      primary: deep purple
-      accent: amber
-      toggle:
-        icon: material/weather-night # Icon for dark mode
-        name: Switch to light mode # Text for the toggle button
-```
-
-This configuration enables automatic switching based on the user\'s operating system settings and provides a toggle button for manual control.
-
-## 2. Customizing with `extra_css` and `extra_javascript`
-
-For more granular control over your site\'s appearance and behavior, you can inject custom CSS and JavaScript files.
-
-### Adding Custom Styles (`extra_css`)
-
-Create a CSS file (e.g., `docs/stylesheets/extra.css`) and reference it in your `smartgen.yml`:
-
-```yaml
-theme:
-  # ... other theme settings ...
-  extra_css:
-    - stylesheets/extra.css
-```
-
-**`docs/stylesheets/extra.css` example:**
-
-```css
-/* Custom styles for SmartGen Docs */
-:root {
-  --md-primary-fg-color: #1a73e8; /* Override primary color */
-  --md-accent-fg-color: #e91e63; /* Override accent color */
-}
-
-.md-header {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.md-content h1 {
-  border-bottom: 2px solid var(--md-primary-fg-color);
-  padding-bottom: 10px;
-}
-```
-
-This allows you to override existing theme styles or add entirely new ones without modifying the core theme files.
-
-### Adding Custom JavaScript (`extra_javascript`)
-
-Similarly, you can include custom JavaScript files (e.g., `docs/javascripts/extra.js`) for interactive features or third-party integrations:
-
-```yaml
-theme:
-  # ... other theme settings ...
-  extra_javascript:
-    - javascripts/extra.js
-```
-
-**`docs/javascripts/extra.js` example:**
-
-```javascript
-// Custom JavaScript for SmartGen Docs
-document.addEventListener(\'DOMContentLoaded\', function() {
-  console.log(\'SmartGen Docs custom script loaded!\');
-  // Add custom functionality here, e.g., analytics, dynamic content loading
-});
-```
-
-## 3. Overriding Theme Templates (`custom_dir`)
-
-For the most advanced customizations, you can override individual theme templates. This requires a deeper understanding of Jinja2 templating and the theme\'s file structure.
-
-1.  **Create a custom directory**: Specify a `custom_dir` in your `smartgen.yml` (e.g., `smartgen_docs/themes/custom`).
-
-    ```yaml
-theme:
-  name: premium
-  custom_dir: smartgen_docs/themes/custom
+    ```css
+    :root[data-theme="sepia"] {
+        --bg-primary: #F7F1E3;
+        --text-primary: #2E2515;
+        /* ...every other token... */
+    }
     ```
 
-2.  **Copy and modify templates**: Copy the specific template file you wish to modify from the base theme\'s directory (e.g., `smartgen_docs/themes/premium/main.html`) into your `custom_dir` (e.g., `smartgen_docs/themes/custom/main.html`).
+   Nothing else in the stylesheet references a specific color by hex value — every rule in the site (backgrounds, text, borders, buttons, code blocks) is written against these tokens, so a new theme only has to redefine the tokens once and the entire site repaints correctly.
 
-3.  **Make your changes**: Edit the copied template file. SmartGen Docs will prioritize templates found in your `custom_dir` over the default theme files.
+2. **The `data-theme` attribute**, set on `<html>`. Switching themes is just setting or removing this one attribute — `<html data-theme="dark">`, `<html data-theme="sepia">`, and so on. Light has no attribute at all (it's the `:root` default), which keeps the common case cheap.
 
-This method is powerful but should be used judiciously, as it can make theme updates more challenging. Always start with `extra_css` and `extra_javascript` for simpler customizations.
+3. **A tiny pre-paint script**, inlined at the very top of `<head>` in `base_premium.html`. Before any CSS or content loads, it reads the reader's saved choice from `localStorage` (key `smartgen-theme`) and, if they've never chosen, falls back to their OS's `prefers-color-scheme`. It sets `data-theme` synchronously, so the page never flashes the wrong theme on load.
 
-## 4. Theme Features
+4. **The theme switcher script**, near the end of `base_premium.html`. A `THEMES` array is the single source of truth for the switcher menu (value, label, and the two preview-swatch colors); the menu's HTML is generated from it. Picking an option calls `applyTheme(value)`, which sets `data-theme`, saves the choice to `localStorage`, and re-renders the menu's checkmark.
 
-Many themes, especially the `premium` theme, offer a variety of features that can be enabled or disabled in your `smartgen.yml`.
+## Site owners: setting a brand color
 
-```yaml
-theme:
-  # ...
-  features:
-    - navigation.tabs # Top-level navigation as tabs
-    - navigation.sections # Group pages into sections in the sidebar
-    - search.suggest # Autocomplete suggestions in search
-    - search.highlight # Highlight search terms in results
-    - toc.integrate # Integrate table of contents into the sidebar
-    - header.autohide # Hide header on scroll down, show on scroll up
-    - content.tabs.link # Linkable tabs within content
-    - content.code.copy # Copy button for code blocks
-```
-
-Experiment with these features to find the best presentation for your documentation. Each feature enhances usability and navigation in different ways.
-
-## 5. Icons and Analytics
-
-### Custom Icons
-
-You can specify icons for various elements, such as your repository link, using Font Awesome icons.
+If your `smartgen.yml` sets a custom palette:
 
 ```yaml
 theme:
-  # ...
-  icon:
-    repo: fontawesome/brands/github # GitHub icon for repository link
+  name: premium
+  palette:
+    primary: "#0052CC"
+    accent: "#FF9900"
 ```
 
-### Analytics Integration
+that primary/accent pair applies on top of **every** theme, light or dark — so your brand color stays consistent no matter which theme a reader picks. Everything else about the theme (backgrounds, text, borders) still adapts normally.
 
-Integrate web analytics services to track user engagement and site performance.
+This `theme.palette.primary` / `theme.palette.accent` pair is the only theme-related setting `smartgen.yml` currently reads. There is no `extra_css`, `extra_javascript`, `custom_dir`, `features` list, icon-font config, or analytics block — an earlier draft of this page described those (borrowed from a different static-site generator's config format) but none of it is implemented in `smartgen_docs/core.py`, so it never did anything. If you need one of those capabilities, it's a real feature request, not a documentation gap — see [Contributing](../community/contributing.md).
 
-```yaml
-theme:
-  # ...
-  analytics:
-    provider: google # e.g., \'google\'
-    property: G-XXXXXXXXXX # Your Google Analytics tracking ID
+## Contributors: adding a new theme
+
+Adding a theme is two small edits and a rebuild — no build tooling changes needed.
+
+**1. Add a token block to `smartgen_docs/themes/default/static/css/premium.css`**, next to the existing ones:
+
+```css
+:root[data-theme="forest"] {
+    --color-primary: #2E7D5B;
+    --color-primary-light: #E1F2E9;
+    --color-primary-hover: #256B4C;
+    --color-accent: #B5651D;
+    --color-accent-light: #F6E6D8;
+    --color-mint: #2E7D5B;
+    --color-success: #2E7D5B;
+    --color-warning: #B5651D;
+    --color-danger: #C4314B;
+    --color-info: #2E7D5B;
+
+    --bg-primary: #F4F8F5;
+    --bg-secondary: #E9F1EB;
+    --bg-tertiary: #DCE9DF;
+    --bg-hover: #E1F2E9;
+    --bg-active: #E1F2E9;
+    --bg-code: #EAF2EC;
+
+    --text-primary: #16241C;
+    --text-secondary: #3E5548;
+    --text-tertiary: #5C7466;
+    --text-active: #2E7D5B;
+
+    --border-color: #CBDECF;
+    --border-light: #DCE9DF;
+    --border-active: #2E7D5B;
+
+    --shadow-sm: 0 1px 2px rgba(22, 36, 28, 0.06);
+    --shadow-md: 0 6px 16px rgba(22, 36, 28, 0.10);
+    --shadow-lg: 0 18px 46px rgba(22, 36, 28, 0.16);
+}
 ```
 
-This will automatically inject the necessary tracking code into your site.
+Every token from the reference table below must be present, or elements using it will silently fall back to the Light theme's value.
 
-By leveraging the extensive theming options in SmartGen Docs, you can create a highly polished, branded, and user-friendly documentation experience that stands out.
+**2. Register it in the `THEMES` array** in `smartgen_docs/themes/default/base_premium.html` (search for `THEME SWITCHER`):
+
+```js
+const THEMES = [
+    { value: 'light',    label: 'Light',        swatchBg: '#ffffff', swatchFg: '#4A3AE3' },
+    { value: 'dark',     label: 'Dark',          swatchBg: '#0B0E16', swatchFg: '#8C9EFF' },
+    { value: 'sepia',    label: 'Sepia',         swatchBg: '#F7F1E3', swatchFg: '#A8540B' },
+    { value: 'contrast', label: 'High Contrast', swatchBg: '#000000', swatchFg: '#A6B4FF' },
+    { value: 'forest',   label: 'Forest',        swatchBg: '#F4F8F5', swatchFg: '#2E7D5B' },
+];
+```
+
+**3. Also update the `VALID` list** in the pre-paint script at the top of `<head>` (same file) so the new theme survives a hard refresh:
+
+```js
+var VALID = ['light', 'dark', 'sepia', 'contrast', 'forest'];
+```
+
+Rebuild (`smartgen-docs build`), refresh, and the new theme appears in the switcher immediately — no other file needs to change.
+
+### Token reference
+
+| Token | Governs |
+|---|---|
+| `--color-primary` / `--color-primary-light` / `--color-primary-hover` | Links, active nav item, primary buttons, focus accents. |
+| `--color-accent` / `--color-accent-light` | Secondary highlights (e.g. the Sponsor button). |
+| `--color-mint` / `--color-success` | Success states. |
+| `--color-warning` | Warning states. |
+| `--color-danger` | Error states. |
+| `--color-info` | Informational callouts. |
+| `--bg-primary` | Page background. |
+| `--bg-secondary` / `--bg-tertiary` | Sidebar, cards, table stripes. |
+| `--bg-hover` / `--bg-active` | Hover and active/selected surface states. |
+| `--bg-code` | Code block background (outside of syntax-highlighted tokens). |
+| `--text-primary` | Body text and headings. |
+| `--text-secondary` / `--text-tertiary` | Supporting and muted text. |
+| `--text-active` | Text color for the active nav item / active states. |
+| `--border-color` / `--border-light` / `--border-active` | Dividers, card borders, focus/active borders. |
+| `--shadow-sm` / `--shadow-md` / `--shadow-lg` | Elevation for menus, cards, and popovers. Use flat outlines instead of blur for a high-contrast theme (see how `contrast` does this). |
+
+Syntax-highlighted code (the `.codehilite` blocks Pygments generates at build time) is colored separately, under `.codehilite .k`, `.codehilite .s`, and so on in `premium.css`. The default token colors are tuned for light backgrounds and are shared by Light/Sepia; if your new theme is dark-family, add a `[data-theme="yourtheme"] .codehilite ...` override block the same way `[data-theme="dark"] .codehilite ...` does, so keywords and strings stay legible against a dark background.
+
+## Accessibility notes
+
+- The switcher menu is a proper `role="menu"` with `role="menuitemradio"` items, arrow-key navigation, and an `aria-checked` state — it's fully usable without a mouse.
+- `prefers-reduced-motion` is respected site-wide; theme changes don't add any motion beyond the existing color/background transition, which is itself disabled for readers who've asked for reduced motion.
+- High Contrast exists specifically for readers who need it — treat it as a first-class theme, not an afterthought, when you touch shared components.
 
 ## See Also
 
-*   [Configuration Guide](configuration.md)
-*   [SmartGen Docs GitHub Repository](https://github.com/bayeziddev/smartGenDocs)
-*   [SmartGen Platform](https://www.smartgentools.com) - Discover more tools from the SmartGen Platform.
+- [Configuration Guide](configuration.md) — the rest of `smartgen.yml`, including the `theme.palette` brand-color override.
+- [Customization Guide](customization.md) — customizing templates and layout beyond color.
