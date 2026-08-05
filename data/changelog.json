@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update index.md",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "c173ab9ee5d842a3ba52f632c473532a38b10791",
+    "short_commit": "c173ab9",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/c173ab9ee5d842a3ba52f632c473532a38b10791",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-05T16:17:25+06:00",
+    "files_changed": 1,
+    "insertions": 1,
+    "deletions": 1,
+    "changed_files": [
+      "docs/getting-started/index.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Implement multi-theme system and fix links",
     "description": "Added multi-theme support and fixed broken links in documentation.",
     "author": "Sayad Bayezid",
