@@ -11,6 +11,7 @@ import shutil
 from jinja2 import Environment, FileSystemLoader
 from .converter import MarkdownConverter
 from .path_resolver import PathResolver
+from .link_fixer import rewrite_md_links
 
 
 class Builder:
@@ -133,6 +134,14 @@ class Builder:
 
         with open(src_path, 'r', encoding='utf-8') as f:
             md_content = f.read()
+
+        # Rewrite contextual internal links that still point at the '.md'
+        # source (e.g. '[Installation](installation.md)') so they point at
+        # the built '.html' page instead. Without this, every in-body link
+        # 404s on the live site even though the generated nav menu is fine,
+        # because the nav is built from smartgen.yml paths directly while
+        # body content is authored in Markdown and passed through untouched.
+        md_content, _links_fixed = rewrite_md_links(md_content)
 
         html_body = self.converter.convert(md_content)
         
