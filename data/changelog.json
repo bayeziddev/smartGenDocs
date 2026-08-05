@@ -7,6 +7,26 @@
     "repository": "bayeziddev/smartGenDocs",
     "repository_url": "https://github.com/bayeziddev/smartGenDocs",
     "branch": "main",
+    "commit": "f87b4a921b2f3faaf5bbee20dbd045ce70fad366",
+    "short_commit": "f87b4a9",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/f87b4a921b2f3faaf5bbee20dbd045ce70fad366",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-05T15:06:29+06:00",
+    "files_changed": 1,
+    "insertions": 348,
+    "deletions": 0,
+    "changed_files": [
+      "fix-contextual-md-links.patch"
+    ]
+  },
+  {
+    "version": "development",
+    "title": "Add files via upload",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
     "commit": "048d7e947a268b6d18be69fbb87a2a9fc5bba9d5",
     "short_commit": "048d7e9",
     "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/048d7e947a268b6d18be69fbb87a2a9fc5bba9d5",
