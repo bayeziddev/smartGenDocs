@@ -340,9 +340,27 @@
             const here = article ? article.dataset.currentPath : '';
             const progress = article ? parseInt(article.dataset.progress, 10) || 0 : 0;
 
+            // Capture the page the reader was on BEFORE this one, while it's
+            // still in localStorage -- this is the real "resume" target for
+            // this page view. (Reading it AFTER we overwrite LAST_KEY below
+            // would always return the current page, which is why "Resume"
+            // used to silently do nothing.)
+            let resumeTarget = null;
+            try { resumeTarget = localStorage.getItem(LAST_KEY); } catch (e) { resumeTarget = null; }
+            if (resumeTarget === here) resumeTarget = null;
+
             let visited = [];
             try { visited = JSON.parse(localStorage.getItem(PAGES_KEY) || '[]'); } catch (e) { visited = []; }
             if (here && !visited.includes(here)) visited.push(here);
+
+            // First visit ever, or the only prior page was this one: fall
+            // back to the most recently visited page that isn't this one.
+            if (!resumeTarget) {
+                for (let i = visited.length - 2; i >= 0; i--) {
+                    if (visited[i] !== here) { resumeTarget = visited[i]; break; }
+                }
+            }
+
             try {
                 localStorage.setItem(PAGES_KEY, JSON.stringify(visited));
                 if (here) localStorage.setItem(LAST_KEY, here);
@@ -377,11 +395,14 @@
                 if (e.key === 'Escape' && !avatarPopover.hidden) { closePopover(); avatarToggle.focus(); }
             });
             if (avatarResume) {
-                avatarResume.addEventListener('click', () => {
-                    let last = null;
-                    try { last = localStorage.getItem(LAST_KEY); } catch (e) { /* ignore */ }
-                    if (last) window.location.href = last;
-                });
+                if (resumeTarget) {
+                    avatarResume.addEventListener('click', () => {
+                        window.location.href = resumeTarget;
+                    });
+                } else {
+                    avatarResume.disabled = true;
+                    avatarResume.textContent = "You're all caught up";
+                }
             }
         })();
     </script>
