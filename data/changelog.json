@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Create theme_switcher.html",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "9986e38ac61f6542402b0b5a9b2cac8b48ed3c1a",
+    "short_commit": "9986e38",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/9986e38ac61f6542402b0b5a9b2cac8b48ed3c1a",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-06T15:24:40+06:00",
+    "files_changed": 1,
+    "insertions": 13,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/themes/_shared/partials/theme_switcher.html"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Add education.css for Education Docs theme styles",
     "description": "This CSS file defines styles for the Education Docs theme, including design tokens, layout, typography, and responsive behavior.",
     "author": "Sayad Bayezid",
