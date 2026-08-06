@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% set theme_modes = ['light', 'dark'] %}
+    {% include "partials/theme_prepaint.html" with context %}
+    <meta name="description" content="{{ config.site_description | default('Documentation') }}">
+    {% set page_url = config.site_url.rstrip('/') + '/' + current_page.replace('.md', '.html') if current_page and current_page != 'index.md' else config.site_url %}
+    <link rel="canonical" href="{{ page_url }}">
+    <meta property="og:title" content="{{ title }} - {{ config.site_name }}">
+    <meta property="og:description" content="{{ config.site_description | default('Documentation') }}">
+    <meta property="og:url" content="{{ page_url }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <title>{{ title }} - {{ config.site_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', 'css/book.css') }}">
+    <noscript><style>.book-content > * { opacity: 1 !important; transform: none !important; }</style></noscript>
+    {% if config.theme and config.theme.palette %}
+    <style>
+        :root, :root[data-theme] {
+            --book-primary: {{ config.theme.palette.primary | default('#1F3A5F') }};
+            --book-accent: {{ config.theme.palette.accent | default('#7A6A53') }};
+        }
+    </style>
+    {% endif %}
+</head>
+<body class="book-body">
+    <!-- AMBIENT BACKGROUND MOTION
+         Fixed, decorative, pointer-events:none layer sitting behind
+         everything: two slow-drifting light washes plus a handful of
+         open-book glyphs that rise and turn like pages settling. Pure
+         CSS transform/opacity keyframes -- no images, no third-party
+         particle library. Disabled entirely under prefers-reduced-motion
+         (see book.css). -->
+    <div class="book-ambient" aria-hidden="true">
+        <span class="book-ambient-glow book-ambient-glow-a"></span>
+        <span class="book-ambient-glow book-ambient-glow-b"></span>
+        <span class="book-ambient-page book-ambient-page-1">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5.5c2-1 5-1 8 .5 3-1.5 6-1.5 8-.5v13c-2-1-5-1-8 .5-3-1.5-6-1.5-8-.5V5.5Z"/></svg>
+        </span>
+        <span class="book-ambient-page book-ambient-page-2">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5.5c2-1 5-1 8 .5 3-1.5 6-1.5 8-.5v13c-2-1-5-1-8 .5-3-1.5-6-1.5-8-.5V5.5Z"/></svg>
+        </span>
+        <span class="book-ambient-page book-ambient-page-3">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 5.5c2-1 5-1 8 .5 3-1.5 6-1.5 8-.5v13c-2-1-5-1-8 .5-3-1.5-6-1.5-8-.5V5.5Z"/></svg>
+        </span>
+        <span class="book-ambient-mote book-ambient-mote-1"></span>
+        <span class="book-ambient-mote book-ambient-mote-2"></span>
+        <span class="book-ambient-mote book-ambient-mote-3"></span>
+        <span class="book-ambient-mote book-ambient-mote-4"></span>
+    </div>
+
+    <!-- SCROLL READING PROGRESS -->
+    <div class="book-progress-rail"><div class="book-progress-fill" id="book-progress-fill"></div></div>
+
+    <!-- RUNNING HEAD -->
+    <header class="book-header" id="book-header">
+        <div class="book-container">
+            <button class="book-menu-toggle" id="menu-toggle" type="button" aria-label="Toggle contents">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+            <a class="book-brand" href="{{ url_for('page', 'index.html') }}">
+                <span class="book-brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 5.5c2-1 5-1 8 .5 3-1.5 6-1.5 8-.5v13c-2-1-5-1-8 .5-3-1.5-6-1.5-8-.5V5.5Z"/><path d="M12 6v13"/></svg>
+                </span>
+                <span class="book-brand-name">{{ config.site_name }}</span>
+            </a>
+            <span class="book-running-title">{{ title }}</span>
+
+            <div class="book-search">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
+                <input type="text" id="search-input" placeholder="Search…">
+                <div class="book-search-results" id="search-results"></div>
+            </div>
+
+            <div class="book-header-right">
+                <button class="book-icon-btn" id="focus-toggle" type="button" aria-pressed="false" aria-label="Toggle focused reading mode" title="Focused reading mode">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M4 9V5a1 1 0 0 1 1-1h4M20 9V5a1 1 0 0 0-1-1h-4M4 15v4a1 1 0 0 0 1 1h4M20 15v4a1 1 0 0 1-1 1h-4"/></svg>
+                </button>
+                <a href="https://github.com/bayeziddev/smartGenDocs" target="_blank" rel="noopener" class="book-icon-btn" aria-label="View source on GitHub">
+                    <svg class="icon filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+                {% include "partials/theme_switcher.html" %}
+
+                <!-- READER AVATAR
+                     A dynamic, data-driven avatar for the person reading --
+                     not a fake login. It reflects real local state (pages
+                     visited, overall progress, last page) tracked in
+                     localStorage, same convention as the Education theme's
+                     lesson-visited tracking. Hover shows a quick-glance
+                     tooltip + glow ring; click opens the full popover. -->
+                <div class="book-avatar" id="book-avatar">
+                    <button class="book-avatar-btn" id="avatar-toggle" type="button"
+                            aria-haspopup="true" aria-expanded="false" aria-controls="avatar-popover"
+                            aria-label="Your reading session">
+                        <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="8.5" r="3.4"/>
+                            <path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/>
+                        </svg>
+                        <span class="book-avatar-ring" aria-hidden="true"></span>
+                    </button>
+                    <span class="book-avatar-tooltip" role="tooltip">Your reading session</span>
+
+                    <div class="book-avatar-popover" id="avatar-popover" role="dialog" aria-label="Your reading session" hidden>
+                        <div class="book-avatar-popover-header">
+                            <span class="book-avatar-popover-icon" aria-hidden="true">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="8.5" r="3.4"/>
+                                    <path d="M5 20c1.2-3.6 4-5.4 7-5.4s5.8 1.8 7 5.4"/>
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="book-avatar-name">Reading session</p>
+                                <p class="book-avatar-sub">Tracked in this browser only</p>
+                            </div>
+                        </div>
+                        <div class="book-avatar-stats">
+                            <div class="book-avatar-stat">
+                                <span id="avatar-pages-read">0</span>
+                                <label>Pages visited</label>
+                            </div>
+                            <div class="book-avatar-stat">
+                                <span id="avatar-progress">0%</span>
+                                <label>Book progress</label>
+                            </div>
+                        </div>
+                        <button class="book-avatar-action" id="avatar-resume" type="button">Resume last page</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="book-sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="book-shell">
+        <!-- CONTENTS RAIL -->
+        <aside class="book-sidebar" id="sidebar">
+            <div class="book-sidebar-header">
+                <span>Contents</span>
+                <button class="book-sidebar-close" id="sidebar-close" type="button" aria-label="Close contents">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg>
+                </button>
+            </div>
+            <nav class="book-nav">
+                <ul>
+                {% for item in nav %}
+                    {% for label, link in item.items() %}
+                        {% if link is string %}
+                            {% if not link.startswith('http') %}
+                                {% set html_link = link.replace('.md', '.html') %}
+                                {% set is_active = (link == current_page) %}
+                                <li class="book-nav-item{% if is_active %} active{% endif %}" style="--stagger:{{ loop.index0 }}">
+                                    <a href="{{ url_for('page', html_link) }}" data-nav-link data-book-page="{{ html_link }}" class="book-nav-link{% if is_active %} active{% endif %}">{{ label }}</a>
+                                </li>
+                            {% else %}
+                                <li class="book-nav-item" style="--stagger:{{ loop.index0 }}">
+                                    <a href="{{ link }}" target="_blank" rel="noopener" class="book-nav-link book-nav-link-external">{{ label }}</a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            {% set section_label = label %}
+                            {%- set ns = namespace(has_active_child=false) -%}
+                            {% for subitem in link %}
+                                {% for sublabel, sublink in subitem.items() %}
+                                    {% if not sublink.startswith('http') and sublink == current_page %}
+                                        {% set ns.has_active_child = true %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            <li class="book-chapter{% if ns.has_active_child %} expanded{% endif %}" data-nav-section style="--stagger:{{ loop.index0 }}">
+                                <button class="book-chapter-toggle" type="button" data-section="{{ section_label | lower | replace(' ', '-') }}">
+                                    <span class="book-chapter-label">{{ section_label }}</span>
+                                    <svg class="icon book-chapter-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                                </button>
+                                <ul class="book-chapter-pages" data-nav-submenu>
+                                    {% for subitem in link %}
+                                        {% for sublabel, sublink in subitem.items() %}
+                                            {% if not sublink.startswith('http') %}
+                                                {% set html_link = sublink.replace('.md', '.html') %}
+                                                {% set is_active = (sublink == current_page) %}
+                                                <li class="book-nav-item book-nav-item-sub">
+                                                    <a href="{{ url_for('page', html_link) }}" data-nav-link data-book-page="{{ html_link }}" class="book-nav-link{% if is_active %} active{% endif %}">{{ sublabel }}</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="book-nav-item book-nav-item-sub">
+                                                    <a href="{{ sublink }}" target="_blank" rel="noopener" class="book-nav-link book-nav-link-external">{{ sublabel }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- PAGE -->
+        <main class="book-main">
+            <div class="book-page">
+                {% if current_index is not none %}
+                <p class="book-chapter-eyebrow">Page {{ current_index + 1 }} of {{ total_pages }}</p>
+                {% endif %}
+                <h1 class="book-title">{{ title }}</h1>
+                <div class="book-rule" aria-hidden="true">&#10022;</div>
+
+                <article class="book-content" data-current-path="{{ current_page.replace('.md', '.html') if current_page else '' }}" data-progress="{{ progress_percent if progress_percent is not none else 0 }}">
+                    {% block content %}{% endblock %}
+                </article>
+
+                <div class="book-page-turn">
+                    {% if prev_page %}
+                    <a class="book-page-btn book-page-prev" href="{{ prev_page.link }}">
+                        <span class="book-page-corner">&#10094;</span>
+                        <span>
+                            <span class="book-page-label">Previous</span>
+                            <span class="book-page-title">{{ prev_page.title }}</span>
+                        </span>
+                    </a>
+                    {% else %}<span></span>{% endif %}
+                    {% if next_page %}
+                    <a class="book-page-btn book-page-next" href="{{ next_page.link }}">
+                        <span>
+                            <span class="book-page-label">Next</span>
+                            <span class="book-page-title">{{ next_page.title }}</span>
+                        </span>
+                        <span class="book-page-corner">&#10095;</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="book-footer">
+        <div class="book-container">
+            <p class="book-footer-copy">&copy; 2026 <a href="{{ config.site_url }}">{{ config.site_author }}</a> &middot; Built with SmartGen Docs &middot; <a href="https://github.com/bayeziddev/smartGenDocs" target="_blank" rel="noopener">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== SIDEBAR TOGGLE (Mobile) ==========
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarClose = document.getElementById('sidebar-close');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        function openSidebar() { sidebar.classList.add('open'); sidebarOverlay.classList.add('visible'); }
+        function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('visible'); }
+        menuToggle.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // ========== CHAPTER EXPAND/COLLAPSE ==========
+        document.querySelectorAll('.book-chapter-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => toggle.closest('.book-chapter').classList.toggle('expanded'));
+        });
+
+        // ========== FOCUSED READING MODE ==========
+        (function () {
+            const KEY = 'smartgen-book-focus';
+            const toggle = document.getElementById('focus-toggle');
+            function setFocus(on) {
+                document.body.classList.toggle('book-focus', on);
+                toggle.setAttribute('aria-pressed', String(on));
+            }
+            let saved = false;
+            try { saved = localStorage.getItem(KEY) === '1'; } catch (e) { /* ignore */ }
+            setFocus(saved);
+            toggle.addEventListener('click', () => {
+                const on = !document.body.classList.contains('book-focus');
+                setFocus(on);
+                try { localStorage.setItem(KEY, on ? '1' : '0'); } catch (e) { /* ignore */ }
+            });
+        })();
+
+        // ========== SCROLL READING PROGRESS + HEADER MOTION ==========
+        (function () {
+            const fill = document.getElementById('book-progress-fill');
+            const article = document.querySelector('.book-content');
+            const header = document.getElementById('book-header');
+            if (!fill || !article) return;
+            function update() {
+                const rect = article.getBoundingClientRect();
+                const total = rect.height - window.innerHeight + rect.top + window.scrollY;
+                const scrolled = window.scrollY - (rect.top + window.scrollY) + window.innerHeight * 0.5;
+                const pct = total > 0 ? Math.min(100, Math.max(0, (scrolled / total) * 100)) : 0;
+                fill.style.width = pct + '%';
+                if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
+            }
+            document.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            update();
+        })();
+
+        // ========== SCROLL-IN REVEAL FOR CONTENT ==========
+        (function () {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const items = document.querySelectorAll('.book-content > *');
+            if (reduceMotion || !('IntersectionObserver' in window)) {
+                items.forEach(el => el.classList.add('is-visible'));
+                return;
+            }
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+            items.forEach(el => io.observe(el));
+        })();
+
+        // ========== COPY CODE BUTTON ==========
+        document.querySelectorAll('.book-content pre').forEach(block => {
+            const button = document.createElement('button');
+            button.className = 'copy-code-btn';
+            button.innerHTML = '<span>Copy</span>';
+            button.addEventListener('click', () => {
+                const codeEl = block.querySelector('code');
+                const code = codeEl ? codeEl.textContent : block.textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.querySelector('span').textContent = 'Copied';
+                    setTimeout(() => { button.querySelector('span').textContent = 'Copy'; }, 2000);
+                });
+            });
+            block.style.position = 'relative';
+            block.appendChild(button);
+        });
+
+        // ========== READER AVATAR: session tracking + popover ==========
+        (function () {
+            const PAGES_KEY = 'smartgen-book-pages-read';
+            const LAST_KEY = 'smartgen-book-last-page';
+            const article = document.querySelector('.book-content');
+            const here = article ? article.dataset.currentPath : '';
+            const progress = article ? parseInt(article.dataset.progress, 10) || 0 : 0;
+
+            let visited = [];
+            try { visited = JSON.parse(localStorage.getItem(PAGES_KEY) || '[]'); } catch (e) { visited = []; }
+            if (here && !visited.includes(here)) visited.push(here);
+            try {
+                localStorage.setItem(PAGES_KEY, JSON.stringify(visited));
+                if (here) localStorage.setItem(LAST_KEY, here);
+            } catch (e) { /* ignore */ }
+
+            const pagesEl = document.getElementById('avatar-pages-read');
+            const progressEl = document.getElementById('avatar-progress');
+            if (pagesEl) pagesEl.textContent = String(visited.length);
+            if (progressEl) progressEl.textContent = progress + '%';
+
+            const avatar = document.getElementById('book-avatar');
+            const avatarToggle = document.getElementById('avatar-toggle');
+            const avatarPopover = document.getElementById('avatar-popover');
+            const avatarResume = document.getElementById('avatar-resume');
+            if (!avatar || !avatarToggle || !avatarPopover) return;
+
+            function openPopover() {
+                avatarPopover.hidden = false;
+                avatarToggle.setAttribute('aria-expanded', 'true');
+            }
+            function closePopover() {
+                avatarPopover.hidden = true;
+                avatarToggle.setAttribute('aria-expanded', 'false');
+            }
+            avatarToggle.addEventListener('click', () => {
+                avatarPopover.hidden ? openPopover() : closePopover();
+            });
+            document.addEventListener('click', (e) => {
+                if (!avatarPopover.hidden && !avatar.contains(e.target)) closePopover();
+            });
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !avatarPopover.hidden) { closePopover(); avatarToggle.focus(); }
+            });
+            if (avatarResume) {
+                avatarResume.addEventListener('click', () => {
+                    let last = null;
+                    try { last = localStorage.getItem(LAST_KEY); } catch (e) { /* ignore */ }
+                    if (last) window.location.href = last;
+                });
+            }
+        })();
+    </script>
+    {% include "partials/active_nav_script.html" %}
+    {% set theme_switcher_modes = [
+        {"value": "light", "label": "Day", "swatch_bg": "#F5F6F3", "swatch_fg": "#1F3A5F"},
+        {"value": "dark", "label": "Night", "swatch_bg": "#14171C", "swatch_fg": "#7C9CC4"}
+    ] %}
+    {% include "partials/theme_switcher_script.html" with context %}
+</body>
+</html>
