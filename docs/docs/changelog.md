@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-06 - Delete smartgen_docs/themes/book/base.html
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `0` new additions and `1` deletions.
+
+- **👤 Author:** Sayad Bayezid
+- **🔗 Commit:** [937449d](https://github.com/bayeziddev/smartGenDocs/commit/937449de42f6b647f24b3e98c3b462cbfab2fcae)
+- **🔍 SEO Keywords:** `delete`, `themes`, `book`, `base`, `html`
+- **💡 System Note:** Visual and structural template modifications applied to `base.html` to improve user experience and layout integrity.
+
+---
+
 ## 🚀 2026-08-06 - Add files via upload
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `395` new additions and `0` deletions.
