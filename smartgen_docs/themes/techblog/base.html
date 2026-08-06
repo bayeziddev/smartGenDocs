@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% set theme_modes = ['light', 'dark'] %}
+    {% include "partials/theme_prepaint.html" with context %}
+    <meta name="description" content="{{ config.site_description | default('Documentation') }}">
+    {% set page_url = config.site_url.rstrip('/') + '/' + current_page.replace('.md', '.html') if current_page and current_page != 'index.md' else config.site_url %}
+    <link rel="canonical" href="{{ page_url }}">
+    <meta property="og:title" content="{{ title }} - {{ config.site_name }}">
+    <meta property="og:description" content="{{ config.site_description | default('Documentation') }}">
+    <meta property="og:url" content="{{ page_url }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <title>{{ title }} - {{ config.site_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', 'css/techblog.css') }}">
+    <noscript><style>.mag-content > * { opacity: 1 !important; transform: none !important; }</style></noscript>
+    {% if config.theme and config.theme.palette %}
+    <style>
+        :root, :root[data-theme] {
+            --mag-primary: {{ config.theme.palette.primary | default('#C81E3A') }};
+            --mag-accent: {{ config.theme.palette.accent | default('#1B1B1F') }};
+        }
+    </style>
+    {% endif %}
+
+    {#- Work out which top-level section the current page belongs to, once,
+        so the article header can show it as a "kicker" label (the small
+        category tag magazines print above a headline) without duplicating
+        the nav-walk logic that also builds the sidebar below. -#}
+    {%- set kicker = namespace(label='') -%}
+    {% for item in nav %}
+        {% for label, link in item.items() %}
+            {% if link is not string %}
+                {% for subitem in link %}
+                    {% for sublabel, sublink in subitem.items() %}
+                        {% if not sublink.startswith('http') and sublink == current_page %}
+                            {% set kicker.label = label %}
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+            {% elif not link.startswith('http') and link == current_page %}
+                {% set kicker.label = label %}
+            {% endif %}
+        {% endfor %}
+    {% endfor %}
+</head>
+<body class="mag-body-root">
+    <!-- STICKY READ PROGRESS -->
+    <div class="mag-progress-rail"><div class="mag-progress-fill" id="mag-progress-fill"></div></div>
+
+    <!-- MASTHEAD -->
+    <header class="mag-header" id="mag-header">
+        <div class="mag-container mag-masthead">
+            <button class="mag-menu-toggle" id="menu-toggle" type="button" aria-label="Toggle sections">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+            <a class="mag-brand" href="{{ url_for('page', 'index.html') }}">{{ config.site_name }}</a>
+            <div class="mag-header-right">
+                <div class="mag-search">
+                    <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
+                    <input type="text" id="search-input" placeholder="Search articles…">
+                    <div class="mag-search-results" id="search-results"></div>
+                </div>
+                <a href="https://github.com/bayeziddev/smartGenDocs" target="_blank" rel="noopener" class="mag-icon-btn" aria-label="View source on GitHub">
+                    <svg class="icon filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+                {% include "partials/theme_switcher.html" %}
+            </div>
+        </div>
+        <!-- SECTION TABS: top-level nav rendered as a horizontal, scrollable
+             tab strip -- the "sections of the magazine" -- distinct from
+             the sidebar-first navigation the Book/Education themes use. -->
+        <nav class="mag-tabbar" aria-label="Sections">
+            <div class="mag-container mag-tabbar-track">
+                {% for item in nav %}
+                    {% for label, link in item.items() %}
+                        {% set is_tab_active = (kicker.label == label) %}
+                        <a class="mag-tab{% if is_tab_active %} active{% endif %}"
+                           href="{% if link is string %}{% if link.startswith('http') %}{{ link }}{% else %}{{ url_for('page', link.replace('.md', '.html')) }}{% endif %}{% else %}{% for subitem in link %}{% for sublabel, sublink in subitem.items() %}{% if not sublink.startswith('http') %}{{ url_for('page', sublink.replace('.md', '.html')) }}{% endif %}{% endfor %}{% endfor %}{% endif %}"
+                           {% if link is string and link.startswith('http') %}target="_blank" rel="noopener"{% endif %}>{{ label }}</a>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+        </nav>
+    </header>
+
+    <div class="mag-sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="mag-shell">
+        <!-- SECTION DRAWER (mobile + fine-grained sub-nav) -->
+        <aside class="mag-sidebar" id="sidebar">
+            <div class="mag-sidebar-header">
+                <span>All sections</span>
+                <button class="mag-sidebar-close" id="sidebar-close" type="button" aria-label="Close sections">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg>
+                </button>
+            </div>
+            <nav class="mag-nav">
+                <ul>
+                {% for item in nav %}
+                    {% for label, link in item.items() %}
+                        {% if link is string %}
+                            {% if not link.startswith('http') %}
+                                {% set html_link = link.replace('.md', '.html') %}
+                                {% set is_active = (link == current_page) %}
+                                <li class="mag-nav-item{% if is_active %} active{% endif %}" style="--stagger:{{ loop.index0 }}">
+                                    <a href="{{ url_for('page', html_link) }}" data-nav-link data-mag-page="{{ html_link }}" class="mag-nav-link{% if is_active %} active{% endif %}">{{ label }}</a>
+                                </li>
+                            {% else %}
+                                <li class="mag-nav-item" style="--stagger:{{ loop.index0 }}">
+                                    <a href="{{ link }}" target="_blank" rel="noopener" class="mag-nav-link mag-nav-link-external">{{ label }}</a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            {% set section_label = label %}
+                            {%- set ns = namespace(has_active_child=false) -%}
+                            {% for subitem in link %}
+                                {% for sublabel, sublink in subitem.items() %}
+                                    {% if not sublink.startswith('http') and sublink == current_page %}
+                                        {% set ns.has_active_child = true %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            <li class="mag-section{% if ns.has_active_child %} expanded{% endif %}" data-nav-section style="--stagger:{{ loop.index0 }}">
+                                <button class="mag-section-toggle" type="button" data-section="{{ section_label | lower | replace(' ', '-') }}">
+                                    <span class="mag-section-label">{{ section_label }}</span>
+                                    <svg class="icon mag-section-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                                </button>
+                                <ul class="mag-section-pages" data-nav-submenu>
+                                    {% for subitem in link %}
+                                        {% for sublabel, sublink in subitem.items() %}
+                                            {% if not sublink.startswith('http') %}
+                                                {% set html_link = sublink.replace('.md', '.html') %}
+                                                {% set is_active = (sublink == current_page) %}
+                                                <li class="mag-nav-item mag-nav-item-sub">
+                                                    <a href="{{ url_for('page', html_link) }}" data-nav-link data-mag-page="{{ html_link }}" class="mag-nav-link{% if is_active %} active{% endif %}">{{ sublabel }}</a>
+                                                </li>
+                                            {% else %}
+                                                <li class="mag-nav-item mag-nav-item-sub">
+                                                    <a href="{{ sublink }}" target="_blank" rel="noopener" class="mag-nav-link mag-nav-link-external">{{ sublabel }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ARTICLE -->
+        <main class="mag-main">
+            <article class="mag-article">
+                {% if kicker.label %}<p class="mag-kicker">{{ kicker.label }}</p>{% endif %}
+                <h1 class="mag-headline">{{ title }}</h1>
+                <div class="mag-byline">
+                    <span class="mag-byline-author">By {{ config.site_author }}</span>
+                    <span class="mag-byline-dot" aria-hidden="true">&bull;</span>
+                    <span class="mag-read-time" id="mag-read-time" data-content-selector=".mag-content"></span>
+                    {% if current_index is not none %}
+                    <span class="mag-byline-dot" aria-hidden="true">&bull;</span>
+                    <span>Article {{ current_index + 1 }} of {{ total_pages }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="mag-content" data-current-path="{{ current_page.replace('.md', '.html') if current_page else '' }}">
+                    {% block content %}{% endblock %}
+                </div>
+
+                <div class="mag-page-turn">
+                    {% if prev_page %}
+                    <a class="mag-page-btn mag-page-prev" href="{{ prev_page.link }}">
+                        <span class="mag-page-label">&larr; Previous</span>
+                        <span class="mag-page-title">{{ prev_page.title }}</span>
+                    </a>
+                    {% else %}<span></span>{% endif %}
+                    {% if next_page %}
+                    <a class="mag-page-btn mag-page-next" href="{{ next_page.link }}">
+                        <span class="mag-page-label">Next &rarr;</span>
+                        <span class="mag-page-title">{{ next_page.title }}</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </article>
+        </main>
+    </div>
+
+    <footer class="mag-footer">
+        <div class="mag-container">
+            <p class="mag-footer-copy">&copy; 2026 <a href="{{ config.site_url }}">{{ config.site_author }}</a> &middot; Built with SmartGen Docs &middot; <a href="https://github.com/bayeziddev/smartGenDocs" target="_blank" rel="noopener">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== SIDEBAR TOGGLE (Mobile) ==========
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarClose = document.getElementById('sidebar-close');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        function openSidebar() { sidebar.classList.add('open'); sidebarOverlay.classList.add('visible'); }
+        function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('visible'); }
+        menuToggle.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // ========== SECTION EXPAND/COLLAPSE ==========
+        document.querySelectorAll('.mag-section-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => toggle.closest('.mag-section').classList.toggle('expanded'));
+        });
+
+        // ========== SCROLL READING PROGRESS + HEADER MOTION ==========
+        (function () {
+            const fill = document.getElementById('mag-progress-fill');
+            const article = document.querySelector('.mag-content');
+            const header = document.getElementById('mag-header');
+            if (!fill || !article) return;
+            function update() {
+                const rect = article.getBoundingClientRect();
+                const total = rect.height - window.innerHeight + rect.top + window.scrollY;
+                const scrolled = window.scrollY - (rect.top + window.scrollY) + window.innerHeight * 0.5;
+                const pct = total > 0 ? Math.min(100, Math.max(0, (scrolled / total) * 100)) : 0;
+                fill.style.width = pct + '%';
+                if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
+            }
+            document.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            update();
+        })();
+
+        // ========== READ TIME (client-side estimate) ==========
+        const readTimeEl = document.getElementById('mag-read-time');
+        if (readTimeEl) {
+            const body = document.querySelector(readTimeEl.dataset.contentSelector);
+            if (body) {
+                const words = body.textContent.trim().split(/\s+/).filter(Boolean).length;
+                const minutes = Math.max(1, Math.round(words / 200));
+                readTimeEl.textContent = minutes + ' min read';
+            }
+        }
+
+        // ========== SCROLL-IN REVEAL FOR CONTENT ==========
+        (function () {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const items = document.querySelectorAll('.mag-content > *');
+            if (reduceMotion || !('IntersectionObserver' in window)) {
+                items.forEach(el => el.classList.add('is-visible'));
+                return;
+            }
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        io.unobserve(entry.target);
+                    }
+                });
+            }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+            items.forEach(el => io.observe(el));
+        })();
+
+        // ========== COPY CODE BUTTON ==========
+        document.querySelectorAll('.mag-content pre').forEach(block => {
+            const button = document.createElement('button');
+            button.className = 'copy-code-btn';
+            button.innerHTML = '<span>Copy</span>';
+            button.addEventListener('click', () => {
+                const codeEl = block.querySelector('code');
+                const code = codeEl ? codeEl.textContent : block.textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.querySelector('span').textContent = 'Copied';
+                    setTimeout(() => { button.querySelector('span').textContent = 'Copy'; }, 2000);
+                });
+            });
+            block.style.position = 'relative';
+            block.appendChild(button);
+        });
+    </script>
+    {% include "partials/active_nav_script.html" %}
+    {% set theme_switcher_modes = [
+        {"value": "light", "label": "Day", "swatch_bg": "#FAF7F2", "swatch_fg": "#C81E3A"},
+        {"value": "dark", "label": "Night", "swatch_bg": "#17171A", "swatch_fg": "#FF5C73"}
+    ] %}
+    {% include "partials/theme_switcher_script.html" with context %}
+</body>
+</html>
