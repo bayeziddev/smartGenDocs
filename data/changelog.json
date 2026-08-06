@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Add files via upload",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "3c77da76c01eee3c90dedd8a99d3e2633830cfa7",
+    "short_commit": "3c77da7",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/3c77da76c01eee3c90dedd8a99d3e2633830cfa7",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-06T08:38:46+06:00",
+    "files_changed": 1,
+    "insertions": 417,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/themes/book/static/css/book.css"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Create .geetkeep",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",

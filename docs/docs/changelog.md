@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-06 - Add files via upload
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `417` new additions and `0` deletions.
+
+- **👤 Author:** Sayad Bayezid
+- **🔗 Commit:** [3c77da7](https://github.com/bayeziddev/smartGenDocs/commit/3c77da76c01eee3c90dedd8a99d3e2633830cfa7)
+- **🔍 SEO Keywords:** `files`, `upload`, `visual`, `structural`, `template`
+- **💡 System Note:** Visual and structural template modifications applied to `book.css` to improve user experience and layout integrity.
+
+---
+
 ## 🚀 2026-08-06 - Create .geetkeep
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `1` new additions and `0` deletions.
