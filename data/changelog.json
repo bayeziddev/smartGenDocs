@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Implement theme switcher button in HTML",
+    "description": "Added a theme switcher button with associated markup for theme selection.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "8ab8c0905773e7ac1e0c575b41d5371455a7f5bb",
+    "short_commit": "8ab8c09",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/8ab8c0905773e7ac1e0c575b41d5371455a7f5bb",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-06T08:24:26+06:00",
+    "files_changed": 1,
+    "insertions": 13,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/_shared/partials/theme_switcher.html"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Add README for _shared directory in smartgen_docs",
     "description": "Added documentation for the  directory, explaining its purpose and contents for theme development.",
     "author": "Sayad Bayezid",

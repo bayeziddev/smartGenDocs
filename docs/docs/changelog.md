@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-06 - Implement theme switcher button in HTML
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `13` new additions and `0` deletions.
+
+- **👤 Author:** Sayad Bayezid
+- **🔗 Commit:** [8ab8c09](https://github.com/bayeziddev/smartGenDocs/commit/8ab8c0905773e7ac1e0c575b41d5371455a7f5bb)
+- **🔍 SEO Keywords:** `implement`, `theme`, `switcher`, `button`, `html`
+- **💡 System Note:** Added a theme switcher button with associated markup for theme selection.
+
+---
+
 ## 🚀 2026-08-06 - Add README for _shared directory in smartgen_docs
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `62` new additions and `0` deletions.
