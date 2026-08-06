@@ -1,0 +1,39 @@
+{#
+    Marks the nav link matching the current URL as active, and expands its
+    parent section if the theme has collapsible nav sections. Works across
+    completely different sidebar/nav markup because it doesn't key off a
+    layout-specific class -- any link that should participate just needs a
+    `data-nav-link` attribute (put it right next to `href`). Include once,
+    anywhere after the nav markup exists in the DOM.
+
+    Optional markup conventions this script honors if present, no errors
+    if they're not:
+      - a `data-nav-section` wrapper around a link + its submenu, expanded
+        by adding the `expanded` class to both the wrapper and the
+        `data-nav-submenu` element inside it.
+    No context variables required.
+#}
+<script>
+(function () {
+    const normalize = (pathname) => pathname.replace(/\/$/, '').replace(/\/index\.html$/, '');
+    const currentPath = normalize(window.location.pathname);
+    const links = document.querySelectorAll('[data-nav-link]');
+
+    links.forEach(link => {
+        const href = link.getAttribute('href');
+        if (!href) return;
+        const linkPath = normalize(new URL(href, window.location.href).pathname);
+        if (linkPath !== currentPath) return;
+
+        link.classList.add('active');
+        link.setAttribute('aria-current', 'page');
+
+        const section = link.closest('[data-nav-section]');
+        if (section) {
+            section.classList.add('expanded');
+            const submenu = section.querySelector('[data-nav-submenu]');
+            if (submenu) submenu.classList.add('expanded');
+        }
+    });
+})();
+</script>
