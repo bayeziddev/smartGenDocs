@@ -1,0 +1,35 @@
+{#
+    Pre-paint color-mode script.
+
+    Include this inside <head>, as early as possible -- before any
+    stylesheet <link> tags. It reads the reader's saved color-mode choice
+    (one localStorage key shared across every SmartGen Docs theme, so a
+    reader who picks "Dark" once gets it everywhere) or falls back to the
+    OS preference, and sets data-theme on <html> synchronously. That's what
+    stops the page from flashing the wrong mode for a frame before CSS/JS
+    finish loading.
+
+    Required context variable:
+      theme_modes -- list of mode value strings THIS theme's CSS actually
+                      implements, e.g. ['light', 'dark'] or
+                      ['light', 'dark', 'sepia', 'contrast']. First entry
+                      is the "default, no data-theme attribute" mode.
+#}
+<script>
+(function () {
+    try {
+        var THEME_KEY = 'smartgen-theme';
+        var VALID = {{ theme_modes | tojson }};
+        var DEFAULT_MODE = VALID[0];
+        var saved = localStorage.getItem(THEME_KEY);
+        var theme = VALID.indexOf(saved) !== -1
+            ? saved
+            : (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches && VALID.indexOf('dark') !== -1
+                ? 'dark'
+                : DEFAULT_MODE);
+        if (theme !== DEFAULT_MODE) {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+    } catch (e) { /* localStorage unavailable (e.g. privacy mode) -- fall back to default */ }
+})();
+</script>
