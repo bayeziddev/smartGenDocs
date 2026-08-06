@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-06 - Add README for _shared directory in smartgen_docs
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `62` new additions and `0` deletions.
+
+- **👤 Author:** Sayad Bayezid
+- **🔗 Commit:** [99749e2](https://github.com/bayeziddev/smartGenDocs/commit/99749e27ef96a95733d93d523369fc47fb49050d)
+- **🔍 SEO Keywords:** `readme`, `directory`, `documentation`, `explaining`, `purpose`
+- **💡 System Note:** Added documentation for the  directory, explaining its purpose and contents for theme development.
+
+---
+
 ## 🚀 2026-08-06 - Add files via upload
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `194` new additions and `0` deletions.
