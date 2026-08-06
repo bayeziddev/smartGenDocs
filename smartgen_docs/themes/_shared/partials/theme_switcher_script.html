@@ -1,0 +1,101 @@
+{#
+    Theme switcher behavior: renders the option list, opens/closes the
+    popover, handles keyboard navigation, and persists the choice. Include
+    once, after the markup from theme_switcher.html is present in the DOM
+    (e.g. near the end of <body>).
+
+    Required context variable:
+      theme_switcher_modes -- list of {value, label, swatch_bg, swatch_fg}
+                               dicts, one per color mode this theme
+                               implements, in the same order as
+                               theme_prepaint.html's theme_modes. The first
+                               entry is treated as the default mode (no
+                               data-theme attribute written for it).
+#}
+<script>
+(function () {
+    const THEME_KEY = 'smartgen-theme';
+    const THEMES = {{ theme_switcher_modes | tojson }};
+
+    const themeSwitcher = document.getElementById('theme-switcher');
+    if (!themeSwitcher || !THEMES.length) return;
+
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeMenu = document.getElementById('theme-menu');
+
+    function getCurrentTheme() {
+        return document.documentElement.getAttribute('data-theme') || THEMES[0].value;
+    }
+
+    function applyTheme(value, { persist = true } = {}) {
+        if (value === THEMES[0].value) {
+            document.documentElement.removeAttribute('data-theme');
+        } else {
+            document.documentElement.setAttribute('data-theme', value);
+        }
+        if (persist) {
+            try { localStorage.setItem(THEME_KEY, value); } catch (e) { /* ignore */ }
+        }
+        renderThemeMenu();
+    }
+
+    function renderThemeMenu() {
+        const current = getCurrentTheme();
+        themeMenu.innerHTML = THEMES.map(t => `
+            <button type="button" class="theme-option" role="menuitemradio"
+                    aria-checked="${t.value === current}" data-theme-value="${t.value}">
+                <span class="theme-swatch" style="--swatch-bg:${t.swatch_bg};--swatch-fg:${t.swatch_fg}"></span>
+                <span class="theme-option-label">${t.label}</span>
+                <svg class="theme-check icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>
+            </button>
+        `).join('');
+    }
+
+    function openThemeMenu() {
+        themeMenu.hidden = false;
+        themeToggle.setAttribute('aria-expanded', 'true');
+        const active = themeMenu.querySelector('[aria-checked="true"]');
+        (active || themeMenu.querySelector('.theme-option'))?.focus();
+    }
+
+    function closeThemeMenu({ refocusTrigger = false } = {}) {
+        themeMenu.hidden = true;
+        themeToggle.setAttribute('aria-expanded', 'false');
+        if (refocusTrigger) themeToggle.focus();
+    }
+
+    renderThemeMenu();
+
+    themeToggle.addEventListener('click', () => {
+        themeMenu.hidden ? openThemeMenu() : closeThemeMenu();
+    });
+
+    themeMenu.addEventListener('click', (e) => {
+        const option = e.target.closest('.theme-option');
+        if (!option) return;
+        applyTheme(option.dataset.themeValue);
+        closeThemeMenu({ refocusTrigger: true });
+    });
+
+    themeMenu.addEventListener('keydown', (e) => {
+        const options = Array.from(themeMenu.querySelectorAll('.theme-option'));
+        const currentIndex = options.indexOf(document.activeElement);
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            options[(currentIndex + 1) % options.length].focus();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            options[(currentIndex - 1 + options.length) % options.length].focus();
+        } else if (e.key === 'Escape') {
+            e.preventDefault();
+            closeThemeMenu({ refocusTrigger: true });
+        } else if (e.key === 'Tab') {
+            closeThemeMenu();
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!themeMenu.hidden && !themeSwitcher.contains(e.target)) closeThemeMenu();
+    });
+})();
+</script>
