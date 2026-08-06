@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Add education page template extending base.html",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "a26964f98583b1f150a6888e6924f80e6ce9ed50",
+    "short_commit": "a26964f",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/a26964f98583b1f150a6888e6924f80e6ce9ed50",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-06T08:53:18+06:00",
+    "files_changed": 1,
+    "insertions": 6,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/themes/education/page.html"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update reference link in latest.md",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",
