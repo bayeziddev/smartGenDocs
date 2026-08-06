@@ -32,7 +32,7 @@ copyright: Copyright &copy; 2026 Sayad Md Bayezid Hosan
 
 # Configuration
 theme:
-  name: premium
+  name: book
   palette:
     primary: "#4A3AE3"
     accent: "#C2660D"
