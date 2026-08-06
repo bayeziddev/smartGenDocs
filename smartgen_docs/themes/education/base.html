@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% set theme_modes = ['light', 'dark'] %}
+    {% include "partials/theme_prepaint.html" with context %}
+    <meta name="description" content="{{ config.site_description | default('Documentation') }}">
+    {% set page_url = config.site_url.rstrip('/') + '/' + current_page.replace('.md', '.html') if current_page and current_page != 'index.md' else config.site_url %}
+    <link rel="canonical" href="{{ page_url }}">
+    <meta property="og:title" content="{{ title }} - {{ config.site_name }}">
+    <meta property="og:description" content="{{ config.site_description | default('Documentation') }}">
+    <meta property="og:url" content="{{ page_url }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <title>{{ title }} - {{ config.site_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', 'css/education.css') }}">
+    {% if config.theme and config.theme.palette %}
+    <style>
+        /* Site-level brand override from smartgen.yml, applied on top of
+           every color mode this theme defines. */
+        :root, :root[data-theme] {
+            --edu-primary: {{ config.theme.palette.primary | default('#2E7D5B') }};
+            --edu-accent: {{ config.theme.palette.accent | default('#E08E45') }};
+        }
+    </style>
+    {% endif %}
+</head>
+<body class="edu-body">
+    <!-- CURRICULUM PROGRESS RAIL -->
+    <div class="edu-progress-rail" role="progressbar"
+         aria-label="Course progress"
+         aria-valuenow="{{ progress_percent if progress_percent is not none else 0 }}"
+         aria-valuemin="0" aria-valuemax="100">
+        <div class="edu-progress-fill" style="--fill:{{ progress_percent if progress_percent is not none else 0 }}%"></div>
+    </div>
+
+    <!-- HEADER -->
+    <header class="edu-header">
+        <div class="edu-container">
+            <div class="edu-header-left">
+                <button class="edu-menu-toggle" id="menu-toggle" type="button" aria-label="Toggle curriculum">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+                </button>
+                <a class="edu-brand" href="{{ url_for('page', 'index.html') }}">
+                    <span class="edu-brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 24 24"><path d="M4 5.5c2-1 5-1 8 .5 3-1.5 6-1.5 8-.5v13c-2-1-5-1-8 .5-3-1.5-6-1.5-8-.5V5.5Z"/><path d="M12 6v13"/></svg>
+                    </span>
+                    <span class="edu-brand-name">{{ config.site_name }}</span>
+                    <span class="edu-badge">Course</span>
+                </a>
+            </div>
+
+            <div class="edu-search">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
+                <input type="text" id="search-input" placeholder="Search the curriculum…">
+                <div class="edu-search-results" id="search-results"></div>
+            </div>
+
+            <div class="edu-header-right">
+                {% if progress_percent is not none %}
+                <div class="edu-progress-chip" title="Overall course progress">
+                    <svg class="edu-progress-ring" viewBox="0 0 36 36" width="28" height="28">
+                        <circle class="edu-ring-track" cx="18" cy="18" r="15.5"></circle>
+                        <circle class="edu-ring-fill" cx="18" cy="18" r="15.5" style="--pct:{{ progress_percent }}"></circle>
+                    </svg>
+                    <span>{{ progress_percent }}%</span>
+                </div>
+                {% endif %}
+                <a href="https://github.com/bayeziddev/smartGenDocs" target="_blank" rel="noopener" class="edu-icon-btn" aria-label="View source on GitHub">
+                    <svg class="icon filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+                {% include "partials/theme_switcher.html" %}
+            </div>
+        </div>
+    </header>
+
+    <div class="edu-sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="edu-shell">
+        <!-- CURRICULUM SIDEBAR -->
+        <aside class="edu-sidebar" id="sidebar">
+            <div class="edu-sidebar-header">
+                <span>Curriculum</span>
+                <button class="edu-sidebar-close" id="sidebar-close" type="button" aria-label="Close curriculum">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg>
+                </button>
+            </div>
+            <nav class="edu-nav">
+                <ul>
+                {% for item in nav %}
+                    {% for label, link in item.items() %}
+                        {% if link is string %}
+                            {% if not link.startswith('http') %}
+                                {% set html_link = link.replace('.md', '.html') %}
+                                {% set is_active = (link == current_page) %}
+                                <li class="edu-nav-item{% if is_active %} active{% endif %}">
+                                    <a href="{{ url_for('page', html_link) }}" data-nav-link data-lesson-path="{{ html_link }}" class="edu-nav-link{% if is_active %} active{% endif %}">
+                                        <span class="edu-lesson-dot" aria-hidden="true"></span>
+                                        <span>{{ label }}</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="edu-nav-item">
+                                    <a href="{{ link }}" target="_blank" rel="noopener" class="edu-nav-link edu-nav-link-external">
+                                        <span class="edu-lesson-dot edu-lesson-dot-external" aria-hidden="true"></span>
+                                        <span>{{ label }}</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            {% set section_label = label %}
+                            {%- set ns = namespace(has_active_child=false) -%}
+                            {% for subitem in link %}
+                                {% for sublabel, sublink in subitem.items() %}
+                                    {% if not sublink.startswith('http') and sublink == current_page %}
+                                        {% set ns.has_active_child = true %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            <li class="edu-module{% if ns.has_active_child %} expanded{% endif %}" data-nav-section>
+                                <button class="edu-module-toggle" type="button" data-section="{{ section_label | lower | replace(' ', '-') }}">
+                                    <span class="edu-module-label">
+                                        <span class="edu-module-icon" aria-hidden="true">
+                                            <svg class="icon" viewBox="0 0 24 24"><path d="M4 19.5V6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v13.5"/><path d="M4 19.5A2 2 0 0 0 6 21.5h11a2 2 0 0 0 2-2"/><path d="M8 7.5h7M8 11h7"/></svg>
+                                        </span>
+                                        Module: {{ section_label }}
+                                    </span>
+                                    <svg class="icon edu-module-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                                </button>
+                                <ul class="edu-module-lessons" data-nav-submenu>
+                                    {% for subitem in link %}
+                                        {% for sublabel, sublink in subitem.items() %}
+                                            {% if not sublink.startswith('http') %}
+                                                {% set html_link = sublink.replace('.md', '.html') %}
+                                                {% set is_active = (sublink == current_page) %}
+                                                <li class="edu-nav-item edu-nav-item-lesson">
+                                                    <a href="{{ url_for('page', html_link) }}" data-nav-link data-lesson-path="{{ html_link }}" class="edu-nav-link{% if is_active %} active{% endif %}">
+                                                        <span class="edu-lesson-dot" aria-hidden="true"></span>
+                                                        <span>{{ sublabel }}</span>
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="edu-nav-item edu-nav-item-lesson">
+                                                    <a href="{{ sublink }}" target="_blank" rel="noopener" class="edu-nav-link edu-nav-link-external">
+                                                        <span class="edu-lesson-dot edu-lesson-dot-external" aria-hidden="true"></span>
+                                                        <span>{{ sublabel }}</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- LESSON CONTENT -->
+        <main class="edu-main">
+            {% if breadcrumbs %}
+            <div class="edu-breadcrumb">
+                {% for crumb in breadcrumbs %}
+                    {% if not loop.last %}
+                        <a href="{{ crumb.link }}">{{ crumb.title }}</a>
+                        <span class="edu-crumb-sep">/</span>
+                    {% else %}
+                        <span class="edu-crumb-current">{{ crumb.title }}</span>
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="edu-lesson-card">
+                <div class="edu-lesson-meta">
+                    {% if current_index is not none %}
+                    <span class="edu-eyebrow">Lesson {{ current_index + 1 }} of {{ total_pages }}</span>
+                    {% endif %}
+                    <span class="edu-read-time" id="edu-read-time" data-content-selector=".edu-lesson-body"></span>
+                </div>
+                <h1 class="edu-lesson-title">{{ title }}</h1>
+
+                {% block content %}{% endblock %}
+
+                <div class="edu-lesson-nav">
+                    {% if prev_page %}
+                    <a class="edu-lesson-nav-btn edu-lesson-nav-prev" href="{{ prev_page.link }}">
+                        <span class="edu-lesson-nav-label"><svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg> Previous Lesson</span>
+                        <span class="edu-lesson-nav-title">{{ prev_page.title }}</span>
+                    </a>
+                    {% else %}<span></span>{% endif %}
+                    {% if next_page %}
+                    <a class="edu-lesson-nav-btn edu-lesson-nav-next" href="{{ next_page.link }}">
+                        <span class="edu-lesson-nav-label">Next Lesson <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        <span class="edu-lesson-nav-title">{{ next_page.title }}</span>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="edu-footer">
+        <div class="edu-container">
+            {% if config.extra and config.extra.social %}
+            <div class="edu-footer-social">
+                {% for item in config.extra.social %}
+                <a href="{{ item.link }}" target="_blank" rel="me noopener" aria-label="{{ item.name }}" title="{{ item.name }}">{{ item.name.split(' ')[0] }}</a>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <p class="edu-footer-copy">&copy; 2026 <a href="{{ config.site_url }}">{{ config.site_author }}</a> &middot; Built with SmartGen Docs &middot; <a href="https://github.com/bayeziddev/smartGenDocs" target="_blank" rel="noopener">GitHub</a></p>
+        </div>
+    </footer>
+
+    <script>
+        // ========== SIDEBAR TOGGLE (Mobile) ==========
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarClose = document.getElementById('sidebar-close');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+
+        function openSidebar() {
+            sidebar.classList.add('open');
+            sidebarOverlay.classList.add('visible');
+            document.body.classList.add('sidebar-open');
+        }
+        function closeSidebar() {
+            sidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('visible');
+            document.body.classList.remove('sidebar-open');
+        }
+        menuToggle.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        // ========== MODULE EXPAND/COLLAPSE ==========
+        document.querySelectorAll('.edu-module-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => {
+                const module = toggle.closest('.edu-module');
+                module.classList.toggle('expanded');
+            });
+        });
+
+        // ========== READ TIME (client-side estimate) ==========
+        const readTimeEl = document.getElementById('edu-read-time');
+        if (readTimeEl) {
+            const body = document.querySelector(readTimeEl.dataset.contentSelector);
+            if (body) {
+                const words = body.textContent.trim().split(/\s+/).filter(Boolean).length;
+                const minutes = Math.max(1, Math.round(words / 200));
+                readTimeEl.textContent = minutes + ' min read';
+            }
+        }
+
+        // ========== LESSON VISITED TRACKING ==========
+        (function () {
+            const KEY = 'smartgen-edu-visited';
+            let visited = [];
+            try { visited = JSON.parse(localStorage.getItem(KEY) || '[]'); } catch (e) { visited = []; }
+
+            const here = window.location.pathname.split('/').pop() || 'index.html';
+            if (!visited.includes(here)) {
+                visited.push(here);
+                try { localStorage.setItem(KEY, JSON.stringify(visited)); } catch (e) { /* ignore */ }
+            }
+
+            document.querySelectorAll('[data-lesson-path]').forEach(link => {
+                const path = link.dataset.lessonPath;
+                if (visited.some(v => path.endsWith(v)) && !link.classList.contains('active')) {
+                    link.classList.add('is-visited');
+                }
+            });
+        })();
+    </script>
+    {% include "partials/active_nav_script.html" %}
+    {% set theme_switcher_modes = [
+        {"value": "light", "label": "Day", "swatch_bg": "#FBF9F4", "swatch_fg": "#2E7D5B"},
+        {"value": "dark", "label": "Night", "swatch_bg": "#10241A", "swatch_fg": "#7FD4AE"}
+    ] %}
+    {% include "partials/theme_switcher_script.html" with context %}
+</body>
+</html>
