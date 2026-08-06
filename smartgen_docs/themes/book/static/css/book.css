@@ -197,8 +197,8 @@ a { color: var(--book-primary); text-decoration: none; }
 
 /* ---------- Theme switcher ---------- */
 .theme-switcher { position: relative; }
-.theme-switcher .icon-btn { display: grid; place-items: center; width: 36px; height: 36px; border: none; background: none; border-radius: var(--book-radius-sm); color: var(--book-ink-soft); cursor: pointer; transition: background var(--book-dur-fast) var(--book-ease-standard), transform var(--book-dur-fast) var(--book-ease-bounce); }
-.theme-switcher .icon-btn:hover { background: var(--book-primary-soft); color: var(--book-primary); transform: translateY(-1px) rotate(-8deg); }
+.theme-switcher .icon-btn { display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid var(--book-border); background: var(--book-bg-soft); border-radius: var(--book-radius-sm); color: var(--book-ink-soft); cursor: pointer; transition: background var(--book-dur-fast) var(--book-ease-standard), border-color var(--book-dur-fast) var(--book-ease-standard), transform var(--book-dur-fast) var(--book-ease-bounce); }
+.theme-switcher .icon-btn:hover { background: var(--book-primary-soft); border-color: var(--book-primary); color: var(--book-primary); transform: translateY(-1px) rotate(-8deg); }
 .theme-switcher .icon-btn:active { transform: scale(.92); }
 .theme-switcher .icon-sun { display: none; }
 :root[data-theme="dark"] .theme-switcher .icon-moon { display: none; }
@@ -265,6 +265,8 @@ a { color: var(--book-primary); text-decoration: none; }
 }
 .book-avatar-action:hover { filter: brightness(1.1); }
 .book-avatar-action:active { transform: scale(.97); }
+.book-avatar-action:disabled { background: var(--book-bg-soft); color: var(--book-ink-faint); cursor: default; filter: none; }
+.book-avatar-action:disabled:hover { filter: none; }
 
 /* ---------- Shell / contents rail ---------- */
 .book-shell { display: flex; max-width: 1280px; margin: 0 auto; align-items: flex-start; transition: max-width var(--book-dur-base) var(--book-ease-standard); }
