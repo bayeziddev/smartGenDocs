@@ -1,6 +1,28 @@
 [
   {
     "version": "development",
+    "title": "Add files via upload",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "300c1bb47ca5a003f28b52b3792446946f527660",
+    "short_commit": "300c1bb",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/300c1bb47ca5a003f28b52b3792446946f527660",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-06T08:25:41+06:00",
+    "files_changed": 3,
+    "insertions": 175,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/_shared/partials/active_nav_script.html",
+      "smartgen_docs/_shared/partials/theme_prepaint.html",
+      "smartgen_docs/_shared/partials/theme_switcher_script.html"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Implement theme switcher button in HTML",
     "description": "Added a theme switcher button with associated markup for theme selection.",
     "author": "Sayad Bayezid",
