@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Create active_nav_script.html",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "b393f0e8ac392d00b8e3603cee246a6c7fd339ab",
+    "short_commit": "b393f0e",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/b393f0e8ac392d00b8e3603cee246a6c7fd339ab",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-06T15:26:59+06:00",
+    "files_changed": 1,
+    "insertions": 39,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/themes/_shared/partials/active_nav_script.html"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Create theme_switcher.html",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",
