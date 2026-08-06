@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Update base.html",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "b07138d526d6fb67001b864918b9817536cc87e5",
+    "short_commit": "b07138d",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/b07138d526d6fb67001b864918b9817536cc87e5",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-06T16:01:20+06:00",
+    "files_changed": 1,
+    "insertions": 26,
+    "deletions": 5,
+    "changed_files": [
+      "smartgen_docs/themes/book/base.html"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Update smartgen.yml",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",
