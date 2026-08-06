@@ -8,21 +8,21 @@ using the PathResolver to ensure all links are correct across nested directories
 import os
 import yaml
 import shutil
-from jinja2 import Environment, FileSystemLoader
 from .converter import MarkdownConverter
 from .path_resolver import PathResolver
 from .link_fixer import rewrite_md_links
+from .theme_engine import ThemeEngine
 
 
 class Builder:
     """
     Builds the documentation site from Markdown files.
     """
-    
+
     def __init__(self, config_path='smartgen.yml', site_dir='site'):
         """
         Initialize the Builder.
-        
+
         Args:
             config_path: Path to the smartgen.yml configuration file
             site_dir: Directory where the built site will be output
@@ -31,10 +31,13 @@ class Builder:
         self.site_dir = site_dir
         self.config = self.load_config()
         self.docs_dir = 'docs'
-        self.theme_dir = os.path.join(os.path.dirname(__file__), 'themes', 'default')
+        self.themes_root = os.path.join(os.path.dirname(__file__), 'themes')
+        theme_name = (self.config.get('theme') or {}).get('name')
+        self.theme_engine = ThemeEngine(theme_name, self.themes_root)
+        self.theme_dir = self.theme_engine.theme_dir  # kept for back-compat
+        self.env = self.theme_engine.env               # kept for back-compat
         self.converter = MarkdownConverter()
-        self.env = Environment(loader=FileSystemLoader(self.theme_dir))
-        
+
         # Initialize PathResolver
         site_url = self.config.get('site_url', '')
         self.path_resolver = PathResolver(site_url=site_url)
@@ -71,11 +74,14 @@ class Builder:
                 with open(os.path.join(self.site_dir, 'CNAME'), 'w') as f:
                     f.write(domain)
 
-        # Copy static assets
-        static_src = os.path.join(self.theme_dir, 'static')
+        # Copy static assets. Delegated to ThemeEngine so each theme's
+        # assets land in the right place: the default theme keeps its
+        # historical un-namespaced static/ path, every other theme is
+        # namespaced under static/<theme-name>/ so themes can't clobber
+        # each other's filenames (see theme_engine.py).
         static_dst = os.path.join(self.site_dir, 'static')
-        if os.path.exists(static_src):
-            shutil.copytree(static_src, static_dst)
+        os.makedirs(static_dst, exist_ok=True)
+        self.theme_engine.copy_static(static_dst)
 
         # Build pages with support for nested navigation
         nav = self.config.get('nav', [])
@@ -144,11 +150,9 @@ class Builder:
         md_content, _links_fixed = rewrite_md_links(md_content)
 
         html_body = self.converter.convert(md_content)
-        
-        # Use premium template if it exists
-        template_name = 'page_premium.html' if os.path.exists(os.path.join(self.theme_dir, 'page_premium.html')) else 'page.html'
-        template = self.env.get_template(template_name)
-        
+
+        template = self.theme_engine.get_template()
+
         # Calculate page depth for relative path resolution
         relative_path = md_path.replace('.md', '.html')
         current_depth = self.path_resolver.get_current_depth(relative_path)
@@ -162,8 +166,10 @@ class Builder:
         # Real, server-rendered previous/next links (same order as the sidebar)
         prev_page, next_page = None, None
         sequence = getattr(self, 'page_sequence', [])
+        current_index = None
         for i, (seq_title, seq_path) in enumerate(sequence):
             if seq_path == md_path:
+                current_index = i
                 if i > 0:
                     p_title, p_path = sequence[i - 1]
                     prev_page = {"title": p_title, "link": self.path_resolver.get_breadcrumb_link(p_path.replace('.md', '.html'), current_depth)}
@@ -171,6 +177,16 @@ class Builder:
                     n_title, n_path = sequence[i + 1]
                     next_page = {"title": n_title, "link": self.path_resolver.get_breadcrumb_link(n_path.replace('.md', '.html'), current_depth)}
                 break
+
+        # Generic, theme-agnostic "how far through the docs is this page"
+        # data. Any theme can use it (e.g. a curriculum-style progress
+        # bar); themes that don't care simply ignore these context vars.
+        total_pages = len(sequence)
+        progress_percent = (
+            round(((current_index + 1) / total_pages) * 100)
+            if current_index is not None and total_pages
+            else None
+        )
 
         output_content = template.render(
             title=title,
@@ -184,7 +200,11 @@ class Builder:
             next_page=next_page,
             current_depth=current_depth,
             path_resolver=self.path_resolver,
-            url_for=lambda type, filename: self._url_for(type, filename, current_depth)
+            url_for=lambda type, filename: self._url_for(type, filename, current_depth),
+            theme_name=self.theme_engine.name,
+            current_index=current_index,
+            total_pages=total_pages,
+            progress_percent=progress_percent,
         )
 
         # Handle nested paths
@@ -207,7 +227,15 @@ class Builder:
             Resolved URL
         """
         if type == 'static':
-            return self.path_resolver.resolve_static(filename, current_depth)
+            # Themes other than the default are namespaced under
+            # static/<theme-name>/ (see theme_engine.py) so their assets
+            # can't collide with another theme's filenames. Every theme's
+            # own templates can still just write url_for('static',
+            # 'css/whatever.css') -- the namespace is applied here,
+            # transparently, based on whichever theme is actually active.
+            namespace = self.theme_engine.static_namespace
+            resolved_filename = f"{namespace}/{filename}" if namespace else filename
+            return self.path_resolver.resolve_static(resolved_filename, current_depth)
         elif type == 'page':
             return self.path_resolver.get_breadcrumb_link(filename, current_depth)
         return filename
