@@ -1,6 +1,28 @@
 [
   {
     "version": "development",
+    "title": "fix: restore techblog stylesheet and constrain inline icons",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "99923a719a40f06fd1357f36b16f49b0edddf846",
+    "short_commit": "99923a7",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/99923a719a40f06fd1357f36b16f49b0edddf846",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-11T21:48:57Z",
+    "files_changed": 3,
+    "insertions": 613,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/themes/techblog/base.html",
+      "smartgen_docs/themes/techblog/static/css/techblog.css",
+      "tools/verify_techblog.py"
+    ]
+  },
+  {
+    "version": "development",
     "title": "docs: complete all blog, documentation, guides, and SDK markdown files",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
