@@ -1,0 +1,114 @@
+{#
+    Style switcher behavior: renders the list of built style variants,
+    figures out "the same page, in a different style" from the current
+    URL alone, and navigates there on click. No context variables needed
+    -- the list of styles is fixed by what CI actually builds (see
+    .github/workflows/main.yml). Include once, after the markup from
+    style_switcher.html is present in the DOM (e.g. near the end of
+    <body>, right after that include).
+#}
+<script>
+(function () {
+    var STYLES = [
+        { value: 'default',   label: 'Premium (Original)',        desc: 'The classic SmartGen Docs look', dot: '#4A3AE3' },
+        { value: 'book',      label: 'Book / Writer Docs',         desc: 'Reader-first, page-turn layout', dot: '#4A3AE3' },
+        { value: 'education', label: 'Education / Course',         desc: 'Lesson tracker, course sidebar',  dot: '#2563EB' },
+        { value: 'techblog',  label: 'Tech Blog / Magazine',       desc: 'Editorial, drop-cap articles',    dot: '#C81E3A' },
+        { value: 'agency',    label: 'Agency / Service Portal',    desc: 'Client-facing, gradient hero',    dot: '#0EA5A5' },
+        { value: 'medicine',  label: 'Medicine Docs',              desc: 'Clinical reference, print-ready', dot: '#0B5FA5' },
+        { value: 'apiplay',   label: 'Utility / API Playground',   desc: 'Terminal-style, monospace',       dot: '#16A34A' }
+    ];
+
+    var switcher = document.getElementById('style-switcher');
+    if (!switcher) return;
+
+    var toggle = document.getElementById('style-switcher-toggle');
+    var menu = document.getElementById('style-switcher-menu');
+
+    function currentStyleAndSubpath() {
+        var path = window.location.pathname || '/';
+        var m = path.match(/^(.*\/styles\/([^\/]+))(\/.*)?$/);
+        if (m && m[3]) {
+            return { style: m[2], subpath: m[3] };
+        }
+        if (path === '/' || path === '') {
+            return { style: 'default', subpath: '/index.html' };
+        }
+        return { style: 'default', subpath: path };
+    }
+
+    function hrefFor(target, subpath) {
+        if (target === 'default') return subpath;
+        return '/styles/' + target + subpath;
+    }
+
+    function renderMenu() {
+        var current = currentStyleAndSubpath();
+        var html = '<div class="style-switcher-menu-title">Switch site style</div>';
+        html += STYLES.map(function (s) {
+            var isCurrent = s.value === current.style;
+            return (
+                '<button type="button" class="style-option" role="menuitemradio" ' +
+                'aria-checked="' + isCurrent + '" aria-current="' + isCurrent + '" ' +
+                'data-style="' + s.value + '" style="--dot:' + s.dot + '">' +
+                '<span class="style-option-dot"></span>' +
+                '<span class="style-option-text">' +
+                '<span class="style-option-name">' + s.label + '</span>' +
+                '<span class="style-option-desc">' + s.desc + '</span>' +
+                '</span>' +
+                '<svg class="style-option-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 13l4 4L19 7"/></svg>' +
+                '</button>'
+            );
+        }).join('');
+        menu.innerHTML = html;
+    }
+
+    function openMenu() {
+        renderMenu();
+        menu.hidden = false;
+        toggle.setAttribute('aria-expanded', 'true');
+        var active = menu.querySelector('[aria-checked="true"]');
+        (active || menu.querySelector('.style-option')).focus();
+    }
+
+    function closeMenu(opts) {
+        menu.hidden = true;
+        toggle.setAttribute('aria-expanded', 'false');
+        if (opts && opts.refocusTrigger) toggle.focus();
+    }
+
+    toggle.addEventListener('click', function () {
+        menu.hidden ? openMenu() : closeMenu();
+    });
+
+    menu.addEventListener('click', function (e) {
+        var option = e.target.closest('.style-option');
+        if (!option) return;
+        var target = option.dataset.style;
+        var current = currentStyleAndSubpath();
+        if (target === current.style) { closeMenu({ refocusTrigger: true }); return; }
+        window.location.href = hrefFor(target, current.subpath);
+    });
+
+    menu.addEventListener('keydown', function (e) {
+        var options = Array.prototype.slice.call(menu.querySelectorAll('.style-option'));
+        var i = options.indexOf(document.activeElement);
+        if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            options[(i + 1) % options.length].focus();
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            options[(i - 1 + options.length) % options.length].focus();
+        } else if (e.key === 'Escape') {
+            e.preventDefault();
+            closeMenu({ refocusTrigger: true });
+        } else if (e.key === 'Tab') {
+            closeMenu();
+        }
+    });
+
+    document.addEventListener('click', function (e) {
+        if (!menu.hidden && !switcher.contains(e.target)) closeMenu();
+    });
+})();
+</script>
