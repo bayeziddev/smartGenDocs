@@ -1,55 +1,118 @@
 # Getting Started with SmartGen Docs
-Welcome to the **SmartGen Docs** ecosystem. This guide will walk you through the essential steps to initialize your project, structure your documentation, and deploy your site to the web.
-## 1. Installation
-Before you begin, ensure you have **Python 3.8+** installed. You can install the SmartGen Docs package directly via pip:
+
+Welcome to **SmartGen Docs**, a Python-native static documentation generator for creating fast, responsive, and SEO-ready documentation sites from Markdown and `smartgen.yml`.
+
+## 1. Install the package
+
+Install the published package from PyPI:
+
 ```bash
-# Standard installation
 pip install smartgen-docs
-
-# Installation with upload manager support
-pip install "smartgen-docs[full]"
-
 ```
-## 2. Project Initialization
-Navigate to your project folder and initialize the SmartGen environment. This command creates the necessary configuration files and directory structure.
+
+For the complete optional feature set, including development and screenshot tooling:
+
 ```bash
-smartgen-docs init
-
+pip install "smartgen-docs[full]"
+python -m playwright install chromium
 ```
-This will generate:
- * **smartgen.yml**: Your master configuration file.
- * **docs/**: The directory where your content lives.
-## 3. Configuring Your Site
-Open the smartgen.yml file in your root directory. Configure your site metadata to match your project branding:
+
+SmartGen Docs supports Python 3.9 and newer.
+
+## 2. Initialize a project
+
+Create a new project folder, enter it, and initialize the starter structure:
+
+```bash
+mkdir my-docs
+cd my-docs
+smartgen-docs init
+```
+
+The initializer creates `smartgen.yml`, a `docs/` directory, and a starter Markdown homepage.
+
+## 3. Configure `smartgen.yml`
+
+Open `smartgen.yml` and update the site metadata, theme, palette, and navigation:
+
 ```yaml
 site_name: My SmartGen Docs
-site_url: https://bayeziddev.github.io/smartGenDocs/
-site_author: Sayad Md Bayezid Hosan
+site_url: https://example.com/docs/
+site_author: Your Name
+site_description: A clear description of your documentation site.
 
-# Premium Theme Settings
 theme:
-  name: premium
+  name: book
   palette:
-    primary: "#0052cc"
-    accent: "#ff9900"
+    primary: "#4A3AE3"
+    accent: "#C2660D"
 
+style_switcher:
+  enabled: true
+  variants:
+    - default
+    - book
+    - education
+    - techblog
+    - agency
+    - medicine
+    - apiplay
+
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
 ```
-## 4. Creating Content
-SmartGen Docs uses Markdown for all documentation. Create your files inside the **docs/** directory.
- * **docs/index.md**: This is your site's homepage.
- * **docs/getting-started.md**: Your guide (this file).
- * **docs/api/**: Create subfolders for organized documentation.
-## 5. Local Development
-To preview your changes in real-time, use the built-in development server. It includes **live-reload**, meaning your browser will automatically refresh whenever you save a Markdown file.
+
+The `theme.name` value controls the primary site layout. The seven supported structural theme names are `default`, `book`, `education`, `techblog`, `agency`, `medicine`, and `apiplay`.
+
+## 4. Write Markdown content
+
+Create Markdown files under `docs/`. The paths in `nav` are relative to that directory:
+
+```text
+docs/
+├── index.md
+└── getting-started/
+    └── installation.md
+```
+
+Use standard Markdown headings, links, code blocks, tables, and lists. Internal links written with `.md` are contextualized to generated `.html` paths during the build.
+
+## 5. Preview locally
+
+Start the development server while editing content:
+
 ```bash
 smartgen-docs serve --port 8000
-
 ```
-## 6. Building for Production
-When you are ready to publish, build your site into static HTML files:
+
+Open `http://localhost:8000` in your browser. The server watches the project and refreshes the generated site as files change.
+
+## 6. Build for production
+
+Generate the deployable static artifact:
+
 ```bash
 smartgen-docs build
-
 ```
-This command generates your site into the **site/** folder. Your GitHub Actions workflow will automatically pick up these files and deploy them to your GitHub Pages site.
-*For advanced configurations, API generation, or managing your files via the web interface, refer to the [GUIDELINES.md](GUIDELINES.md)file in your project root.*
+
+The output is written to `site/`. It includes HTML pages, theme assets, `sitemap.xml`, `robots.txt`, and `.nojekyll` when configured for GitHub Pages.
+
+## 7. Generate every theme variant
+
+For the live Styles switcher, run the repository helper from a SmartGen Docs source checkout:
+
+```bash
+python3 build_all_themes.py
+```
+
+This builds the configured root theme and all seven variants under `site/styles/`.
+
+## 8. Publish with GitHub Pages
+
+Commit `smartgen.yml`, `docs/`, and the source project to GitHub. The repository workflow builds the static artifact and deploys it to GitHub Pages on pushes to `main`. Configure the repository Pages source as **GitHub Actions** and set the matching `site_url` in `smartgen.yml`.
+
+## 9. Next steps
+
+Read the [main README](../README.md) for the full CLI reference and architecture guide. For automated package releases, see [`PUBLISHING.md`](../PUBLISHING.md).

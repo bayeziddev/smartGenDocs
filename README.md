@@ -1,5 +1,10 @@
 # SmartGen Docs
 
+[![PyPI version](https://img.shields.io/pypi/v/smartgen-docs.svg)](https://pypi.org/project/smartgen-docs/)
+[![CI Status](https://github.com/bayeziddev/smartGenDocs/actions/workflows/main.yml/badge.svg)](https://github.com/bayeziddev/smartGenDocs/actions/workflows/main.yml)
+[![Publish Status](https://github.com/bayeziddev/smartGenDocs/actions/workflows/publish.yml/badge.svg)](https://github.com/bayeziddev/smartGenDocs/actions/workflows/publish.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+
 **SmartGen Docs** is a Python-native static documentation generator. It converts Markdown content and a YAML configuration into a fast, SEO-ready, responsive documentation website with multiple layouts, color modes, navigation, syntax highlighting, sitemap generation, and GitHub Pages deployment support.
 
 [![Live Documentation](https://img.shields.io/badge/docs-live-4A3AE3?style=flat-square)](https://docs.smartgentools.com/)
@@ -35,18 +40,24 @@ SmartGen Docs supports **Python 3.9 or newer**. Git is recommended for version c
 
 ## Installation
 
-Clone the repository and install the project in editable mode:
+You can install SmartGen Docs directly from PyPI using pip:
+
+```bash
+pip install smartgen-docs
+```
+
+Or install with optional feature extras (such as search, image support, minification, and development tools):
+
+```bash
+pip install "smartgen-docs[search,images,minify,dev]"
+```
+
+If you are contributing to the source code or running from a local clone:
 
 ```bash
 git clone https://github.com/bayeziddev/smartGenDocs.git
 cd smartGenDocs
 python -m pip install -e .
-```
-
-For the optional feature groups, install the extras that you need:
-
-```bash
-python -m pip install -e ".[search,images,minify,dev]"
 ```
 
 The available extras are:

@@ -26,7 +26,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "smartgen-docs"
-version = "0.1.0"
+version = "1.0.0"
 
 description = "SmartGen Docs is a modern, open-source static documentation framework for building fast, searchable, SEO-friendly documentation websites, API references, developer portals, technical guides, and knowledge bases."
 
@@ -118,8 +118,27 @@ screenshots = [
     "playwright>=1.50"
 ]
 
+upload = [
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "python-multipart>=0.0.9"
+]
+
 full = [
-    "smartgen-docs[search,images,minify,dev,screenshots]"
+    "whoosh>=2.7",
+    "Pillow>=11.0",
+    "htmlmin>=0.1",
+    "csscompressor>=0.9",
+    "jsmin>=3.0",
+    "pytest>=8.0",
+    "black>=25.0",
+    "ruff>=0.12",
+    "build>=1.2",
+    "twine>=6.0",
+    "playwright>=1.50",
+    "fastapi>=0.115",
+    "uvicorn>=0.30",
+    "python-multipart>=0.0.9"
 ]
 
 [project.urls]
@@ -129,6 +148,7 @@ Repository = "https://github.com/bayeziddev/smartGenDocs"
 Issues = "https://github.com/bayeziddev/smartGenDocs/issues"
 Discussions = "https://github.com/bayeziddev/smartGenDocs/discussions"
 Releases = "https://github.com/bayeziddev/smartGenDocs/releases"
+Changelog = "https://docs.smartgentools.com/docs/releases.html"
 Developer = "https://g.dev/SayadBayezid"
 GitHub = "https://github.com/sayadbayezid"
 LinkedIn = "https://www.linkedin.com/in/sayadbayezid"
