@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% set theme_modes = ['light', 'dark'] %}
+    {% include "partials/theme_prepaint.html" with context %}
+    <meta name="description" content="{{ config.site_description | default('Documentation') }}">
+    {% set page_url = config.site_url.rstrip('/') + '/' + current_page.replace('.md', '.html') if current_page and current_page != 'index.md' else config.site_url %}
+    <link rel="canonical" href="{{ page_url }}">
+    <meta property="og:title" content="{{ title }} - {{ config.site_name }}">
+    <meta property="og:description" content="{{ config.site_description | default('Documentation') }}">
+    <meta property="og:url" content="{{ page_url }}">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary">
+    <title>{{ title }} - {{ config.site_name }}</title>
+    <link rel="stylesheet" href="{{ url_for('static', 'css/agency.css') }}">
+    <noscript><style>.ag-content > * { opacity: 1 !important; transform: none !important; }</style></noscript>
+    {% if config.theme and config.theme.palette %}
+    <style>
+        :root, :root[data-theme] {
+            --ag-primary: {{ config.theme.palette.primary | default('#0EA5A5') }};
+            --ag-accent: {{ config.theme.palette.accent | default('#7C5CFF') }};
+        }
+    </style>
+    {% endif %}
+</head>
+<body class="ag-body-root">
+    <div class="ag-progress-rail"><div class="ag-progress-fill" id="ag-progress-fill"></div></div>
+
+    <!-- HEADER -->
+    <header class="ag-header" id="ag-header">
+        <div class="ag-container">
+            <button class="ag-menu-toggle" id="menu-toggle" type="button" aria-label="Toggle services menu">
+                <svg class="icon" viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            </button>
+            <a class="ag-brand" href="{{ url_for('page', 'index.html') }}">
+                <span class="ag-brand-mark" aria-hidden="true">
+                    <svg viewBox="0 0 24 24"><path d="M4 12l6-8 6 8-6 8-6-8Z"/><path d="M14 12l6-8 6 8-6 8-6-8Z" transform="translate(-6,0)"/></svg>
+                </span>
+                <span class="ag-brand-name">{{ config.site_name }}</span>
+            </a>
+
+            <div class="ag-search">
+                <svg class="icon" viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M20 20l-4.3-4.3"/></svg>
+                <input type="text" id="search-input" placeholder="Search…">
+                <div class="ag-search-results" id="search-results"></div>
+            </div>
+
+            <div class="ag-header-right">
+                <a href="https://github.com/bayeziddev/smartGenDocs" target="_blank" rel="noopener" class="ag-icon-btn" aria-label="View source on GitHub">
+                    <svg class="icon filled" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+                </a>
+                {% include "partials/theme_switcher.html" %}
+                <a class="ag-cta" href="{{ config.extra.social[0].link if config.extra and config.extra.social else 'https://github.com/bayeziddev/smartGenDocs' }}" target="_blank" rel="noopener">
+                    Get in touch
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <div class="ag-sidebar-overlay" id="sidebar-overlay"></div>
+
+    <div class="ag-shell">
+        <aside class="ag-sidebar" id="sidebar">
+            <div class="ag-sidebar-header">
+                <span>Our services</span>
+                <button class="ag-sidebar-close" id="sidebar-close" type="button" aria-label="Close menu">
+                    <svg class="icon" viewBox="0 0 24 24"><path d="M5 5l14 14M19 5 5 19"/></svg>
+                </button>
+            </div>
+            <nav class="ag-nav">
+                <ul>
+                {% for item in nav %}
+                    {% for label, link in item.items() %}
+                        {% if link is string %}
+                            {% if not link.startswith('http') %}
+                                {% set html_link = link.replace('.md', '.html') %}
+                                {% set is_active = (link == current_page) %}
+                                <li class="ag-nav-item{% if is_active %} active{% endif %}" style="--stagger:{{ loop.index0 }}">
+                                    <a href="{{ url_for('page', html_link) }}" data-nav-link data-ag-page="{{ html_link }}" class="ag-nav-link{% if is_active %} active{% endif %}">
+                                        <span class="ag-nav-dot" aria-hidden="true"></span><span>{{ label }}</span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="ag-nav-item" style="--stagger:{{ loop.index0 }}">
+                                    <a href="{{ link }}" target="_blank" rel="noopener" class="ag-nav-link ag-nav-link-external">
+                                        <span class="ag-nav-dot ag-nav-dot-external" aria-hidden="true"></span><span>{{ label }}</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        {% else %}
+                            {% set section_label = label %}
+                            {%- set ns = namespace(has_active_child=false) -%}
+                            {% for subitem in link %}
+                                {% for sublabel, sublink in subitem.items() %}
+                                    {% if not sublink.startswith('http') and sublink == current_page %}
+                                        {% set ns.has_active_child = true %}
+                                    {% endif %}
+                                {% endfor %}
+                            {% endfor %}
+                            <li class="ag-section{% if ns.has_active_child %} expanded{% endif %}" data-nav-section style="--stagger:{{ loop.index0 }}">
+                                <button class="ag-section-toggle" type="button" data-section="{{ section_label | lower | replace(' ', '-') }}">
+                                    <span class="ag-section-label">{{ section_label }}</span>
+                                    <svg class="icon ag-section-arrow" viewBox="0 0 24 24"><path d="M9 6l6 6-6 6"/></svg>
+                                </button>
+                                <ul class="ag-section-pages" data-nav-submenu>
+                                    {% for subitem in link %}
+                                        {% for sublabel, sublink in subitem.items() %}
+                                            {% if not sublink.startswith('http') %}
+                                                {% set html_link = sublink.replace('.md', '.html') %}
+                                                {% set is_active = (sublink == current_page) %}
+                                                <li class="ag-nav-item ag-nav-item-sub">
+                                                    <a href="{{ url_for('page', html_link) }}" data-nav-link data-ag-page="{{ html_link }}" class="ag-nav-link{% if is_active %} active{% endif %}">
+                                                        <span class="ag-nav-dot" aria-hidden="true"></span><span>{{ sublabel }}</span>
+                                                    </a>
+                                                </li>
+                                            {% else %}
+                                                <li class="ag-nav-item ag-nav-item-sub">
+                                                    <a href="{{ sublink }}" target="_blank" rel="noopener" class="ag-nav-link ag-nav-link-external">
+                                                        <span class="ag-nav-dot ag-nav-dot-external" aria-hidden="true"></span><span>{{ sublabel }}</span>
+                                                    </a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="ag-main">
+            <div class="ag-page">
+                <div class="ag-hero">
+                    {% if current_index is not none %}<p class="ag-eyebrow">Guide {{ current_index + 1 }} of {{ total_pages }}</p>{% endif %}
+                    <h1 class="ag-title">{{ title }}</h1>
+                </div>
+
+                <div class="ag-content" data-current-path="{{ current_page.replace('.md', '.html') if current_page else '' }}">
+                    {% block content %}{% endblock %}
+                </div>
+
+                <div class="ag-page-turn">
+                    {% if prev_page %}
+                    <a class="ag-page-btn ag-page-prev" href="{{ prev_page.link }}">
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+                        <span><span class="ag-page-label">Previous</span><span class="ag-page-title">{{ prev_page.title }}</span></span>
+                    </a>
+                    {% else %}<span></span>{% endif %}
+                    {% if next_page %}
+                    <a class="ag-page-btn ag-page-next" href="{{ next_page.link }}">
+                        <span><span class="ag-page-label">Next</span><span class="ag-page-title">{{ next_page.title }}</span></span>
+                        <svg class="icon" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <footer class="ag-footer">
+        <div class="ag-container">
+            <p class="ag-footer-copy">&copy; 2026 <a href="{{ config.site_url }}">{{ config.site_author }}</a> &middot; Built with SmartGen Docs &middot; <a href="https://github.com/bayeziddev/smartGenDocs" target="_blank" rel="noopener">GitHub</a></p>
+        </div>
+    </footer>
+
+    <!-- BACK TO TOP -->
+    <button class="ag-to-top" id="ag-to-top" type="button" aria-label="Back to top">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+    </button>
+
+    <script>
+        const menuToggle = document.getElementById('menu-toggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarClose = document.getElementById('sidebar-close');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        function openSidebar() { sidebar.classList.add('open'); sidebarOverlay.classList.add('visible'); }
+        function closeSidebar() { sidebar.classList.remove('open'); sidebarOverlay.classList.remove('visible'); }
+        menuToggle.addEventListener('click', openSidebar);
+        sidebarClose.addEventListener('click', closeSidebar);
+        sidebarOverlay.addEventListener('click', closeSidebar);
+
+        document.querySelectorAll('.ag-section-toggle').forEach(toggle => {
+            toggle.addEventListener('click', () => toggle.closest('.ag-section').classList.toggle('expanded'));
+        });
+
+        (function () {
+            const fill = document.getElementById('ag-progress-fill');
+            const article = document.querySelector('.ag-content');
+            const header = document.getElementById('ag-header');
+            const toTop = document.getElementById('ag-to-top');
+            if (!fill || !article) return;
+            function update() {
+                const rect = article.getBoundingClientRect();
+                const total = rect.height - window.innerHeight + rect.top + window.scrollY;
+                const scrolled = window.scrollY - (rect.top + window.scrollY) + window.innerHeight * 0.5;
+                const pct = total > 0 ? Math.min(100, Math.max(0, (scrolled / total) * 100)) : 0;
+                fill.style.width = pct + '%';
+                if (header) header.classList.toggle('is-scrolled', window.scrollY > 8);
+                if (toTop) toTop.classList.toggle('visible', window.scrollY > 480);
+            }
+            document.addEventListener('scroll', update, { passive: true });
+            window.addEventListener('resize', update);
+            update();
+            if (toTop) toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        })();
+
+        (function () {
+            const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            const items = document.querySelectorAll('.ag-content > *');
+            if (reduceMotion || !('IntersectionObserver' in window)) {
+                items.forEach(el => el.classList.add('is-visible'));
+                return;
+            }
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) { entry.target.classList.add('is-visible'); io.unobserve(entry.target); }
+                });
+            }, { rootMargin: '0px 0px -8% 0px', threshold: 0.05 });
+            items.forEach(el => io.observe(el));
+        })();
+
+        document.querySelectorAll('.ag-content pre').forEach(block => {
+            const button = document.createElement('button');
+            button.className = 'copy-code-btn';
+            button.innerHTML = '<span>Copy</span>';
+            button.addEventListener('click', () => {
+                const codeEl = block.querySelector('code');
+                const code = codeEl ? codeEl.textContent : block.textContent;
+                navigator.clipboard.writeText(code).then(() => {
+                    button.querySelector('span').textContent = 'Copied';
+                    setTimeout(() => { button.querySelector('span').textContent = 'Copy'; }, 2000);
+                });
+            });
+            block.style.position = 'relative';
+            block.appendChild(button);
+        });
+    </script>
+    {% include "partials/active_nav_script.html" %}
+    {% set theme_switcher_modes = [
+        {"value": "light", "label": "Day", "swatch_bg": "#F7FAF9", "swatch_fg": "#0EA5A5"},
+        {"value": "dark", "label": "Night", "swatch_bg": "#12181A", "swatch_fg": "#5EEAD4"}
+    ] %}
+    {% include "partials/theme_switcher_script.html" with context %}
+        {% include "partials/style_switcher.html" %}
+{% include "partials/style_switcher_script.html" %}
+</body>
+</html>
