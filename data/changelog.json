@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "fix(docs): remove invalid diff blog post causing Jekyll Liquid syntax error",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "c9f430b34433dce11fcd8364c8a6d9390ee96cd4",
+    "short_commit": "c9f430b",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/c9f430b34433dce11fcd8364c8a6d9390ee96cd4",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-11T20:35:05Z",
+    "files_changed": 1,
+    "insertions": 0,
+    "deletions": 834,
+    "changed_files": [
+      "docs/blog/book-theme-update.md"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Create .nojekyll",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",
