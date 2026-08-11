@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Create apiplay.css",
+    "description": "Platform improvements and optimizations.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "623ca8eefd43779f76e0c44b997620f6913bf4fe",
+    "short_commit": "623ca8e",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/623ca8eefd43779f76e0c44b997620f6913bf4fe",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-12T00:33:41+06:00",
+    "files_changed": 1,
+    "insertions": 219,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/themes/apiplay/static/css/apiplay.css"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Add base HTML template for API documentation",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",
