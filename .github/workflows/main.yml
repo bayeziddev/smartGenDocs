@@ -39,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.cache/pip
-          key: pip-<LaTex>{{ runner.os }}-</LaTex>{{ hashFiles('requirements.txt') }}
+          key: pip-${{ runner.os }}-${{ hashFiles('requirements.txt') }}
           restore-keys: |
             pip-${{ runner.os }}-
 
@@ -71,7 +71,8 @@ jobs:
       - name: Validate Markdown Files
         run: |
           COUNT=$(find docs -name "*.md" | wc -l)
-          echo "Markdown files found: <LaTex>COUNT"           if [ "</LaTex>COUNT" -eq "0" ]; then
+          echo "Markdown files found: $COUNT"
+          if [ "$COUNT" -eq "0" ]; then
             echo "No documentation files found in docs/."
             exit 1
           fi
@@ -147,9 +148,11 @@ jobs:
     steps:
       - name: Workflow Summary
         run: |
-          echo "# SmartGen Docs Build Summary" >> <LaTex>GITHUB_STEP_SUMMARY           echo "" >></LaTex>GITHUB_STEP_SUMMARY
-          echo "Repository: <LaTex>GITHUB_REPOSITORY" >></LaTex>GITHUB_STEP_SUMMARY
-          echo "Branch: <LaTex>GITHUB_REF_NAME" >></LaTex>GITHUB_STEP_SUMMARY
-          echo "Commit: <LaTex>GITHUB_SHA" >></LaTex>GITHUB_STEP_SUMMARY
-          echo "Triggered by: <LaTex>GITHUB_ACTOR" >></LaTex>GITHUB_STEP_SUMMARY
-          echo "" >> <LaTex>GITHUB_STEP_SUMMARY           echo "Status: Workflow execution finished." >></LaTex>GITHUB_STEP_SUMMARY
+          echo "# SmartGen Docs Build Summary" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Repository: $GITHUB_REPOSITORY" >> $GITHUB_STEP_SUMMARY
+          echo "Branch: $GITHUB_REF_NAME" >> $GITHUB_STEP_SUMMARY
+          echo "Commit: $GITHUB_SHA" >> $GITHUB_STEP_SUMMARY
+          echo "Triggered by: $GITHUB_ACTOR" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "Status: Workflow execution finished." >> $GITHUB_STEP_SUMMARY
