@@ -22,7 +22,7 @@
 ---
 ## What is SmartGen Docs?
 # Multi-theme system for SmartGen Docs
-
+New update 4 theme [README_START_HERE.md](README_START_HERE.md)
 **Repo:** `bayeziddev/smartGenDocs`
 **Files touched:** `smartgen_docs/themes/default/static/css/premium.css`, `smartgen_docs/themes/default/base_premium.html`, `smartgen.yml`, `docs/guides/theming.md` (new), plus 11 pre-existing broken-link fixes across `docs/*.md`.
 
