@@ -26,7 +26,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "smartgen-docs"
-version = "1.0.0"
+version = "1.0.1"
 
 description = "SmartGen Docs is a modern, open-source static documentation framework for building fast, searchable, SEO-friendly documentation websites, API references, developer portals, technical guides, and knowledge bases."
 
