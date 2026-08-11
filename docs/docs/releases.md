@@ -1,78 +1,35 @@
-# Release Notes
+# Documentation Release Notes & Platform Updates
 
-This section provides a summary of major releases for SmartGen Docs, highlighting new features, improvements, and important bug fixes. For a detailed historical record of all changes, please refer to the [Changelog](changelog.md).
+This document tracks all official releases, version updates, and core architectural milestones for SmartGen Docs.
 
-## Version 1.0.0 (Initial Release)
+## Version 1.1.0 (August 2026)
 
-**Release Date**: [Insert Date of 1.0.0 Release Here]
+Version 1.1.0 represents a major milestone in SmartGen Docs engineering, introducing full support for seven distinct structural themes, a live client-side style switcher, automated sitemap and robots generation, and robust Playwright testing suites [1].
 
-### New Features
+### Key Enhancements
 
-*   **Core Static Site Generation**: Initial implementation of converting Markdown files to static HTML.
-*   **YAML Configuration**: Introduction of `smartgen.yml` for basic site configuration and navigation.
-*   **Markdown Support**: Basic Markdown parsing with support for headings, lists, and paragraphs.
-*   **CLI Tools**: `init`, `build`, and `serve` commands for project management and local development.
-*   **Default Theme**: A basic, functional theme for documentation display.
+- **Multi-Theme Engine**: Added production support for `default`, `book`, `education`, `techblog`, `agency`, `medicine`, and `apiplay` themes [2].
+- **Live Styles Switcher**: Implemented a floating, keyboard-accessible button allowing readers to switch between all seven theme variants on the fly while preserving their exact page location [3].
+- **Automated Sitemap & Robots**: The builder engine now automatically computes document modification times and generates valid `sitemap.xml` and `robots.txt` files directly into the build output [4].
+- **Playwright Verification**: Added `tools/capture_screenshots.py` for automated cross-browser visual regression testing and responsive layout verification [5].
 
-### Improvements
+## Version 1.0.0 (July 2026)
 
-*   Initial project scaffolding for quick setup.
-*   Basic error handling for file operations.
+The initial public release of SmartGen Docs established the Python-native, zero-dependency static documentation framework.
 
-### Bug Fixes
+### Foundation Features
 
-*   Resolved minor parsing issues with complex Markdown structures.
+- High-performance Markdown-to-HTML conversion with Pygments syntax highlighting [6].
+- Flexible YAML configuration (`smartgen.yml`) supporting nested sidebar navigation and breadcrumbs [7].
+- Automated GitHub Actions workflows for continuous integration validation and GitHub Pages deployment [8].
 
-## Version 1.1.0 (Enhanced Theming and Content Features)
+## References
 
-**Release Date**: [Insert Date of 1.1.0 Release Here]
-
-### New Features
-
-*   **Premium Theme**: Introduction of an advanced `premium` theme with dark/light mode and improved aesthetics.
-*   **Extended Markdown**: Added support for fenced code blocks, tables, header IDs, and task lists.
-*   **Path Resolver**: Implemented intelligent path resolution for internal links and static assets.
-*   **Jinja2 Templating**: Enhanced theming capabilities using Jinja2 for more flexible layout customization.
-
-### Improvements
-
-*   Improved build performance for larger documentation sites.
-*   More robust handling of nested navigation structures.
-*   Better error messages for configuration issues.
-
-### Bug Fixes
-
-*   Fixed issues with relative paths in deeply nested documentation pages.
-*   Addressed styling inconsistencies in the default theme.
-
-## Version 1.2.0 (Developer Tools and Automation)
-
-**Release Date**: [Insert Date of 1.2.0 Release Here]
-
-### New Features
-
-*   **API Auto-Generation (`autodoc`)**: Command to automatically generate API reference documentation from Python docstrings.
-*   **Changelog Renderer**: Tool to convert `changelog.json` into a Markdown changelog page.
-*   **Scaffolding Command**: `scaffold` command to auto-generate missing Markdown files based on `smartgen.yml`.
-*   **Upload Manager**: Web-based interface for easier content management (requires FastAPI and Uvicorn).
-
-### Improvements
-
-*   Enhanced CLI for better user experience and more informative output.
-*   Improved documentation for core components and usage.
-
-### Bug Fixes
-
-*   Resolved issues with `autodoc` not correctly parsing certain Python constructs.
-*   Fixed minor bugs in the `serve` command's live reloading functionality.
-
-## Future Releases
-
-We are continuously working to improve SmartGen Docs. Future releases will focus on:
-
-*   Further theme enhancements and customization options.
-*   Expanded integrations with other SmartGen Platform tools.
-*   Performance optimizations for very large documentation projects.
-*   Community-driven features and improvements.
-
-Stay tuned for updates, and feel free to contribute your ideas and code on our [GitHub Repository](https://github.com/bayeziddev/smartGenDocs).
+- [1] SmartGen Release History. [SmartGen GitHub Releases](https://github.com/bayeziddev/smartGenDocs/releases).
+- [2] Multi-Theme Architecture. [SmartGen Theming Guide](https://docs.smartgentools.com/guides/theming.html).
+- [3] Style Switcher Implementation. [SmartGen Shared Partials](https://github.com/bayeziddev/smartGenDocs/tree/main/smartgen_docs/themes/_shared/partials).
+- [4] Sitemap Generation Engine. [SmartGen Builder Core](https://github.com/bayeziddev/smartGenDocs/blob/main/smartgen_docs/core.py).
+- [5] Playwright Verification Suite. [SmartGen Tools](https://github.com/bayeziddev/smartGenDocs/tree/main/tools).
+- [6] Markdown Converter. [SmartGen Core Converter](https://github.com/bayeziddev/smartGenDocs/blob/main/smartgen_docs/converter.py).
+- [7] Configuration Guide. [SmartGen Configuration Reference](https://docs.smartgentools.com/guides/configuration.md).
+- [8] CI/CD Automation. [SmartGen Deployment Documentation](https://docs.smartgentools.com/getting-started/deployment.html).

@@ -1,26 +1,38 @@
-# Java
+# SmartGen Docs Java SDK
 
-## Introduction
+The **SmartGen Java SDK** provides enterprise Java and Spring Boot applications with programmatic access to SmartGen documentation repositories, search indexes, and metadata services [1].
 
-This page covers java.
+## Java Client Example
 
-## Content
+```java
+package com.smartgen.sdk;
 
-Add your content here.
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 
-## Examples
+public class SmartGenClient {
+    private final String baseUrl;
+    private final HttpClient httpClient;
 
-```python
-# Example code here
-pass
+    public SmartGenClient(String baseUrl) {
+        this.baseUrl = baseUrl;
+        this.httpClient = HttpClient.newHttpClient();
+    }
+
+    public String fetchSitemap() throws Exception {
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + "/sitemap.xml"))
+                .GET()
+                .build();
+        HttpResponse<String> response = httpClient.send(request, HttpResponse.BodyHandlers.ofString());
+        return response.body();
+    }
+}
 ```
-
-## See Also
-
-- Related Topic 1
-- Related Topic 2
 
 ## References
 
-- [Reference 1](#)
-- [Reference 2](#)
+- [1] Java SDK Reference. [SmartGen Documentation](https://docs.smartgentools.com/sdk/java.html).
+- [2] API Reference. [SmartGen API Guides](https://docs.smartgentools.com/api/index.html).

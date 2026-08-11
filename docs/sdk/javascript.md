@@ -1,26 +1,28 @@
-# JavaScript
+# SmartGen Docs JavaScript / TypeScript SDK
 
-## Introduction
+The **SmartGen JavaScript SDK** enables frontend applications, Node.js microservices, and serverless functions to interact with SmartGen documentation services, search APIs, and theme switcher state [1].
 
-This page covers javascript.
+## Client Integration Example
 
-## Content
+```typescript
+export class SmartGenClient {
+    private baseUrl: string;
 
-Add your content here.
+    constructor(baseUrl: string = 'https://docs.smartgentools.com') {
+        this.baseUrl = baseUrl.replace(/\/$/, '');
+    }
 
-## Examples
-
-```python
-# Example code here
-pass
+    async fetchDocumentationIndex(): Promise<Response> {
+        const response = await fetch(`${this.baseUrl}/sitemap.xml`);
+        if (!response.ok) {
+            throw new Error(`Failed to fetch sitemap: ${response.statusText}`);
+        }
+        return response;
+    }
+}
 ```
-
-## See Also
-
-- Related Topic 1
-- Related Topic 2
 
 ## References
 
-- [Reference 1](#)
-- [Reference 2](#)
+- [1] JavaScript SDK Reference. [SmartGen Documentation](https://docs.smartgentools.com/sdk/javascript.html).
+- [2] SmartGen API Reference. [SmartGen API Guides](https://docs.smartgentools.com/api/index.html).

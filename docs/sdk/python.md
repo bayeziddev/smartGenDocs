@@ -1,26 +1,36 @@
-# Python
+# SmartGen Docs Python SDK & CLI Integration
 
-## Introduction
+The **SmartGen Python SDK** provides programmatic access to the documentation builder engine, enabling developers to integrate static site compilation, custom theme registration, and automated autodoc generation directly into their Python applications and CI/CD pipelines [1].
 
-This page covers python.
+## Installation & Setup
 
-## Content
+Install the SmartGen Docs package via `pip` or include it in your project's `pyproject.toml` dependencies [2]:
 
-Add your content here.
-
-## Examples
-
-```python
-# Example code here
-pass
+```bash
+pip install smartgen-docs
 ```
 
-## See Also
+## Programmatic Builder API
 
-- Related Topic 1
-- Related Topic 2
+You can instantiate and execute the documentation builder programmatically from any Python script:
+
+```python
+from smartgen_docs.core import Builder
+
+def build_docs():
+    # Initialize builder with custom configuration and site output directory
+    builder = Builder(config_path='smartgen.yml', site_dir='site')
+    builder.build()
+    print("Documentation build completed successfully.")
+
+if __name__ == '__main__':
+    build_docs()
+```
+
+The `Builder` class automatically loads `smartgen.yml`, parses navigation hierarchies, converts Markdown source files with Pygments syntax highlighting, and generates SEO sitemaps and robots files [3].
 
 ## References
 
-- [Reference 1](#)
-- [Reference 2](#)
+- [1] Python SDK Reference. [SmartGen Documentation](https://docs.smartgentools.com/sdk/python.html).
+- [2] Pyproject Configuration. [SmartGen Repository](https://github.com/bayeziddev/smartGenDocs/blob/main/pyproject.toml).
+- [3] Builder Core Implementation. [SmartGen Source Code](https://github.com/bayeziddev/smartGenDocs/blob/main/smartgen_docs/core.py).

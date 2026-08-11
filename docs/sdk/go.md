@@ -1,26 +1,43 @@
-# Go
+# SmartGen Docs Go SDK
 
-## Introduction
+The **SmartGen Go SDK** provides high-performance Go microservices and tools with native client bindings for querying SmartGen documentation endpoints, verifying sitemaps, and interacting with developer portals [1].
 
-This page covers go.
+## Go Client Example
 
-## Content
+```go
+package smartgen
 
-Add your content here.
+import (
+	"fmt"
+	"net/http"
+)
 
-## Examples
+type Client struct {
+	BaseURL    string
+	HTTPClient *http.Client
+}
 
-```python
-# Example code here
-pass
+func NewClient(baseURL string) *Client {
+	return &Client{
+		BaseURL:    baseURL,
+		HTTPClient: &http.Client{},
+	}
+}
+
+func (c *Client) Ping() error {
+	resp, err := c.HTTPClient.Get(c.BaseURL + "/robots.txt")
+	if err != nil {
+		return err
+	}
+	defer resp.Body.Close()
+	if resp.StatusCode != http.StatusOK {
+		return fmt.Errorf("unexpected status code: %d", resp.StatusCode)
+	}
+	return nil
+}
 ```
-
-## See Also
-
-- Related Topic 1
-- Related Topic 2
 
 ## References
 
-- [Reference 1](#)
-- [Reference 2](#)
+- [1] Go SDK Reference. [SmartGen Documentation](https://docs.smartgentools.com/sdk/go.html).
+- [2] API Reference. [SmartGen API Guides](https://docs.smartgentools.com/api/index.html).
