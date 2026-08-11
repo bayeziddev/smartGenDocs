@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-12 - Add base HTML template for API documentation
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `247` new additions and `0` deletions.
+
+- **👤 Author:** Sayad Bayezid
+- **🔗 Commit:** [691872c](https://github.com/bayeziddev/smartGenDocs/commit/691872c284b7051e3e482d1d9161b6dbdf14385f)
+- **🔍 SEO Keywords:** `base`, `html`, `template`, `documentation`, `visual`
+- **💡 System Note:** Visual and structural template modifications applied to `base.html` to improve user experience and layout integrity.
+
+---
+
 ## 🚀 2026-08-12 - Add CSS styles for Medicine Docs theme
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `229` new additions and `0` deletions.
