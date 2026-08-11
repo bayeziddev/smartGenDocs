@@ -101,8 +101,8 @@ jobs:
 
       - name: Build Documentation
         run: |
-          echo "Building SmartGen Docs..."
-          smartgen-docs build
+          echo "Building SmartGen Docs with all theme variants..."
+          python3 build_all_themes.py
 
       - name: Verify Build & Prevent Jekyll Overrides
         run: |
