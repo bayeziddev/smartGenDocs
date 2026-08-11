@@ -16,6 +16,24 @@
     <title>{{ title }} - {{ config.site_name }}</title>
     <link rel="stylesheet" href="{{ url_for('static', 'css/techblog.css') }}">
     <noscript><style>.mag-content > * { opacity: 1 !important; transform: none !important; }</style></noscript>
+    <style>
+        /* Defensive icon sizing. Every inline <svg class="icon"> in this
+           theme (menu toggle, search, GitHub link, section arrow) has a
+           viewBox but no width/height -- browsers fall back to each
+           SVG's unconstrained intrinsic size (huge) unless something
+           constrains it. This guarantees a sane size regardless of what
+           techblog.css does or doesn't set for these selectors. */
+        .mag-header .icon,
+        .mag-sidebar .icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            flex-shrink: 0;
+        }
+        .mag-icon-btn .icon.filled {
+            width: 1.4rem;
+            height: 1.4rem;
+        }
+    </style>
     {% if config.theme and config.theme.palette %}
     <style>
         :root, :root[data-theme] {
