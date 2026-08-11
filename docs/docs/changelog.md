@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-12 - Add style switcher component with markup and styles
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `153` new additions and `0` deletions.
+
+- **👤 Author:** Sayad Bayezid
+- **🔗 Commit:** [df82f74](https://github.com/bayeziddev/smartGenDocs/commit/df82f7469374708e5385156f4d462821643d1c47)
+- **🔍 SEO Keywords:** `style`, `switcher`, `component`, `markup`, `styles`
+- **💡 System Note:** This file contains the markup and styles for a style switcher component that allows users to switch between different site styles. It includes a button to toggle the switcher and a menu for style options.
+
+---
+
 ## 🚀 2026-08-12 - Create apiplay.css
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `219` new additions and `0` deletions.
