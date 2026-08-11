@@ -1,6 +1,30 @@
 [
   {
     "version": "development",
+    "title": "docs: fix sitemap and add complete README with Playwright guide",
+    "description": "Platform improvements and optimizations.",
+    "author": "bayeziddev",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "c1596a19af378aa8107fa9bae0d017b000c83279",
+    "short_commit": "c1596a1",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/c1596a19af378aa8107fa9bae0d017b000c83279",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-11T21:13:41Z",
+    "files_changed": 5,
+    "insertions": 745,
+    "deletions": 77,
+    "changed_files": [
+      "README.md",
+      "pyproject.toml",
+      "sitemap.xml",
+      "smartgen_docs/core.py",
+      "tools/capture_screenshots.py"
+    ]
+  },
+  {
+    "version": "development",
     "title": "fix(styles): add style switcher component to all themes and update multi-theme build",
     "description": "Platform improvements and optimizations.",
     "author": "bayeziddev",
