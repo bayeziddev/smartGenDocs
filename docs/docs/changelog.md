@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-12 - Add style switcher script for theme selection
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `114` new additions and `0` deletions.
+
+- **👤 Author:** Sayad Bayezid
+- **🔗 Commit:** [07ecb7a](https://github.com/bayeziddev/smartGenDocs/commit/07ecb7a9f3817fa2333cb5a71b44dfb591cca640)
+- **🔍 SEO Keywords:** `style`, `switcher`, `script`, `theme`, `selection`
+- **💡 System Note:** Visual and structural template modifications applied to `style_switcher_script.html` to improve user experience and layout integrity.
+
+---
+
 ## 🚀 2026-08-12 - Add style switcher component with markup and styles
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `153` new additions and `0` deletions.
