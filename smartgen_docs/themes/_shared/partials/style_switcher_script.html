@@ -19,6 +19,12 @@
         { value: 'apiplay',   label: 'Utility / API Playground',   desc: 'Terminal-style, monospace',       dot: '#16A34A' }
     ];
 
+    // The root site is the configured primary theme. Alternate themes live
+    // under /styles/<theme>, including the primary theme's own variant.
+    var PRIMARY_STYLE = {{ (config.get('theme', {}).get('name') or 'default') | tojson }};
+    if (PRIMARY_STYLE === 'premium') PRIMARY_STYLE = 'default';
+    var STYLE_NAMES = STYLES.map(function (s) { return s.value; });
+
     var switcher = document.getElementById('style-switcher');
     if (!switcher) return;
 
@@ -27,18 +33,28 @@
 
     function currentStyleAndSubpath() {
         var path = window.location.pathname || '/';
-        var m = path.match(/^(.*\/styles\/([^\/]+))(\/.*)?$/);
-        if (m && m[3]) {
-            return { style: m[2], subpath: m[3] };
+        var marker = '/styles/';
+        var markerIndex = path.indexOf(marker);
+
+        if (markerIndex !== -1) {
+            var remainder = path.slice(markerIndex + marker.length);
+            var parts = remainder.split('/');
+            var variant = parts.shift();
+            if (STYLE_NAMES.indexOf(variant) !== -1) {
+                var subpath = '/' + parts.join('/');
+                if (subpath === '/') subpath = '/index.html';
+                return { style: variant, subpath: subpath };
+            }
         }
-        if (path === '/' || path === '') {
-            return { style: 'default', subpath: '/index.html' };
-        }
-        return { style: 'default', subpath: path };
+
+        return {
+            style: PRIMARY_STYLE,
+            subpath: path === '/' || path === '' ? '/index.html' : path
+        };
     }
 
     function hrefFor(target, subpath) {
-        if (target === 'default') return subpath;
+        if (target === PRIMARY_STYLE) return subpath;
         return '/styles/' + target + subpath;
     }
 
@@ -85,9 +101,9 @@
         var option = e.target.closest('.style-option');
         if (!option) return;
         var target = option.dataset.style;
-        var current = currentStyleAndSubpath();
-        if (target === current.style) { closeMenu({ refocusTrigger: true }); return; }
-        window.location.href = hrefFor(target, current.subpath);
+            var current = currentStyleAndSubpath();
+            if (target === current.style) { closeMenu({ refocusTrigger: true }); return; }
+            window.location.href = hrefFor(target, current.subpath);
     });
 
     menu.addEventListener('keydown', function (e) {

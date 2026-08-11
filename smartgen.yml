@@ -42,6 +42,20 @@ theme:
   favicon: assets/favicon.png
   logo: logo
 
+# Build and expose every structural theme through the live Styles switcher.
+# The configured primary theme is rendered at the site root; all variants are
+# also rendered under /styles/<theme> by build_all_themes.py.
+style_switcher:
+  enabled: true
+  variants:
+    - default
+    - book
+    - education
+    - techblog
+    - agency
+    - medicine
+    - apiplay
+
 # Additional configuration
 extra:
   status:

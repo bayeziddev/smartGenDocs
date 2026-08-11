@@ -8,7 +8,15 @@ def build_all():
     with open(config_path, 'r') as f:
         config = yaml.safe_load(f)
     
-    themes = ['default', 'book', 'education', 'techblog', 'agency', 'medicine', 'apiplay']
+    style_config = config.get('style_switcher', {}) or {}
+    themes = style_config.get('variants') or [
+        'default', 'book', 'education', 'techblog', 'agency', 'medicine', 'apiplay'
+    ]
+    configured_theme = (config.get('theme', {}) or {}).get('name') or 'default'
+    if configured_theme == 'premium':
+        configured_theme = 'default'
+    if configured_theme not in themes:
+        themes.insert(0, configured_theme)
     
     # Ensure site directory is clean
     if os.path.exists('site'):
