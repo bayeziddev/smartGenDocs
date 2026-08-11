@@ -1,6 +1,26 @@
 [
   {
     "version": "development",
+    "title": "Add CSS styles for Medicine Docs theme",
+    "description": "This CSS file defines styles for the Medicine Docs theme, including variables for colors, fonts, spacing, and layout. It also includes responsive design rules and animations for various elements.",
+    "author": "Sayad Bayezid",
+    "repository": "bayeziddev/smartGenDocs",
+    "repository_url": "https://github.com/bayeziddev/smartGenDocs",
+    "branch": "main",
+    "commit": "413df362e065b9c180b4a09c561c2cf9fde6f66e",
+    "short_commit": "413df36",
+    "commit_url": "https://github.com/bayeziddev/smartGenDocs/commit/413df362e065b9c180b4a09c561c2cf9fde6f66e",
+    "website": "https://bayeziddev.github.io/smartGenDocs/",
+    "date": "2026-08-12T00:32:13+06:00",
+    "files_changed": 1,
+    "insertions": 229,
+    "deletions": 0,
+    "changed_files": [
+      "smartgen_docs/themes/medicine/static/css/medicine.css"
+    ]
+  },
+  {
+    "version": "development",
     "title": "Create base.html",
     "description": "Platform improvements and optimizations.",
     "author": "Sayad Bayezid",
