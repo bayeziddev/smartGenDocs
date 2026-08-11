@@ -1,12 +1,13 @@
 name: Publish to PyPI
 
 on:
-  release:
-    types: [published]
+  push:
+    tags:
+      - 'v*'
 
 jobs:
-  pypi-publish:
-    name: Build and publish Python distribution to PyPI
+  validate-and-publish:
+    name: Validate smartgen.yml and Publish to PyPI
     runs-on: ubuntu-latest
     permissions:
       id-token: write
@@ -19,10 +20,21 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Install build dependencies
+      - name: Install package and dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install build twine
+          pip install build twine .
+
+      - name: Validate smartgen.yml and build site preview
+        run: |
+          if [ -f "smartgen.yml" ]; then
+            echo "Found smartgen.yml - running validation build..."
+            smartgen-docs build
+          else
+            echo "No smartgen.yml in root; initializing sample project and validating..."
+            smartgen-docs init
+            smartgen-docs build
+          fi
 
       - name: Build package distribution (sdist and wheel)
         run: python -m build
