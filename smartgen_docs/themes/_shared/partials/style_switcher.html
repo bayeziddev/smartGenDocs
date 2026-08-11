@@ -1,0 +1,153 @@
+{#
+    Style switcher trigger button + popover markup ("switch the whole site
+    design", not just light/dark). Fully self-contained: fixed-position,
+    ships its own scoped <style>, needs no context variables and no changes
+    to any theme's own CSS file. Include this once anywhere in <body>;
+    style_switcher_script.html (include once, near the end of <body>) fills
+    the menu in and wires up navigation between the built style variants.
+
+    How it finds the other styles at runtime: every non-primary style is
+    built by CI into site/styles/<name>/ as a full mirror of the site (see
+    .github/workflows/main.yml). The script reads the CURRENT page's own
+    URL, strips a leading "/styles/<name>" segment if present, and uses
+    whatever's left as the page's address inside any other style -- so
+    "Switch to Book" from any page lands on the *same* page, in Book.
+#}
+<div class="style-switcher" id="style-switcher">
+    <button class="style-switcher-btn" id="style-switcher-toggle" type="button"
+            aria-haspopup="true" aria-expanded="false" aria-controls="style-switcher-menu"
+            aria-label="Switch site style">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 21a9 9 0 1 1 0-18c4.97 0 9 3.582 9 8 0 2.21-1.79 3-4 3h-2.2a1.8 1.8 0 0 0-1.026 3.278A1.8 1.8 0 0 1 12.774 21H12Z"/>
+            <circle cx="7.2" cy="12" r="1.15" fill="currentColor" stroke="none"/>
+            <circle cx="9.8" cy="7.4" r="1.15" fill="currentColor" stroke="none"/>
+            <circle cx="15" cy="7.4" r="1.15" fill="currentColor" stroke="none"/>
+        </svg>
+        <span class="style-switcher-label">Styles</span>
+    </button>
+    <div class="style-switcher-menu" id="style-switcher-menu" role="menu" aria-label="Site style" hidden></div>
+</div>
+
+<style>
+    .style-switcher {
+        position: fixed;
+        left: 18px;
+        bottom: 18px;
+        z-index: 9999;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+    .style-switcher-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(255,255,255,0.14);
+        background: rgba(23, 23, 30, 0.92);
+        color: #F4F4F7;
+        font-size: 13px;
+        font-weight: 600;
+        line-height: 1;
+        cursor: pointer;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.28), 0 1px 2px rgba(0,0,0,0.2);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+    .style-switcher-btn:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 26px rgba(0,0,0,0.34), 0 1px 2px rgba(0,0,0,0.24);
+        background: rgba(34, 34, 44, 0.95);
+    }
+    .style-switcher-btn:focus-visible {
+        outline: 2px solid #7C5CFF;
+        outline-offset: 2px;
+    }
+    .style-switcher-btn svg { flex: none; }
+    .style-switcher-menu {
+        position: absolute;
+        left: 0;
+        bottom: calc(100% + 10px);
+        min-width: 240px;
+        max-width: min(320px, calc(100vw - 36px));
+        max-height: min(440px, calc(100vh - 100px));
+        overflow-y: auto;
+        padding: 6px;
+        border-radius: 14px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background: rgba(20, 20, 26, 0.97);
+        box-shadow: 0 18px 44px rgba(0,0,0,0.4), 0 2px 8px rgba(0,0,0,0.28);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+    }
+    .style-switcher-menu-title {
+        padding: 8px 10px 6px;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        color: #9A9AAE;
+    }
+    .style-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        padding: 9px 10px;
+        border: 0;
+        border-radius: 9px;
+        background: transparent;
+        color: #F4F4F7;
+        font-size: 13.5px;
+        text-align: left;
+        cursor: pointer;
+        transition: background 0.12s ease;
+    }
+    .style-option:hover,
+    .style-option:focus-visible {
+        background: rgba(255,255,255,0.08);
+        outline: none;
+    }
+    .style-option[aria-current="true"] {
+        background: rgba(124, 92, 255, 0.22);
+    }
+    .style-option-dot {
+        flex: none;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        background: var(--dot, #7C5CFF);
+        box-shadow: 0 0 0 3px rgba(255,255,255,0.06);
+    }
+    .style-option-text { flex: 1; min-width: 0; }
+    .style-option-name {
+        display: block;
+        font-weight: 600;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .style-option-desc {
+        display: block;
+        margin-top: 1px;
+        font-size: 11.5px;
+        color: #9A9AAE;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .style-option-check {
+        flex: none;
+        width: 16px;
+        height: 16px;
+        color: #A78BFA;
+        visibility: hidden;
+    }
+    .style-option[aria-current="true"] .style-option-check { visibility: visible; }
+
+    @media (max-width: 640px) {
+        .style-switcher { left: 12px; bottom: 12px; }
+        .style-switcher-label { display: none; }
+        .style-switcher-btn { padding: 12px; border-radius: 50%; }
+    }
+</style>
