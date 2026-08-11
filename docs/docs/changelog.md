@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-11 - Theme, UI & Frontend Template Adjustments
+
+**🎯 Impact Summary:** This update modified `6` files, resulting in `56` new additions and `12` deletions.
+
+- **👤 Author:** bayeziddev
+- **🔗 Commit:** [dd32bb2](https://github.com/bayeziddev/smartGenDocs/commit/dd32bb27960385c26321b0a5fceb285f11b732be)
+- **🔍 SEO Keywords:** `theme`, `frontend`, `template`, `adjustments`, `visual`
+- **💡 System Note:** Visual and structural template modifications applied to `build_all_themes.py`, `smartgen.yml`, `style_switcher_script.html` and others to improve user experience and layout integrity.
+
+---
+
 ## 🚀 2026-08-11 - feat: implement multi-theme build for live style switcher
 
 **🎯 Impact Summary:** This update modified `2` files, resulting in `61` new additions and `2` deletions.
