@@ -8,6 +8,17 @@ keywords: smartgen, changelog, release notes, updates, developer tools, automate
 
 All notable changes, automated architectural summaries, and SEO optimizations for the SmartGen project are dynamically documented here.
 
+## 🚀 2026-08-11 - docs: add hosting guidance covering Manus Cloud Builder and free GitHub Pages deployment
+
+**🎯 Impact Summary:** This update modified `1` files, resulting in `7` new additions and `0` deletions.
+
+- **👤 Author:** bayeziddev
+- **🔗 Commit:** [dfb4e44](https://github.com/bayeziddev/smartGenDocs/commit/dfb4e44b08532726b111755d6fe4998bcdde8ad0)
+- **🔍 SEO Keywords:** `hosting`, `guidance`, `covering`, `manus`, `cloud`
+- **💡 System Note:** Content updates applied to `README.md` to improve readability, user guides, and overall documentation accuracy.
+
+---
+
 ## 🚀 2026-08-11 - chore: bump version to 1.0.1 for PyPI release
 
 **🎯 Impact Summary:** This update modified `1` files, resulting in `1` new additions and `1` deletions.
