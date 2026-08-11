@@ -8,6 +8,8 @@ using the PathResolver to ensure all links are correct across nested directories
 import os
 import yaml
 import shutil
+from datetime import datetime, timezone
+from xml.sax.saxutils import escape
 from .converter import MarkdownConverter
 from .path_resolver import PathResolver
 from .link_fixer import rewrite_md_links
@@ -120,6 +122,51 @@ class Builder:
                     self.build_page(item, item)
                     
         process_nav(nav)
+        self._write_seo_files()
+
+    def _write_seo_files(self):
+        """Write valid sitemap.xml and robots.txt into the generated site."""
+        site_url = (self.config.get('site_url') or '').strip().rstrip('/')
+        if not site_url:
+            site_url = 'http://localhost'
+
+        urls = []
+        for root, _dirs, files in os.walk(self.site_dir):
+            for filename in files:
+                if not filename.endswith('.html'):
+                    continue
+                full_path = os.path.join(root, filename)
+                relative = os.path.relpath(full_path, self.site_dir).replace(os.sep, '/')
+                if relative == 'index.html':
+                    url_path = '/'
+                else:
+                    url_path = '/' + relative
+                urls.append((url_path, os.path.getmtime(full_path)))
+
+        urls.sort(key=lambda item: item[0])
+        lines = [
+            '<?xml version="1.0" encoding="UTF-8"?>',
+            '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+        ]
+        for url_path, mtime in urls:
+            lastmod = datetime.fromtimestamp(mtime, tz=timezone.utc).date().isoformat()
+            priority = '1.0' if url_path == '/' else '0.8'
+            changefreq = 'weekly' if url_path in {'/', '/docs/changelog.html', '/docs/releases.html'} else 'monthly'
+            lines.extend([
+                '  <url>',
+                f'    <loc>{escape(site_url + url_path)}</loc>',
+                f'    <lastmod>{lastmod}</lastmod>',
+                f'    <changefreq>{changefreq}</changefreq>',
+                f'    <priority>{priority}</priority>',
+                '  </url>',
+            ])
+        lines.append('</urlset>')
+        with open(os.path.join(self.site_dir, 'sitemap.xml'), 'w', encoding='utf-8') as f:
+            f.write('\n'.join(lines) + '\n')
+
+        with open(os.path.join(self.site_dir, 'robots.txt'), 'w', encoding='utf-8') as f:
+            f.write('User-agent: *\nAllow: /\n\n')
+            f.write(f'Sitemap: {site_url}/sitemap.xml\n')
 
     def build_page(self, title, md_path):
         """

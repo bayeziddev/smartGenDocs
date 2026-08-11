@@ -114,8 +114,12 @@ dev = [
     "twine>=6.0"
 ]
 
+screenshots = [
+    "playwright>=1.50"
+]
+
 full = [
-    "smartgen-docs[search,images,minify,dev]"
+    "smartgen-docs[search,images,minify,dev,screenshots]"
 ]
 
 [project.urls]
