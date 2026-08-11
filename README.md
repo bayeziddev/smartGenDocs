@@ -368,3 +368,10 @@ SmartGen Docs is released under the [MIT License](LICENSE). Copyright © 2026 Sa
 ## Support
 
 For bugs and feature requests, use the [GitHub issue tracker](https://github.com/bayeziddev/smartGenDocs/issues). For project and platform information, visit [SmartGen Tools](https://www.smartgentools.com).
+
+
+## Hosting & Deployment
+
+SmartGen Docs provides flexible hosting options:
+1. **Manus Cloud Builder Preview**: Instantly available at [Cloud Builder Demo](https://smartgen-doc-ljotzzbw.manus.space) with live theme switching and configuration tools.
+2. **GitHub Pages (Free Custom Domains)**: For production docs requiring custom domains without paid upgrades, build your site with `smartgen-docs build` and deploy the generated `site/` folder to GitHub Pages.
